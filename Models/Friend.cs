@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -9,17 +7,12 @@ namespace WetCat.Models
 {
     public partial class Friend
     {
-        [Required]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
-        public string Username1 { get; set; }
-        [Required]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
-        public string Username2 { get; set; }
-        public bool? Status { get; set; }
+        public string FirstUsername { get; set; }
+        public string SecondUsername { get; set; }
+        public int? FriendStatus { get; set; }
+        public DateTime? StatusTime { get; set; }
 
-        public virtual User Username1Navigation { get; set; }
-        public virtual User Username2Navigation { get; set; }
+        public virtual User FirstUsernameNavigation { get; set; }
+        public virtual User SecondUsernameNavigation { get; set; }
     }
 }

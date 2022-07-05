@@ -35,19 +35,19 @@ namespace WetCat.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-            //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=123456;database=WetCat_DB");
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=.;uid=sa;pwd=123456;database=WetCat_DB");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AI");
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.HasKey(e => new { e.CommentId, e.PostId })
-                    .HasName("PK__comment__94780EF155F47AC8");
+                    .HasName("PK__comment__94780EF176095010");
 
                 entity.ToTable("comment");
 
@@ -63,13 +63,14 @@ namespace WetCat.Models
                     .IsUnicode(false)
                     .HasColumnName("comment_author");
 
-                entity.Property(e => e.CommentTime)
-                    .HasColumnType("date")
-                    .HasColumnName("comment_time");
+                entity.Property(e => e.CommentContent)
+                    .IsRequired()
+                    .HasColumnType("ntext")
+                    .HasColumnName("comment_content");
 
-                entity.Property(e => e.Content)
-                    .HasColumnType("text")
-                    .HasColumnName("content");
+                entity.Property(e => e.CommentTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("comment_time");
 
                 entity.Property(e => e.ParentId).HasColumnName("parent_id");
 
@@ -87,64 +88,68 @@ namespace WetCat.Models
 
             modelBuilder.Entity<Follow>(entity =>
             {
-                entity.HasKey(e => new { e.Username1, e.Username2 })
-                    .HasName("PK__follow__A314E41540B548F5");
+                entity.HasKey(e => new { e.FollowerUsername, e.FollowedUsername })
+                    .HasName("PK__follow__1278340630F16297");
 
                 entity.ToTable("follow");
 
-                entity.Property(e => e.Username1)
+                entity.Property(e => e.FollowerUsername)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("username1");
+                    .HasColumnName("follower_username");
 
-                entity.Property(e => e.Username2)
+                entity.Property(e => e.FollowedUsername)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("username2");
+                    .HasColumnName("followed_username");
 
-                entity.HasOne(d => d.Username1Navigation)
-                    .WithMany(p => p.FollowUsername1Navigations)
-                    .HasForeignKey(d => d.Username1)
+                entity.HasOne(d => d.FollowedUsernameNavigation)
+                    .WithMany(p => p.FollowFollowedUsernameNavigations)
+                    .HasForeignKey(d => d.FollowedUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__follow__username__4316F928");
+                    .HasConstraintName("FK__follow__followed__46E78A0C");
 
-                entity.HasOne(d => d.Username2Navigation)
-                    .WithMany(p => p.FollowUsername2Navigations)
-                    .HasForeignKey(d => d.Username2)
+                entity.HasOne(d => d.FollowerUsernameNavigation)
+                    .WithMany(p => p.FollowFollowerUsernameNavigations)
+                    .HasForeignKey(d => d.FollowerUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__follow__username__440B1D61");
+                    .HasConstraintName("FK__follow__follower__45F365D3");
             });
 
             modelBuilder.Entity<Friend>(entity =>
             {
-                entity.HasKey(e => new { e.Username1, e.Username2 })
-                    .HasName("PK__friend__A314E4151A5ADC4A");
+                entity.HasKey(e => new { e.FirstUsername, e.SecondUsername })
+                    .HasName("PK__friend__13CF439254298DA9");
 
                 entity.ToTable("friend");
 
-                entity.Property(e => e.Username1)
+                entity.Property(e => e.FirstUsername)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("username1");
+                    .HasColumnName("first_username");
 
-                entity.Property(e => e.Username2)
+                entity.Property(e => e.SecondUsername)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("username2");
+                    .HasColumnName("second_username");
 
-                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.FriendStatus).HasColumnName("friend_status");
 
-                entity.HasOne(d => d.Username1Navigation)
-                    .WithMany(p => p.FriendUsername1Navigations)
-                    .HasForeignKey(d => d.Username1)
+                entity.Property(e => e.StatusTime)
+                    .HasColumnType("date")
+                    .HasColumnName("status_time");
+
+                entity.HasOne(d => d.FirstUsernameNavigation)
+                    .WithMany(p => p.FriendFirstUsernameNavigations)
+                    .HasForeignKey(d => d.FirstUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__friend__username__46E78A0C");
+                    .HasConstraintName("FK__friend__first_us__49C3F6B7");
 
-                entity.HasOne(d => d.Username2Navigation)
-                    .WithMany(p => p.FriendUsername2Navigations)
-                    .HasForeignKey(d => d.Username2)
+                entity.HasOne(d => d.SecondUsernameNavigation)
+                    .WithMany(p => p.FriendSecondUsernameNavigations)
+                    .HasForeignKey(d => d.SecondUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__friend__username__47DBAE45");
+                    .HasConstraintName("FK__friend__second_u__4AB81AF0");
             });
 
             modelBuilder.Entity<Hobby>(entity =>
@@ -155,20 +160,17 @@ namespace WetCat.Models
 
                 entity.Property(e => e.HobbyName)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("hobby_name");
             });
 
             modelBuilder.Entity<HobbyList>(entity =>
             {
                 entity.HasKey(e => new { e.HobbyId, e.Username })
-                    .HasName("PK__hobby_li__84F68163B5B514F6");
+                    .HasName("PK__hobby_li__84F68163C33FD3B1");
 
                 entity.ToTable("hobby_list");
 
-                entity.Property(e => e.HobbyId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("hobby_id");
+                entity.Property(e => e.HobbyId).HasColumnName("hobby_id");
 
                 entity.Property(e => e.Username)
                     .HasMaxLength(20)
@@ -179,19 +181,19 @@ namespace WetCat.Models
                     .WithMany(p => p.HobbyLists)
                     .HasForeignKey(d => d.HobbyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__hobby_lis__hobby__37A5467C");
+                    .HasConstraintName("FK__hobby_lis__hobby__3B75D760");
 
                 entity.HasOne(d => d.UsernameNavigation)
                     .WithMany(p => p.HobbyLists)
                     .HasForeignKey(d => d.Username)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__hobby_lis__usern__38996AB5");
+                    .HasConstraintName("FK__hobby_lis__usern__3C69FB99");
             });
 
             modelBuilder.Entity<Notification>(entity =>
             {
                 entity.HasKey(e => e.NotificationType)
-                    .HasName("PK__notifica__9C93F2793E0DAE45");
+                    .HasName("PK__notifica__9C93F27997784365");
 
                 entity.ToTable("notification");
 
@@ -200,16 +202,16 @@ namespace WetCat.Models
                     .IsUnicode(false)
                     .HasColumnName("notification_type");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.NotificationName)
                     .HasMaxLength(30)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("notification_name");
             });
 
             modelBuilder.Entity<NotificationList>(entity =>
             {
                 entity.HasKey(e => e.NotificationId)
-                    .HasName("PK__notifica__E059842FB6236F2D");
+                    .HasName("PK__notifica__E059842FCA9DD335");
 
                 entity.ToTable("notification_list");
 
@@ -224,7 +226,7 @@ namespace WetCat.Models
                     .HasColumnName("notification_type");
 
                 entity.Property(e => e.NotifyTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("notify_time");
 
                 entity.Property(e => e.PostId).HasColumnName("post_id");
@@ -233,12 +235,12 @@ namespace WetCat.Models
                     .WithMany(p => p.NotificationLists)
                     .HasForeignKey(d => d.NotificationType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__notificat__notif__403A8C7D");
+                    .HasConstraintName("FK__notificat__notif__33D4B598");
 
                 entity.HasOne(d => d.Comment)
                     .WithMany(p => p.NotificationLists)
                     .HasForeignKey(d => new { d.CommentId, d.PostId })
-                    .HasConstraintName("FK__notification_lis__3F466844");
+                    .HasConstraintName("FK__notification_lis__32E0915F");
             });
 
             modelBuilder.Entity<Post>(entity =>
@@ -247,28 +249,28 @@ namespace WetCat.Models
 
                 entity.Property(e => e.PostId).HasColumnName("post_id");
 
-                entity.Property(e => e.Content)
-                    .HasColumnType("text")
-                    .HasColumnName("content");
-
-                entity.Property(e => e.MediaSrc)
-                    .HasColumnType("text")
-                    .HasColumnName("media_src");
-
                 entity.Property(e => e.PostAuthor)
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("post_author");
 
+                entity.Property(e => e.PostContent)
+                    .IsRequired()
+                    .HasColumnType("ntext")
+                    .HasColumnName("post_content");
+
+                entity.Property(e => e.PostImgSrc)
+                    .HasColumnType("text")
+                    .HasColumnName("post_img_src");
+
                 entity.Property(e => e.PostTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("post_time");
 
                 entity.Property(e => e.PrivacyMode)
                     .IsRequired()
                     .HasMaxLength(20)
-                    .IsUnicode(false)
                     .HasColumnName("privacy_mode");
 
                 entity.HasOne(d => d.PostAuthorNavigation)
@@ -281,7 +283,7 @@ namespace WetCat.Models
             modelBuilder.Entity<React>(entity =>
             {
                 entity.HasKey(e => e.ReactType)
-                    .HasName("PK__react__F604EFCD74D387F9");
+                    .HasName("PK__react__F604EFCD6A3A5FB7");
 
                 entity.ToTable("react");
 
@@ -293,14 +295,13 @@ namespace WetCat.Models
                 entity.Property(e => e.ReactName)
                     .IsRequired()
                     .HasMaxLength(20)
-                    .IsUnicode(false)
                     .HasColumnName("react_name");
             });
 
             modelBuilder.Entity<ReactList>(entity =>
             {
                 entity.HasKey(e => new { e.ReactType, e.PostId, e.Username })
-                    .HasName("PK__react_li__F71A4C7E90C8BFF3");
+                    .HasName("PK__react_li__F71A4C7EC7A500F5");
 
                 entity.ToTable("react_list");
 
@@ -320,25 +321,25 @@ namespace WetCat.Models
                     .WithMany(p => p.ReactLists)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__react_lis__post___33D4B598");
+                    .HasConstraintName("FK__react_lis__post___37A5467C");
 
                 entity.HasOne(d => d.ReactTypeNavigation)
                     .WithMany(p => p.ReactLists)
                     .HasForeignKey(d => d.ReactType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__react_lis__react__32E0915F");
+                    .HasConstraintName("FK__react_lis__react__36B12243");
 
                 entity.HasOne(d => d.UsernameNavigation)
                     .WithMany(p => p.ReactLists)
                     .HasForeignKey(d => d.Username)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__react_lis__usern__34C8D9D1");
+                    .HasConstraintName("FK__react_lis__usern__38996AB5");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Username)
-                    .HasName("PK__user__F3DBC573249ABF51");
+                    .HasName("PK__user__F3DBC5735460264C");
 
                 entity.ToTable("user");
 
@@ -356,7 +357,7 @@ namespace WetCat.Models
                     .HasColumnName("background_src");
 
                 entity.Property(e => e.Birthday)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("birthday");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
@@ -364,20 +365,22 @@ namespace WetCat.Models
                 entity.Property(e => e.Nickname)
                     .IsRequired()
                     .HasMaxLength(30)
-                    .IsUnicode(false)
                     .HasColumnName("nickname");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(32)
+                    .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("password");
 
                 entity.Property(e => e.Phone)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("phone");
+
+                entity.Property(e => e.Quote)
+                    .HasColumnType("ntext")
+                    .HasColumnName("quote");
 
                 entity.Property(e => e.Role)
                     .IsRequired()
@@ -387,7 +390,7 @@ namespace WetCat.Models
 
                 entity.Property(e => e.UserMail)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("user_mail");
             });
@@ -395,7 +398,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Warning>(entity =>
             {
                 entity.HasKey(e => e.WarningType)
-                    .HasName("PK__warning__0F27B8CDA24E3ADD");
+                    .HasName("PK__warning__0F27B8CDFA8E6BD4");
 
                 entity.ToTable("warning");
 
@@ -404,33 +407,27 @@ namespace WetCat.Models
                     .IsUnicode(false)
                     .HasColumnName("warning_type");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.WarningName)
                     .HasMaxLength(30)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("warning_name");
             });
 
             modelBuilder.Entity<WarningList>(entity =>
             {
-                entity.HasKey(e => e.PunishmentId)
-                    .HasName("PK__warning___E62BCF7EADAA2D0C");
+                entity.HasKey(e => e.WarningId)
+                    .HasName("PK__warning___DFF7B6E5961C766B");
 
                 entity.ToTable("warning_list");
 
-                entity.Property(e => e.PunishmentId).HasColumnName("punishment_id");
+                entity.Property(e => e.WarningId).HasColumnName("warning_id");
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
-
-                entity.Property(e => e.NotificationType)
-                    .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false)
-                    .HasColumnName("notification_type");
 
                 entity.Property(e => e.PostId).HasColumnName("post_id");
 
                 entity.Property(e => e.Reason)
-                    .HasColumnType("text")
+                    .HasColumnType("ntext")
                     .HasColumnName("reason");
 
                 entity.Property(e => e.TimeEnd)
@@ -441,16 +438,34 @@ namespace WetCat.Models
                     .HasColumnType("date")
                     .HasColumnName("time_start");
 
-                entity.HasOne(d => d.NotificationTypeNavigation)
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("username");
+
+                entity.Property(e => e.WarningType)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("warning_type");
+
+                entity.HasOne(d => d.UsernameNavigation)
                     .WithMany(p => p.WarningLists)
-                    .HasForeignKey(d => d.NotificationType)
+                    .HasForeignKey(d => d.Username)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__warning_l__notif__3C69FB99");
+                    .HasConstraintName("FK__warning_l__usern__412EB0B6");
+
+                entity.HasOne(d => d.WarningTypeNavigation)
+                    .WithMany(p => p.WarningLists)
+                    .HasForeignKey(d => d.WarningType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__warning_l__warni__4316F928");
 
                 entity.HasOne(d => d.Comment)
                     .WithMany(p => p.WarningLists)
                     .HasForeignKey(d => new { d.CommentId, d.PostId })
-                    .HasConstraintName("FK__warning_list__3B75D760");
+                    .HasConstraintName("FK__warning_list__4222D4EF");
             });
 
             OnModelCreatingPartial(modelBuilder);

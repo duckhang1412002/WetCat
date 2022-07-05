@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-
-
-//#nullable disable
+#nullable disable
 
 namespace WetCat.Models
 {
@@ -14,46 +10,36 @@ namespace WetCat.Models
         public User()
         {
             Comments = new HashSet<Comment>();
-            FollowUsername1Navigations = new HashSet<Follow>();
-            FollowUsername2Navigations = new HashSet<Follow>();
-            FriendUsername1Navigations = new HashSet<Friend>();
-            FriendUsername2Navigations = new HashSet<Friend>();
+            FollowFollowedUsernameNavigations = new HashSet<Follow>();
+            FollowFollowerUsernameNavigations = new HashSet<Follow>();
+            FriendFirstUsernameNavigations = new HashSet<Friend>();
+            FriendSecondUsernameNavigations = new HashSet<Friend>();
             HobbyLists = new HashSet<HobbyList>();
             Posts = new HashSet<Post>();
             ReactLists = new HashSet<ReactList>();
+            WarningLists = new HashSet<WarningList>();
         }
 
-        [Required]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
         public string Username { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress]
         public string UserMail { get; set; }
-        [Required]
         public string AvatarSrc { get; set; }
-        [Required]
         public string BackgroundSrc { get; set; }
-        [Required]
         public string Password { get; set; }
-        [Required]
         public string Role { get; set; }
-        [Required]
         public string Nickname { get; set; }
-        [Required]
-        public bool Gender { get; set; }
-        [Required]
+        public int? Gender { get; set; }
         public string Phone { get; set; }
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
+        public string Quote { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Follow> FollowUsername1Navigations { get; set; }
-        public virtual ICollection<Follow> FollowUsername2Navigations { get; set; }
-        public virtual ICollection<Friend> FriendUsername1Navigations { get; set; }
-        public virtual ICollection<Friend> FriendUsername2Navigations { get; set; }
+        public virtual ICollection<Follow> FollowFollowedUsernameNavigations { get; set; }
+        public virtual ICollection<Follow> FollowFollowerUsernameNavigations { get; set; }
+        public virtual ICollection<Friend> FriendFirstUsernameNavigations { get; set; }
+        public virtual ICollection<Friend> FriendSecondUsernameNavigations { get; set; }
         public virtual ICollection<HobbyList> HobbyLists { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<ReactList> ReactLists { get; set; }
+        public virtual ICollection<WarningList> WarningLists { get; set; }
     }
 }

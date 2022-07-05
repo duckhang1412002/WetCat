@@ -19,7 +19,7 @@ namespace WetCat.Models
         public int? ParentId { get; set; }
         public string CommentAuthor { get; set; }
         public DateTime CommentTime { get; set; }
-        public string Content { get; set; }
+        public string CommentContent { get; set; }
 
         public virtual User CommentAuthorNavigation { get; set; }
         public virtual Comment P { get; set; }

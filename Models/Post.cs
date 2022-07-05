@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+
+#nullable disable
 
 namespace WetCat.Models
 {
@@ -8,28 +9,15 @@ namespace WetCat.Models
     {
         public Post()
         {
-            ReactLists = new List<ReactList>();
+            ReactLists = new HashSet<ReactList>();
         }
 
-        [Key]
-        [Required]
         public int PostId { get; set; }
-
-        [Required]
         public string PrivacyMode { get; set; }
-
-        [Required]
         public string PostAuthor { get; set; }
-
-        [Required]
         public DateTime PostTime { get; set; }
-
-        [Required(ErrorMessage = "Content must be filled!")]
-        [RegularExpression(@"^\S{1}.{0,1499}$", ErrorMessage = "Content must be filled! The length do not exceed 1500 letters!")]
-        public string Content { get; set; }
-        
-        [RegularExpression(@"(([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.jpeg|.gif)$)|(^$)", ErrorMessage = "Only post image file allowed(.jpg/.jpeg/.png.gif)!")]
-        public string MediaSrc { get; set; }
+        public string PostContent { get; set; }
+        public string PostImgSrc { get; set; }
 
         public virtual User PostAuthorNavigation { get; set; }
         public virtual ICollection<ReactList> ReactLists { get; set; }
