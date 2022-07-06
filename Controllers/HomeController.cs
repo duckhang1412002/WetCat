@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WetCat.DAO;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using WetCat.Models;
 
 namespace WetCat.Controllers
@@ -27,11 +29,11 @@ namespace WetCat.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(User _user)
         {
-            User user = null;
+            HttpContext.Session.SetString("username", "");            
             try {
                 if (ModelState.IsValid) {
-                    user = userDAO.LoginByUsernameAndPassword(_user.Username, _user.Password);   
-                    if (user != null) {
+                    HttpContext.Session.SetString("username", userDAO.LoginByUsernameAndPassword(_user.Username, _user.Password).Username);   
+                    if (HttpContext.Session.GetString("username") != "") {
                         return RedirectToAction("Index", "User");
                         //set session here
                     }
@@ -40,7 +42,7 @@ namespace WetCat.Controllers
             } catch (Exception) {
 
             }
-            return RedirectToAction("Index", user);
+            return Redirect("/Home/Index");
         }
         
     }
