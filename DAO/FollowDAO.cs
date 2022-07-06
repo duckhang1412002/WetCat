@@ -43,15 +43,25 @@ namespace WetCat.DAO
             return follow;
         }
 
-        public Follow GetFollowers(string followID) {
-            Follow follow = null;
+        public List<Follow> GetFollowers(string followID) {
+            List<Follow> followers = null;
             try {
                 using var context = new WetCat_DBContext();
-                follow = context.Follows.SingleOrDefault(c => c.FollowedUsername == followID);
+                followers = context.Follows.Where(c => c.FollowedUsername == followID).ToList();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
-            return follow;
+            return followers;
+        }
+        public List<Follow> GetFollowings(string followID) {
+            List<Follow> followings = null;
+            try {
+                using var context = new WetCat_DBContext();
+                followings = context.Follows.Where(c => c.FollowerUsername == followID).ToList();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return followings;
         }
 
         /*public void AddNew(Follow follow) {
