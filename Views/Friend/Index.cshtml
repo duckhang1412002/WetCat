@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model List<Friend>
+
+    @foreach (var item in Model)
+    {
+        <div>@item.FirstUsername</div>
+    }

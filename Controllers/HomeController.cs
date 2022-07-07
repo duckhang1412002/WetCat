@@ -2,36 +2,48 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WetCat.DAO;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using WetCat.Models;
 
 namespace WetCat.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
+        UserDAO userDAO = null;
+        public HomeController() {
+            userDAO = new UserDAO();
         }
-
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(User _user)
         {
-            return View();
-        }
+            HttpContext.Session.SetString("username", "");            
+            try {
+                if (ModelState.IsValid) {
+                    HttpContext.Session.SetString("username", userDAO.LoginByUsernameAndPassword(_user.Username, _user.Password).Username);   
+                    if (HttpContext.Session.GetString("username") != "") {
+                        return RedirectToAction("Index", "User");
+                        //set session here
+                    }
+                        
+                }
+            } catch (Exception) {
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+            return Redirect("/Home/Index");
         }
+        
     }
 }
