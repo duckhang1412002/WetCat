@@ -33,8 +33,8 @@ namespace WetCat.Controllers
             try {
                 if (ModelState.IsValid) {
                     HttpContext.Session.SetString("username", userDAO.LoginByUsernameAndPassword(_user.Username, _user.Password).Username);   
-                    if (HttpContext.Session.GetString("username") != "") {
-                        return RedirectToAction("Index", "User");
+                    if (HttpContext.Session.GetString("username") != null) {
+                        return RedirectToAction("Index", "Post");
                         //set session here
                     }
                         

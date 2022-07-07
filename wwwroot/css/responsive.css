@@ -1,5 +1,4 @@
 /*--- big screen ----*/
-
 @media screen and (max-width: 1920px) and (min-width: 1601px) {
     .edit-phto {
         left: 369px;
@@ -727,12 +726,6 @@
     .contct-info {
         box-shadow: 0 0 10px #e6e6e6;
         margin-bottom: 0;
-    }
-    .friend-name {
-        width: 86%;
-    }
-    .friend-info > figure {
-        width: 11.6%;
     }
     .editing-interest form input {
         width: 100%;

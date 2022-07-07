@@ -9,7 +9,7 @@ namespace WetCat.Models
     {
         public Warning()
         {
-            WarningLists = new HashSet<WarningList>();
+            WarningLists = new List<WarningList>();
         }
 
         public string WarningType { get; set; }
