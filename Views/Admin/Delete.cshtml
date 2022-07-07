@@ -1,0 +1,36 @@
+@model WetCat.Models.Post
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1> Delete </h1>
+<h2>Are you sure you want to delete this?</h2>
+<h3> Post </h3>
+<hr>
+<form method="POST" asp-action="Delete">
+    <div class="row">
+        <b class="col-6">Post ID</b>
+        <div class="col-6">@Model.PostId</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Post Content</b>
+        <div class="col-6">@Model.PostContent</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Author</b>
+        <div class="col-6">@Model.PostAuthor</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Date Posted</b>
+        <div class="col-6">@Model.PostTime.ToShortDateString()</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Status</b>
+        <div class="col-6">@Model.PrivacyMode</div>
+    </div>
+    <br> 
+    <div>
+        <input type="submit" value="Delete" class="btn btn-danger">
+        @Html.ActionLink("Back to list", "Index") 
+    </div>
+</form>
