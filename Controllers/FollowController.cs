@@ -23,6 +23,5 @@ namespace WetCat.Controllers
             var Follows = DB.Follows.ToList();
             return View(Follows);
         }
-
     }
 }
