@@ -38,6 +38,7 @@ namespace WetCat.DAO
                 if (!user.Password.Equals(password)) user = null;
             } catch (Exception) {}
             return user;
+            /* */
         }
     }
 }
