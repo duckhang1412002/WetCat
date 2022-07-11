@@ -131,7 +131,7 @@
                                 <td>@item.Phone</td>
                                 <td>@item.Birthday.ToShortDateString()</td>
                                 <td style="text-align: center;">
-                                    <a class="fas fa-trash" href=""></a>
+                                    <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
                                     <a class='fas fa-exclamation-triangle' href=""></a>
                                 </td>
                             </tr>

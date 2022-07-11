@@ -51,13 +51,14 @@ namespace WetCat.DAO
             return userLists;
         }
 
-        public User RemoveUSer(string username) {
-            User user = null;
+        public void RemoveUser(User user) {
             try {
+                System.Console.WriteLine("Day ne " + user.Username);
                 using var _db = new WetCat_DBContext();
-                user = _db.Users.Remove(username);
-            } catch (Exception) {}
-            return user;
+                _db.Users.Remove(user);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

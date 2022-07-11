@@ -23,7 +23,7 @@ namespace WetCat.Controllers
             return View(users);
         }
 
-        public ActionResult DeleteUser(string username){
+        public ActionResult Delete(string username){
             if (username == null){
                 return NotFound();
             }
@@ -36,15 +36,17 @@ namespace WetCat.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(string username){
-            try {
-                UserDAO(username);
+        public ActionResult Delete(User user){
+            System.Console.WriteLine("Gender: " + user + " ---" + user.Username);
+            /*try {
+                System.Console.WriteLine("This is:  " + user.Username);
+                UserDAO.RemoveUser(user);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex){
                 ViewBag.Message = ex.Message;
-                return View();
-            }
+            }*/
+            return View();
         }
     }
 }
