@@ -9,17 +9,16 @@ namespace WetCat.Models
     {
         public User()
         {
-            Comments = new HashSet<Comment>();
-            FollowFollowedUsernameNavigations = new HashSet<Follow>();
-            FollowFollowerUsernameNavigations = new HashSet<Follow>();
-            FriendFirstUsernameNavigations = new HashSet<Friend>();
-            FriendSecondUsernameNavigations = new HashSet<Friend>();
-            HobbyLists = new HashSet<HobbyList>();
-            Posts = new HashSet<Post>();
-            ReactLists = new HashSet<ReactList>();
-            WarningLists = new HashSet<WarningList>();
+            Comments = new List<Comment>();
+            FollowFollowedUsernameNavigations = new List<Follow>();
+            FollowFollowerUsernameNavigations = new List<Follow>();
+            FriendFirstUsernameNavigations = new List<Friend>();
+            FriendSecondUsernameNavigations = new List<Friend>();
+            HobbyLists = new List<HobbyList>();
+            Posts = new List<Post>();
+            ReactLists = new List<ReactList>();
+            WarningLists = new List<WarningList>();
         }
-
         public string Username { get; set; }
         public string UserMail { get; set; }
         public string AvatarSrc { get; set; }
