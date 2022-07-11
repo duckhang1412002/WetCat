@@ -9,7 +9,7 @@ namespace WetCat.Models
     {
         public Hobby()
         {
-            HobbyLists = new HashSet<HobbyList>();
+            HobbyLists = new List<HobbyList>();
         }
 
         public int HobbyId { get; set; }

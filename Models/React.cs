@@ -9,7 +9,7 @@ namespace WetCat.Models
     {
         public React()
         {
-            ReactLists = new HashSet<ReactList>();
+            ReactLists = new List<ReactList>();
         }
 
         public string ReactType { get; set; }
