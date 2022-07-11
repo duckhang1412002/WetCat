@@ -1,10 +1,24 @@
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Wall.cshtml";
 }
 
 @model List<Friend>
 
-    @foreach (var item in Model)
-    {
-        <div>@item.FirstUsername</div>
-    }
+<div class="widget friend-list stick-widget">
+    <h4 class="widget-title">Friends</h4>
+    <div id="searchDir"></div>
+    <ul id="people-list" class="friendz-list">
+        @foreach (Friend frd in Model)
+        {
+            <li>
+                <figure>
+                    <img src="@frd.SecondUsernameNavigation.AvatarSrc" alt="">
+                </figure>
+                <div class="friendz-meta">
+                    <a href="time-line.html">@frd.SecondUsernameNavigation.Nickname</a>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

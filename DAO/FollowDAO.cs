@@ -8,7 +8,7 @@ namespace WetCat.DAO
 {
     public class FollowDAO
     {
-         private static FollowDAO instance = null;
+        private static FollowDAO instance = null;
         private static readonly object instanceLock = new object();
         public static FollowDAO Instance {
             get {
