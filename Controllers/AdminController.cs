@@ -12,36 +12,41 @@ namespace WetCat.Controllers
 {
     public class AdminController: Controller
     {
-        PostDAO postList = null;
-        public AdminController() => postList = new PostDAO();
+        WetCat_DBContext DB = new WetCat_DBContext();
+
+        PostDAO PostDAO = new PostDAO();
+        public AdminController(){}
 
         public IActionResult Index(){
-            var postLists = postList.GetAllPosts().ToList();
+            var postLists = PostDAO.GetAllPosts().ToList();
             return View(postLists);
         }
-/*
-        public ActionResult Delete(int? id){
+
+        /*
+
+        public ActionResult DeletePost(int? id){
             if (id == null){
                 return NotFound();
             }
-            var p = postList.FindID(id.Value);
+            var p = PostDAO.F(id.Value);
             if (p == null){
                 return NotFound();
             }
             return View(p);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id){
+        public ActionResult DeletePost(int id){
             try {
-                postList.Remove(id);
+                PostDAO.Remove(id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex){
                 ViewBag.Message = ex.Message;
                 return View();
             }
-        }*/
-
+        }
+        */
     }
 }

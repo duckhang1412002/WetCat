@@ -39,5 +39,25 @@ namespace WetCat.DAO
             } catch (Exception) {}
             return user;
         }
+
+        public IEnumerable<User> GetUsers() {
+            var userLists = new List<User>();
+            try {
+                using var _db = new WetCat_DBContext();
+                userLists = _db.Users.ToList();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return userLists;
+        }
+
+        public User RemoveUSer(string username) {
+            User user = null;
+            try {
+                using var _db = new WetCat_DBContext();
+                user = _db.Users.Remove(username);
+            } catch (Exception) {}
+            return user;
+        }
     }
 }

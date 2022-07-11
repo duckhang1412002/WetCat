@@ -13,14 +13,38 @@ namespace WetCat.Controllers
 {
     public class UserManagementController: Controller
     {
-        UserDAO userList = null;
-        public UserManagementController() => userList = new UserDAO();
+        WetCat_DBContext DB = new WetCat_DBContext();
 
-        
+        UserDAO UserDAO = new UserDAO();
+        public UserManagementController(){}
+
         public IActionResult Index(){
-            string usn = HttpContext.Session.GetString("username");
-            User user = userList.GetUserByUsername(usn);
+            var users = UserDAO.GetUsers().ToList();
+            return View(users);
+        }
+
+        public ActionResult DeleteUser(string username){
+            if (username == null){
+                return NotFound();
+            }
+            var user = UserDAO.GetUserByUsername(username);
+            if (user == null){
+                return NotFound();
+            }
             return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string username){
+            try {
+                UserDAO(username);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+                return View();
+            }
         }
     }
 }

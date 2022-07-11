@@ -61,6 +61,16 @@ namespace WetCat.DAO
                 throw new Exception(ex.Message);           
             }
         }
+
+        public void DeletePost(Post post){
+            try{
+                using var _db = new WetCat_DBContext();
+                _db.Remove(post);
+                _db.SaveChanges();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);           
+            }
+        }
     }
 }
 
