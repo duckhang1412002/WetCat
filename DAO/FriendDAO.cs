@@ -26,6 +26,10 @@ namespace WetCat.DAO
             try {
                 using var context = new WetCat_DBContext();
                 friends = context.Friends.ToList();
+                foreach(var fr in friends){
+                    UserDAO userDAO = new UserDAO();
+                    fr.SecondUsernameNavigation = userDAO.GetUserByUsername(fr.SecondUsername);
+                }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }

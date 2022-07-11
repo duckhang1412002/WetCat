@@ -19,7 +19,7 @@ namespace WetCat.Controllers
             return View(Follows);
         }
         [HttpPost]
-        public IActionResult Delte(){
+        public IActionResult Delete(){
             var Follows = DB.Follows.ToList();
             return View(Follows);
         }
