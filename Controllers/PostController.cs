@@ -5,6 +5,8 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WetCat.DAO;
@@ -20,63 +22,62 @@ namespace WetCat.Controllers
         public PostController(){}
 
         public IActionResult Index(){
+            System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
+            if (HttpContext.Session.GetString("username") == null) {
+                return RedirectToAction("Index", "Home");
+            }
+       
             dynamic model = new ExpandoObject();
 
             var posts = DAO.GetAllPosts();
-            PostViewModel post = new PostViewModel();
-            System.Console.WriteLine(post.PostAuthor);
+            System.Console.WriteLine(HttpContext.Session.GetString("username"));
             
-            model.postsList = posts; 
-            model.createPost = post;
-            return View(model);
+            model.postsList = posts.Reverse(); 
+            return View(model);        
         }  
 
         [HttpPost]  
         [ValidateAntiForgeryToken]  
-        public IActionResult CreatePost(PostViewModel postModel)  
+        public IActionResult CreatePost(string content, IFormFile file, string privacy)  
         {  
-            System.Console.WriteLine("Helllloooooo: " + postModel.PostAuthor); 
-            System.Console.WriteLine("Post model:" + postModel.PostImgFile);
+            string author = HttpContext.Session.GetString("username");
+            DateTime time = DateTime.Now;
 
-            if (ModelState.IsValid)  
-            {  
-                string uniqueFileName = UploadedFile(postModel);
+            bool check = (author != null) && (content != null) && (time != null) && (privacy != null);
 
-                System.Console.WriteLine("Content: " + postModel.PostContent);  
+            if (check)  
+            {                           
+                string imgSrc = UploadedFile(author, file);
+                System.Console.WriteLine(author + " --- " + content + " --- " + privacy + " --- " + time + " --- " + file + " --- " + imgSrc);
   
-                Post post = new Post(postModel.PrivacyMode, postModel.PostAuthor, postModel.PostTime, postModel.PostContent, uniqueFileName);
- 
+                Post post = new Post(privacy, author, time, content, imgSrc);
                 
-                /*dbContext.Add(employee);  
-                await dbContext.SaveChangesAsync();*/
+                DAO.CreatePost(post);
+                System.Console.WriteLine("-----> Add successfully!"); 
                 return RedirectToAction(nameof(Index));  
             }  
             return RedirectToAction(nameof(Index));  
         }  
 
-        private string UploadedFile(PostViewModel postModel)  
+        private string UploadedFile(string author, IFormFile file)  
         {  
-            string uniqueFileName = null;             
+            string imgSrc = null;             
   
-            if (postModel.PostImgFile != null)  
+            if (file != null)  
             {  
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/" + postModel.PostAuthor);
+                string dirPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/profiles/" + author);
 
                 //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
+                if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
 
-                //get file extension
-                FileInfo fileInfo = new FileInfo(postModel.PostImgFile.FileName);
+                var filePath = Path.Combine(dirPath, file.FileName);
 
-                string fileNameWithPath = Path.Combine(path, fileInfo.Extension);
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                file.CopyTo(fileStream);
 
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    postModel.PostImgFile.CopyTo(stream);
-                }  
+                imgSrc = String.Format("images/profiles/{0}/{1}", author, file.FileName);
             }  
-            return uniqueFileName;  
+            return imgSrc; 
         } 
     }
 }
