@@ -9,9 +9,9 @@ namespace WetCat.Models
     {
         public Comment()
         {
-            InverseP = new HashSet<Comment>();
-            NotificationLists = new HashSet<NotificationList>();
-            WarningLists = new HashSet<WarningList>();
+            InverseP = new List<Comment>();
+            NotificationLists = new List<NotificationList>();
+            WarningLists = new List<WarningList>();
         }
 
         public int CommentId { get; set; }

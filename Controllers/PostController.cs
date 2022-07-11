@@ -31,9 +31,10 @@ namespace WetCat.Controllers
 
             var posts = DAO.GetAllPosts();
             System.Console.WriteLine(HttpContext.Session.GetString("username"));
+            
             model.postsList = posts.Reverse(); 
             return View(model);        
-        }
+        }  
 
         [HttpPost]  
         [ValidateAntiForgeryToken]  

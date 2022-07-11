@@ -9,7 +9,7 @@ namespace WetCat.Models
     {
         public Notification()
         {
-            NotificationLists = new HashSet<NotificationList>();
+            NotificationLists = new List<NotificationList>();
         }
 
         public string NotificationType { get; set; }
