@@ -15,9 +15,10 @@ namespace WetCat.Controllers
         UserDAO userList = null;
         public UserManagementController() => userList = new UserDAO();
 
+        /*
         public IActionResult Index(){
             var userLists = userList.GetUsers().ToList();
             return View(userLists);
-        }
+        }*/
     }
 }

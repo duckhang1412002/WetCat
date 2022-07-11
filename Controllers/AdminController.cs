@@ -11,14 +11,14 @@ using WetCat.Models;
 namespace WetCat.Controllers
 {
     public class AdminController: Controller
-    {
+    {/*
         PostDAO postList = null;
         public AdminController() => postList = new PostDAO();
 
         public IActionResult Index(){
             var postLists = postList.GetAllPosts().ToList();
             return View(postLists);
-        }       
+        }
 
         public ActionResult Delete(int? id){
             if (id == null){
@@ -41,7 +41,7 @@ namespace WetCat.Controllers
                 ViewBag.Message = ex.Message;
                 return View();
             }
-        }
+        }*/
 
     }
 }
