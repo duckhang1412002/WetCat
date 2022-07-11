@@ -8,7 +8,7 @@ namespace WetCat.DAO
 {
     public class PostDAO
     {
-         private static PostDAO instance = null;
+        private static PostDAO instance = null;
         private static readonly object instanceLock = new object();
         public static PostDAO Instance{
             get{
@@ -41,7 +41,6 @@ namespace WetCat.DAO
                 using var _db = new WetCat_DBContext();
                 posts = _db.Posts.ToList();
                 foreach(var post in posts){
-                    System.Console.WriteLine(post.PostId);
                     var user = FindByUsername(post.PostAuthor);
                     if (user != null) {
                         post.PostAuthorNavigation = user;
@@ -53,36 +52,15 @@ namespace WetCat.DAO
             return posts;
         }
 
-        public void Remove(int PostId){
-        try{
-            Post p = FindID(PostId);
-            if(p != null){
+        public void CreatePost(Post post){
+            try{
                 using var _db = new WetCat_DBContext();
-                _db.Posts.Remove(p);
+                _db.Add(post);
                 _db.SaveChanges();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);           
             }
-            else {
-                throw new Exception ("The Post does not already exist.");
-            }
         }
-        catch (Exception ex){
-            throw new Exception(ex.Message);
-           }
-        }
-     
-
-        public Post FindID(int PostId){ 
-        Post p = null;
-        try{
-             using var _db = new WetCat_DBContext();
-            p = _db.Posts.SingleOrDefault(p => p.PostId == PostId);
-        }
-        catch(Exception ex){
-            throw new Exception(ex.Message);
-        }
-            return p;
-        }
-
-    }    
+    }
 }
 
