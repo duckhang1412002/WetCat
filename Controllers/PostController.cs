@@ -79,5 +79,11 @@ namespace WetCat.Controllers
             }  
             return imgSrc; 
         } 
+        public ActionResult ShowComment(string id)
+        {
+            System.Console.WriteLine("HELOOOOO" + id);
+            IEnumerable<Comment> model = null; //Temp to test
+            return PartialView("_PostComment", model);
+        }
     }
 }

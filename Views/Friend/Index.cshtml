@@ -11,13 +11,16 @@
     <ul id="people-list" class="friendz-list">
         @foreach (Friend frd in Model)
         {
-            <li>
+            <li style="position: relative;">
                 <figure>
                     <img src="@frd.SecondUsernameNavigation.AvatarSrc" alt="">
                 </figure>
-                <div class="friendz-meta">
+                <div class="friendz-meta" style="width:fit-content;">
                     <a href="time-line.html">@frd.SecondUsernameNavigation.Nickname</a>
                 </div>
+                <a href="this is">
+                    <button style="position: absolute; right: 4%; top: 20%" class="btn btn-danger">Unfriend</button>
+                </a>
             </li>
         }
     </ul>

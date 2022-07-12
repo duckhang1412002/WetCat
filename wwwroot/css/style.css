@@ -10061,3 +10061,7 @@ aside.sidebar.full-style {
     margin-top: 2vw;
     margin-bottom: 2vw;
 }
+
+.modal-backdrop {
+    z-index: -1;
+  }

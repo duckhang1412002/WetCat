@@ -23,6 +23,11 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+	<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+
+        </div>
+    </div>
 <!--<div class="se-pre-con"></div>-->
 <div class="theme-layout">
 	<div class="responsive-header">
@@ -558,18 +563,20 @@
 									</div>
 								</div><!-- add post new box -->
 
-								<div class="loadMore">
+								<div class="loadMore" id="showtable" style="position: absolute;">
 								@foreach (var item in Model.postsList){								
-									<div class="central-meta item">
+									<section class="central-meta item">
+										
 										<div class="container user-post">
 											<div class="row friend-info">
-												<div class= "col-2">
-													<figure><img class="img_avt" src="@item.PostAuthorNavigation.AvatarSrc" alt="avt"></figure>
+												<div class= "col-2" id="avtt">
+													<figure><img class="img_avt" id="usernamea" src="@item.PostAuthorNavigation.AvatarSrc" alt="@item.PostAuthorNavigation.Username"></figure>
 												</div>
 												<div class="col-10 friend-name">
 													<ins class="row"><a href="time-line.html" title="">@item.PostAuthorNavigation.Nickname</a></ins>
 													<span class="row">@item.PostTime</span>
 												</div>
+												
 												</div>
 												<div class=" row post-meta">
 													@if(item.PostImgSrc != null) {<img src="@item.PostImgSrc" alt="image">}
@@ -582,10 +589,10 @@
 																</span>
 															</li>
 															<li>
-																<span class="comment" data-toggle="tooltip" title="Comments">
+																<button class="comment" id="viewbtn" data-toggle="tooltip" title="Comments">
 																	<i class="fa fa-comments-o"></i>
 																	<ins>52</ins>
-																</span>
+																</button>
 															</li>
 															<li>
 																<span class="like" data-toggle="tooltip" title="like">
@@ -732,7 +739,7 @@
 													</li>
 												</ul>
 											</div>
-										</div>				
+									</section>
 								}
 														
 							</div>
@@ -897,6 +904,7 @@
 					<label for="switch55" data-on-label="ON" data-off-label="OFF"></label>
 				</div>
 			</form>
+			
 			<h4 class="panel-title">Account Setting</h4>
 			<form method="post">
 				<div class="setting-row">
@@ -936,6 +944,21 @@
 	<script src="js/script.js"></script>
 	<script src="js/map-init.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script>
+@section scripts{
+    <script>
+        $("#showtable").on("click", "#viewbtn", function () {
+            var id = $(this).closest("section").find("#avtt").find("#usernamea").attr("alt");
+            $.ajax({
+                url: "@Url.Action("ShowComment", "Post")",
+                data: { id: id },
+                success: function (data) {
+                    $("#showmodal .modal-dialog").html(data);
+                    $("#showmodal").modal("show");
+                }
+            });
+        });
+    </script>
+}
 
 </body>	
 </html>
