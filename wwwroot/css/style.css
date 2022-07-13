@@ -10092,7 +10092,7 @@ figure{
     border-radius: 50%;
     width: 3rem;
     height: 3rem;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .display-none{

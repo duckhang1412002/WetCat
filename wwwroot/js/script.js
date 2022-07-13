@@ -406,7 +406,7 @@ jQuery(".post-comt-box textarea").on("keydown", function(event) {
 	
 	$('#privacy-list-friend').on('click', function () {
 		$('#privacy-list a').attr('class', 'fa fa-user');
-		$('#privacy-list span').html('Only Friend');
+		$('#privacy-list span').html('Friend');
 		$('#privacy').attr('value', 'Friend');
 	});	
 

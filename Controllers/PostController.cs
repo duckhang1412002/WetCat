@@ -28,9 +28,7 @@ namespace WetCat.Controllers
             if (HttpContext.Session.GetString("username") == null) {
                 return RedirectToAction("Index", "Home");
             }   
-            User currentSessionUser = new User();
-            currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
-            System.Console.WriteLine(currentSessionUser.Username);
+            User currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
 
             dynamic model = new ExpandoObject();
 
@@ -83,7 +81,61 @@ namespace WetCat.Controllers
                 imgSrc = String.Format("images/profiles/{0}/{1}", author, file.FileName);
             }  
             return imgSrc; 
-        } 
+        }
+
+        public IActionResult EditPost(int? postId){
+            if(postId == null){
+                return NotFound();
+            }
+
+            System.Console.WriteLine("Post: " + postId);
+            System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
+
+
+            Post post = PostDAO.GetPost(postId.Value);
+            User currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+
+            dynamic model = new ExpandoObject();                             
+            
+            model.post = post;
+            model.currentSessionUser = currentSessionUser;
+            return View(model);        
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditPost(Post post){
+            PostDAO.EditPost(post);
+            return RedirectToAction(nameof(Index));   
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPostReal(int postId, string content, IFormFile file, string privacy){
+            try{
+            string author = HttpContext.Session.GetString("username");
+            DateTime time = DateTime.Now;
+
+            bool check = (postId != 0) && (author != null) && (content != null) && (time != null) && (privacy != null);
+
+            if (check)  
+            {                           
+                string imgSrc = UploadedFile(author, file);
+                System.Console.WriteLine(postId + "---" + author + " --- " + content + " --- " + privacy + " --- " + time + " --- " + file + " --- " + imgSrc);
+  
+                Post post = new Post(postId, privacy, author, time, content, imgSrc);
+                
+                PostDAO.EditPost(post);
+                System.Console.WriteLine("-----> Edit successfully!"); 
+                return RedirectToAction("Index", "Post");  
+            }
+            } catch(Exception e){
+                System.Console.WriteLine(e.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));  
+        }
+
         public ActionResult ShowComment(string id)
         {
             System.Console.WriteLine("HELOOOOO" + id);

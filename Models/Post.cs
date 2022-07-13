@@ -22,6 +22,15 @@ namespace WetCat.Models
             this.PostImgSrc = PostImgSrc;
         }
 
+        public Post(int PostId, string PrivacyMode, string PostAuthor, DateTime PostTime, string PostContent, string PostImgSrc){
+            this.PostId = PostId;
+            this.PrivacyMode = PrivacyMode;
+            this.PostAuthor = PostAuthor;
+            this.PostTime = PostTime;
+            this.PostContent = PostContent;
+            this.PostImgSrc = PostImgSrc;
+        }
+
         [Key]
         public int PostId { get; set; }
 
