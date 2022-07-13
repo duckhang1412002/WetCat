@@ -10049,7 +10049,7 @@ aside.sidebar.full-style {
     width: 20%;
 }
 
-.img_avt{
+.img-avt{
     border: 2px solid black;
     border-radius: 50%;
     width: 10vw;
@@ -10060,4 +10060,6 @@ aside.sidebar.full-style {
 .friendz-list > li {
     margin-top: 2vw;
     margin-bottom: 2vw;
-}
+.modal-backdrop {
+    z-index: -1;
+  }
