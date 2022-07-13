@@ -12,6 +12,7 @@ namespace WetCat.Models
         public int? CommentId { get; set; }
         public string NotificationType { get; set; }
         public DateTime NotifyTime { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual Comment Comment { get; set; }
         public virtual Notification NotificationTypeNavigation { get; set; }

@@ -10,6 +10,7 @@ namespace WetCat.Models
         public string ReactType { get; set; }
         public int PostId { get; set; }
         public string Username { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual Post Post { get; set; }
         public virtual React ReactTypeNavigation { get; set; }

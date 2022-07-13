@@ -9,6 +9,7 @@ namespace WetCat.Models
     {
         public int HobbyId { get; set; }
         public string Username { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual Hobby Hobby { get; set; }
         public virtual User UsernameNavigation { get; set; }

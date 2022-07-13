@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace WetCat.Models
 {
     public partial class WarningList
-    {   
+    {
         [Key]
         [Required(ErrorMessage = "Warning ID can not be blank!")]
         [Display(Name = "Warning ID")]
@@ -40,6 +40,7 @@ namespace WetCat.Models
         [Display(Name = "Time End")]
         [DataType(DataType.DateTime)]
         public DateTime? TimeEnd { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual Comment Comment { get; set; }
         public virtual User UsernameNavigation { get; set; }

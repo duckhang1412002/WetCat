@@ -9,11 +9,12 @@ namespace WetCat.Models
     {
         public React()
         {
-            ReactLists = new List<ReactList>();
+            ReactLists = new HashSet<ReactList>();
         }
 
         public string ReactType { get; set; }
         public string ReactName { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual ICollection<ReactList> ReactLists { get; set; }
     }
