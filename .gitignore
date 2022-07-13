@@ -54,6 +54,7 @@ obj/project.nuget.cache
 obj/
 bin/
 .vscode/
+.vs/
 .Properties/
 obj/WetCat.csproj.nuget.dgspec.json
 bin/Debug/net5.0/WetCat.dll
