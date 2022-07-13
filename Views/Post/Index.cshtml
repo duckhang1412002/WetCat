@@ -518,7 +518,7 @@
 										<div class="container user-post">
 											<div class="row friend-info">
 													<div class="col-2" id="avt">
-														<img class="img-avt" src="@item.PostAuthorNavigation.AvatarSrc" alt="@item.PostId" id="post-id">
+														<img class="img-avt" id="post-id" src="@item.PostAuthorNavigation.AvatarSrc" alt="@item.PostId">
 													</div>
 													@if(Model.currentSessionUser.Username == item.PostAuthor){
 														<div class="col-9 friend-name">
