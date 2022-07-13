@@ -11,6 +11,7 @@ namespace WetCat.Models
         public string SecondUsername { get; set; }
         public int? FriendStatus { get; set; }
         public DateTime? StatusTime { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual User FirstUsernameNavigation { get; set; }
         public virtual User SecondUsernameNavigation { get; set; }

@@ -9,11 +9,12 @@ namespace WetCat.Models
     {
         public Notification()
         {
-            NotificationLists = new List<NotificationList>();
+            NotificationLists = new HashSet<NotificationList>();
         }
 
         public string NotificationType { get; set; }
         public string NotificationName { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual ICollection<NotificationList> NotificationLists { get; set; }
     }

@@ -2,7 +2,7 @@
 
 [Master Stylesheet]
 
-Project Name: winku (HMTL Template)
+Project Name: WetCat (HMTL Template)
 Version:    1.1
 Last change:  4/september/18
 
@@ -10051,13 +10051,6 @@ aside.sidebar.full-style {
 
 #web_logo{
     width: 20%;
-}
-
-.img_avt{
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    object-fit: cover;
 }
 
 .friendz-list > li {

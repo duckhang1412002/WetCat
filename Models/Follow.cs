@@ -9,6 +9,7 @@ namespace WetCat.Models
     {
         public string FollowerUsername { get; set; }
         public string FollowedUsername { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual User FollowedUsernameNavigation { get; set; }
         public virtual User FollowerUsernameNavigation { get; set; }
