@@ -10049,13 +10049,6 @@ aside.sidebar.full-style {
     width: 20%;
 }
 
-.img_avt{
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    object-fit: cover;
-}
-
 figure{
     width: 2rem;
     height: 2rem;
