@@ -10060,6 +10060,7 @@ aside.sidebar.full-style {
 .friendz-list > li {
     margin-top: 2vw;
     margin-bottom: 2vw;
+}
 .modal-backdrop {
-    z-index: -1;
+    display: none;
   }
