@@ -60,6 +60,8 @@ namespace WetCat.DAO
                 _db.Users.Remove(user);
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
+            }
+        }
         public void RegisterUser(User user) {
             try {
                 using var _db = new WetCat_DBContext();

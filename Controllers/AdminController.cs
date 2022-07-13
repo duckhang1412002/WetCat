@@ -37,8 +37,7 @@ namespace WetCat.Controllers
         public ActionResult Delete(Post post){
             try {
                 using var _db = new WetCat_DBContext();
-                Post _post = _db.Posts.Find(post.PostId);
-                _db.Posts.Remove(_post);
+                _db.Posts.Remove(post);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
