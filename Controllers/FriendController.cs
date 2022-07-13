@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WetCat.Models;
+using WetCat.DAO;
 
 namespace WetCat.Controllers
 {
     public class FriendController: Controller
     {
-        WetCat_DBContext DB = new WetCat_DBContext();
+        FriendDAO friendDAO = new FriendDAO();
         public FriendController(){}
 
         public IActionResult Index(){
-            var Follows = DB.Friends.ToList();
-            return View(Follows);
+            List<Friend> friendlist = friendDAO.GetFriendList().ToList();
+            return View(friendlist);
         }
-        [HttpPost]
-        public IActionResult Delte(){
+        /*[HttpPost]
+        public IActionResult Delete(){
             var Follows = DB.Follows.ToList();
             return View(Follows);
-        }
+        }*/
 
     }
 }

@@ -3605,7 +3605,7 @@ a.add-butn {
 }
 
 .frnds .nav-tabs .nav-item a.active {
-    border-bottom: 1px solid;
+    border-bottom: 10px solid;
 }
 
 .frnds .nav-tabs .nav-item a {
@@ -10057,3 +10057,7 @@ aside.sidebar.full-style {
     object-fit: cover;
 }
 
+.friendz-list > li {
+    margin-top: 2vw;
+    margin-bottom: 2vw;
+}
