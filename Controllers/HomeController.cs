@@ -67,9 +67,9 @@ namespace WetCat.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Register(User user) {
+            System.Console.WriteLine(user.Username + " " + user.Password + " " + user.Gender);
             userDAO.RegisterUser(user);
-            return View();
-            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
