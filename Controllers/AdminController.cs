@@ -22,33 +22,6 @@ namespace WetCat.Controllers
             return View(postLists);
         }
 
-        /*
-
-        public ActionResult DeletePost(int? id){
-            if (id == null){
-                return NotFound();
-            }
-            var p = PostDAO.F(id.Value);
-            if (p == null){
-                return NotFound();
-            }
-            return View(p);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeletePost(int id){
-            try {
-                PostDAO.Remove(id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex){
-                ViewBag.Message = ex.Message;
-                return View();
-            }
-        }
-        */
-
         public ActionResult Delete(int postid){
             if (postid == 0){
                 return NotFound();
@@ -61,18 +34,18 @@ namespace WetCat.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(Post post){
             try {
                 using var _db = new WetCat_DBContext();
-                _db.Posts.Remove(post);
+                Post _post = _db.Posts.Find(post.PostId);
+                _db.Posts.Remove(_post);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex){
                 ViewBag.Message = ex.Message;
             }
-            return View();
+            return RedirectToAction("Delete");
         }
     }
 }
