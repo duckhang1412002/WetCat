@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -20,11 +22,24 @@ namespace WetCat.Models
             WarningLists = new HashSet<WarningList>();
         }
 
+        [Key]
         public string Username { get; set; }
         public string UserMail { get; set; }
         public string AvatarSrc { get; set; }
         public string BackgroundSrc { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(30, ErrorMessage = "Must be between 5 and 30 characters", MinimumLength = 5)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [StringLength(30, ErrorMessage = "Must be between 5 and 30 characters", MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        [NotMapped]
+        public string ConfirmPassword { get; set; }
+
         public string Role { get; set; }
         public string Nickname { get; set; }
         public int? Gender { get; set; }
