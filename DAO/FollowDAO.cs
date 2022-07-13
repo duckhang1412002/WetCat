@@ -48,6 +48,10 @@ namespace WetCat.DAO
             try {
                 using var context = new WetCat_DBContext();
                 followers = context.Follows.Where(c => c.FollowedUsername == followID).ToList();
+                foreach(var fl in followers){
+                    UserDAO userDAO = new UserDAO();
+                    fl.FollowerUsernameNavigation = userDAO.GetUserByUsername(fl.FollowerUsername);
+                }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
@@ -58,6 +62,10 @@ namespace WetCat.DAO
             try {
                 using var context = new WetCat_DBContext();
                 followings = context.Follows.Where(c => c.FollowerUsername == followID).ToList();
+                foreach(var fl in followings){
+                    UserDAO userDAO = new UserDAO();
+                    fl.FollowedUsernameNavigation = userDAO.GetUserByUsername(fl.FollowedUsername);
+                }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
