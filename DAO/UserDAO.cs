@@ -22,11 +22,13 @@ namespace WetCat.DAO
         }
 
         public User GetUserByUsername(string username) {
-            User user = null;
+            User user = new User();
             try {
                 using var _db = new WetCat_DBContext();
                 user = _db.Users.Find(username);
-            } catch (Exception) {}
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
             return user;
         }
 

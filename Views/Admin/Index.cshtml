@@ -120,7 +120,7 @@
                                     <td style="text-align: center;">@item.PostTime.ToShortDateString()</td>
                                     <td style="text-align: center;">@item.PrivacyMode</td>
                                     <td style="text-align: center;">
-                                        <a class="fas fa-trash" href="Delete"></a>
+                                        <a class="fas fa-trash" asp-action = "Delete" asp-controller="Admin" asp-route-postid="@item.PostId"></a>
                                         <a class='fas fa-exclamation-triangle' href=""></a>
                                     </tr>   
                                 }                      
@@ -163,7 +163,7 @@
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="js/admin_main.js"></script>
 </body>
 
 </html>

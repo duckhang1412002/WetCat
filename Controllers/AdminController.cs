@@ -48,5 +48,31 @@ namespace WetCat.Controllers
             }
         }
         */
+
+        public ActionResult Delete(int postid){
+            if (postid == 0){
+                return NotFound();
+            }
+            var post = PostDAO.FindPost(postid);
+            if (post == null){
+                return NotFound();
+            }
+            return View(post);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Post post){
+            try {
+                using var _db = new WetCat_DBContext();
+                _db.Posts.Remove(post);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+            }
+            return View();
+        }
     }
 }

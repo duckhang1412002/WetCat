@@ -71,6 +71,17 @@ namespace WetCat.DAO
                 throw new Exception(ex.Message);           
             }
         }
+
+        public Post FindPost(int postid) {
+            Post post = new Post();
+            try {
+                using var _db = new WetCat_DBContext();
+                post = _db.Posts.Find(postid);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return post;
+        }
     }
 }
 

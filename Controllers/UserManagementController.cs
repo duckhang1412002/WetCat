@@ -37,15 +37,15 @@ namespace WetCat.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(User user){
-            System.Console.WriteLine("Gender: " + user + " ---" + user.Username);
-            /*try {
-                System.Console.WriteLine("This is:  " + user.Username);
-                UserDAO.RemoveUser(user);
+            try {
+                using var _db = new WetCat_DBContext();
+                _db.Users.Remove(user);
+                _db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex){
                 ViewBag.Message = ex.Message;
-            }*/
+            }
             return View();
         }
     }
