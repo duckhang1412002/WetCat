@@ -11,14 +11,21 @@ using WetCat.DAO;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using WetCat.Models;
+using System.Dynamic;
 
 namespace WetCat.Controllers
 {
     public class HomeController : Controller
     {
         UserDAO userDAO = null;
+        PostDAO postDAO = null;
+        FollowDAO followDAO = null;
+        FriendDAO friendDAO = null;
         public HomeController() {
             userDAO = new UserDAO();
+            postDAO = new PostDAO();
+            followDAO = new FollowDAO();
+            friendDAO = new FriendDAO();
         }
         public IActionResult Index()
         {
@@ -42,8 +49,23 @@ namespace WetCat.Controllers
             } catch (Exception) {
 
             }
-            return Redirect("/Home/Index");
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Wall(){
+            /*if (HttpContext.Session.GetString("username") == null) {
+                return RedirectToAction("Index", "Home");
+            }*/
+
+            dynamic model = new ExpandoObject();
+            model.following = followDAO.GetFollowings(HttpContext.Session.GetString("username"));
+            model.followers = followDAO.GetFollowers(HttpContext.Session.GetString("username"));
+            return View(model);   
         }
         
+        public IActionResult Register() {
+            return View();
+            //return RedirectToAction("Index", "Home");
+        }
     }
 }
