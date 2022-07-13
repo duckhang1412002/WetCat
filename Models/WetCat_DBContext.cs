@@ -36,7 +36,7 @@ namespace WetCat.Models
             if (!optionsBuilder.IsConfigured)
             {
                 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.;uid=sa;pwd=123456;database=WetCat_DB");
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=123456;database=WetCat_DB");
             }
         }
 
@@ -47,7 +47,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.HasKey(e => new { e.CommentId, e.PostId })
-                    .HasName("PK__comment__94780EF176095010");
+                    .HasName("PK__comment__94780EF1F11FA75C");
 
                 entity.ToTable("comment");
 
@@ -72,6 +72,8 @@ namespace WetCat.Models
                     .HasColumnType("datetime")
                     .HasColumnName("comment_time");
 
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
+
                 entity.Property(e => e.ParentId).HasColumnName("parent_id");
 
                 entity.HasOne(d => d.CommentAuthorNavigation)
@@ -89,7 +91,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Follow>(entity =>
             {
                 entity.HasKey(e => new { e.FollowerUsername, e.FollowedUsername })
-                    .HasName("PK__follow__1278340630F16297");
+                    .HasName("PK__follow__127834062431B271");
 
                 entity.ToTable("follow");
 
@@ -102,6 +104,8 @@ namespace WetCat.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("followed_username");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.HasOne(d => d.FollowedUsernameNavigation)
                     .WithMany(p => p.FollowFollowedUsernameNavigations)
@@ -119,7 +123,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Friend>(entity =>
             {
                 entity.HasKey(e => new { e.FirstUsername, e.SecondUsername })
-                    .HasName("PK__friend__13CF439254298DA9");
+                    .HasName("PK__friend__13CF4392900C6BDA");
 
                 entity.ToTable("friend");
 
@@ -134,6 +138,8 @@ namespace WetCat.Models
                     .HasColumnName("second_username");
 
                 entity.Property(e => e.FriendStatus).HasColumnName("friend_status");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.StatusTime)
                     .HasColumnType("date")
@@ -161,12 +167,14 @@ namespace WetCat.Models
                 entity.Property(e => e.HobbyName)
                     .HasMaxLength(50)
                     .HasColumnName("hobby_name");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
             });
 
             modelBuilder.Entity<HobbyList>(entity =>
             {
                 entity.HasKey(e => new { e.HobbyId, e.Username })
-                    .HasName("PK__hobby_li__84F68163C33FD3B1");
+                    .HasName("PK__hobby_li__84F68163A150921F");
 
                 entity.ToTable("hobby_list");
 
@@ -176,6 +184,8 @@ namespace WetCat.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("username");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.HasOne(d => d.Hobby)
                     .WithMany(p => p.HobbyLists)
@@ -193,7 +203,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Notification>(entity =>
             {
                 entity.HasKey(e => e.NotificationType)
-                    .HasName("PK__notifica__9C93F27997784365");
+                    .HasName("PK__notifica__9C93F2792A676B65");
 
                 entity.ToTable("notification");
 
@@ -201,6 +211,8 @@ namespace WetCat.Models
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("notification_type");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.NotificationName)
                     .HasMaxLength(30)
@@ -211,13 +223,15 @@ namespace WetCat.Models
             modelBuilder.Entity<NotificationList>(entity =>
             {
                 entity.HasKey(e => e.NotificationId)
-                    .HasName("PK__notifica__E059842FCA9DD335");
+                    .HasName("PK__notifica__E059842F5B31E059");
 
                 entity.ToTable("notification_list");
 
                 entity.Property(e => e.NotificationId).HasColumnName("notification_id");
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.NotificationType)
                     .IsRequired()
@@ -248,6 +262,8 @@ namespace WetCat.Models
                 entity.ToTable("post");
 
                 entity.Property(e => e.PostId).HasColumnName("post_id");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.PostAuthor)
                     .IsRequired()
@@ -283,7 +299,7 @@ namespace WetCat.Models
             modelBuilder.Entity<React>(entity =>
             {
                 entity.HasKey(e => e.ReactType)
-                    .HasName("PK__react__F604EFCD6A3A5FB7");
+                    .HasName("PK__react__F604EFCD30C35268");
 
                 entity.ToTable("react");
 
@@ -291,6 +307,8 @@ namespace WetCat.Models
                     .HasMaxLength(15)
                     .IsUnicode(false)
                     .HasColumnName("react_type");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.ReactName)
                     .IsRequired()
@@ -301,7 +319,7 @@ namespace WetCat.Models
             modelBuilder.Entity<ReactList>(entity =>
             {
                 entity.HasKey(e => new { e.ReactType, e.PostId, e.Username })
-                    .HasName("PK__react_li__F71A4C7EC7A500F5");
+                    .HasName("PK__react_li__F71A4C7EF378CD09");
 
                 entity.ToTable("react_list");
 
@@ -316,6 +334,8 @@ namespace WetCat.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("username");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.ReactLists)
@@ -339,7 +359,7 @@ namespace WetCat.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Username)
-                    .HasName("PK__user__F3DBC5735460264C");
+                    .HasName("PK__user__F3DBC57380B97BA1");
 
                 entity.ToTable("user");
 
@@ -361,6 +381,8 @@ namespace WetCat.Models
                     .HasColumnName("birthday");
 
                 entity.Property(e => e.Gender).HasColumnName("gender");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.Nickname)
                     .IsRequired()
@@ -398,7 +420,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Warning>(entity =>
             {
                 entity.HasKey(e => e.WarningType)
-                    .HasName("PK__warning__0F27B8CDFA8E6BD4");
+                    .HasName("PK__warning__0F27B8CD4876F419");
 
                 entity.ToTable("warning");
 
@@ -406,6 +428,8 @@ namespace WetCat.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("warning_type");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.WarningName)
                     .HasMaxLength(30)
@@ -416,13 +440,15 @@ namespace WetCat.Models
             modelBuilder.Entity<WarningList>(entity =>
             {
                 entity.HasKey(e => e.WarningId)
-                    .HasName("PK__warning___DFF7B6E5961C766B");
+                    .HasName("PK__warning___DFF7B6E506A09364");
 
                 entity.ToTable("warning_list");
 
                 entity.Property(e => e.WarningId).HasColumnName("warning_id");
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.PostId).HasColumnName("post_id");
 

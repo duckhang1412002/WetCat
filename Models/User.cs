@@ -9,16 +9,17 @@ namespace WetCat.Models
     {
         public User()
         {
-            Comments = new List<Comment>();
-            FollowFollowedUsernameNavigations = new List<Follow>();
-            FollowFollowerUsernameNavigations = new List<Follow>();
-            FriendFirstUsernameNavigations = new List<Friend>();
-            FriendSecondUsernameNavigations = new List<Friend>();
-            HobbyLists = new List<HobbyList>();
-            Posts = new List<Post>();
-            ReactLists = new List<ReactList>();
-            WarningLists = new List<WarningList>();
+            Comments = new HashSet<Comment>();
+            FollowFollowedUsernameNavigations = new HashSet<Follow>();
+            FollowFollowerUsernameNavigations = new HashSet<Follow>();
+            FriendFirstUsernameNavigations = new HashSet<Friend>();
+            FriendSecondUsernameNavigations = new HashSet<Friend>();
+            HobbyLists = new HashSet<HobbyList>();
+            Posts = new HashSet<Post>();
+            ReactLists = new HashSet<ReactList>();
+            WarningLists = new HashSet<WarningList>();
         }
+
         public string Username { get; set; }
         public string UserMail { get; set; }
         public string AvatarSrc { get; set; }
@@ -30,6 +31,7 @@ namespace WetCat.Models
         public string Phone { get; set; }
         public DateTime Birthday { get; set; }
         public string Quote { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Follow> FollowFollowedUsernameNavigations { get; set; }
