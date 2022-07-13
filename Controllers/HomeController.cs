@@ -49,7 +49,18 @@ namespace WetCat.Controllers
             } catch (Exception) {
 
             }
-            return Redirect("/Home/Index");
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Wall(){
+            /*if (HttpContext.Session.GetString("username") == null) {
+                return RedirectToAction("Index", "Home");
+            }*/
+
+            dynamic model = new ExpandoObject();
+            model.following = followDAO.GetFollowings(HttpContext.Session.GetString("username"));
+            model.followers = followDAO.GetFollowers(HttpContext.Session.GetString("username"));
+            return View(model);   
         }
 
         public IActionResult Wall(){
@@ -63,5 +74,9 @@ namespace WetCat.Controllers
             return View(model);   
         }
         
+        public IActionResult Register() {
+            return View();
+            //return RedirectToAction("Index", "Home");
+        }
     }
 }
