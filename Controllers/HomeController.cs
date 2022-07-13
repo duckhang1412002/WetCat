@@ -49,7 +49,7 @@ namespace WetCat.Controllers
             } catch (Exception) {
 
             }
-            return Redirect("/Home/Index");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Wall(){
@@ -63,5 +63,13 @@ namespace WetCat.Controllers
             return View(model);   
         }
         
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(User user) {
+            userDAO.RegisterUser(user);
+            return View();
+            //return RedirectToAction("Index", "Home");
+        }
     }
 }

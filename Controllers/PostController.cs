@@ -48,7 +48,7 @@ namespace WetCat.Controllers
             string author = HttpContext.Session.GetString("username");
             DateTime time = DateTime.Now;
 
-            bool check = (author != null) && (content != null) && (time != null) && (privacy != null);
+            bool check = (author != null) && (content != null) && (privacy != null);
 
             if (check)  
             {                           

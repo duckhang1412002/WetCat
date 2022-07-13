@@ -39,5 +39,14 @@ namespace WetCat.DAO
             } catch (Exception) {}
             return user;
         }
+
+        public void RegisterUser(User user) {
+            try {
+                using var _db = new WetCat_DBContext();
+                _db.Users.Add(user);
+            } catch (Exception) {
+                
+            }
+        }
     }
 }
