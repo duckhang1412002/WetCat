@@ -3,20 +3,20 @@
     Layout = "~/Views/Shared/_Wall.cshtml";
 }
 
-@model List<Friend>
+@model List<Follow>
 
 <div class="widget friend-list stick-widget">
     <h4 class="widget-title">Friends</h4>
     <div id="searchDir"></div>
     <ul id="people-list" class="friendz-list">
-        @foreach (Friend frd in Model)
+        @foreach (Follow fl in Model)
         {
             <li style="position: relative;">
                 <figure>
-                    <img src="@frd.SecondUsernameNavigation.AvatarSrc" alt="">
+                    <img src="@fl.FollowedUsernameNavigation.AvatarSrc" alt="">
                 </figure>
                 <div class="friendz-meta" style="width:fit-content;">
-                    <a href="time-line.html">@frd.SecondUsernameNavigation.Nickname</a>
+                    <a href="time-line.html">@fl.FollowedUsernameNavigation.Nickname</a>
                 </div>
                 <a href="this is">
                     <button style="position: absolute; right: 4%; top: 20%" class="btn btn-danger">Unfriend</button>
