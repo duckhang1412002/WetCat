@@ -62,19 +62,12 @@ namespace WetCat.Controllers
             model.followers = followDAO.GetFollowers(HttpContext.Session.GetString("username"));
             return View(model);   
         }
-
-        public IActionResult Wall(){
-            /*if (HttpContext.Session.GetString("username") == null) {
-                return RedirectToAction("Index", "Home");
-            }*/
-
-            dynamic model = new ExpandoObject();
-            model.following = followDAO.GetFollowings(HttpContext.Session.GetString("username"));
-            model.followers = followDAO.GetFollowers(HttpContext.Session.GetString("username"));
-            return View(model);   
-        }
         
-        public IActionResult Register() {
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(User user) {
+            userDAO.RegisterUser(user);
             return View();
             //return RedirectToAction("Index", "Home");
         }
