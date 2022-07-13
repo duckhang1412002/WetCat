@@ -9,9 +9,9 @@ namespace WetCat.Models
     {
         public Comment()
         {
-            InverseP = new List<Comment>();
-            NotificationLists = new List<NotificationList>();
-            WarningLists = new List<WarningList>();
+            InverseP = new HashSet<Comment>();
+            NotificationLists = new HashSet<NotificationList>();
+            WarningLists = new HashSet<WarningList>();
         }
 
         public int CommentId { get; set; }
@@ -20,6 +20,7 @@ namespace WetCat.Models
         public string CommentAuthor { get; set; }
         public DateTime CommentTime { get; set; }
         public string CommentContent { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual User CommentAuthorNavigation { get; set; }
         public virtual Comment P { get; set; }

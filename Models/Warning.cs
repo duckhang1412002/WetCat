@@ -9,11 +9,12 @@ namespace WetCat.Models
     {
         public Warning()
         {
-            WarningLists = new List<WarningList>();
+            WarningLists = new HashSet<WarningList>();
         }
 
         public string WarningType { get; set; }
         public string WarningName { get; set; }
+        public int? IsDeleted { get; set; }
 
         public virtual ICollection<WarningList> WarningLists { get; set; }
     }
