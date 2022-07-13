@@ -397,8 +397,24 @@ jQuery(".post-comt-box textarea").on("keydown", function(event) {
 		return false;
 	});	
 	
+	//New Code _ Daviz
+	$('#privacy-list-public').on('click', function () {
+		$('#privacy-list a').attr('class', 'fa fa-globe');		
+		$('#privacy-list span').html('Public');
+		$('#privacy').attr('value', 'Public');
+	});
+	
+	$('#privacy-list-friend').on('click', function () {
+		$('#privacy-list a').attr('class', 'fa fa-user');
+		$('#privacy-list span').html('Only Friend');
+		$('#privacy').attr('value', 'Friend');
+	});	
 
-
+	$('#privacy-list-private').on('click', function () {
+		$('#privacy-list a').attr('class', 'fa fa-lock');
+		$('#privacy-list span').html('Private');
+		$('#privacy').attr('value', 'Private');
+	});	
 });//document ready end
 
 

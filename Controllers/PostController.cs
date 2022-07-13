@@ -18,21 +18,26 @@ namespace WetCat.Controllers
     {
         WetCat_DBContext DB = new WetCat_DBContext();
 
-        PostDAO DAO = new PostDAO();
+        PostDAO PostDAO = new PostDAO();
+        UserDAO UserDAO = new UserDAO();
         public PostController(){}
+        private string currentSessionUser = null;
 
         public IActionResult Index(){
             System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
             if (HttpContext.Session.GetString("username") == null) {
                 return RedirectToAction("Index", "Home");
-            }
-       
+            }   
+            User currentSessionUser = new User();
+            currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+            System.Console.WriteLine(currentSessionUser.Username);
+
             dynamic model = new ExpandoObject();
 
-            var posts = DAO.GetAllPosts();
-            System.Console.WriteLine(HttpContext.Session.GetString("username"));
+            var posts = PostDAO.GetAllPosts();                                   
             
             model.postsList = posts.Reverse(); 
+            model.currentSessionUser = currentSessionUser;
             return View(model);        
         }  
 
@@ -52,12 +57,12 @@ namespace WetCat.Controllers
   
                 Post post = new Post(privacy, author, time, content, imgSrc);
                 
-                DAO.CreatePost(post);
+                PostDAO.CreatePost(post);
                 System.Console.WriteLine("-----> Add successfully!"); 
                 return RedirectToAction(nameof(Index));  
-            }  
+            }
             return RedirectToAction(nameof(Index));  
-        }  
+        }
 
         private string UploadedFile(string author, IFormFile file)  
         {  
