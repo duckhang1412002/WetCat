@@ -64,10 +64,14 @@ namespace WetCat.DAO
         }
         public void RegisterUser(User user) {
             try {
+                user.Role = "User";
                 using var _db = new WetCat_DBContext();
                 _db.Users.Add(user);
-            } catch (Exception) {
-                
+                _db.SaveChanges();
+                System.Console.WriteLine("Register successfully!!");
+            } catch (Exception e) {
+                System.Console.WriteLine(e.Message);
+                Console.WriteLine(e.InnerException.Message);
             }
         }
     }

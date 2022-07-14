@@ -2,7 +2,7 @@
 
 [Master Stylesheet]
 
-Project Name: winku (HMTL Template)
+Project Name: WetCat (HMTL Template)
 Version:    1.1
 Last change:  4/september/18
 
@@ -1282,12 +1282,14 @@ header.sticky {
     display: inline-block;
     width: 100%;
     margin-bottom: 20px;
-    padding: 25px;
+    padding-left: 5%;
+    padding-top: 5%;
 }
 
 .new-postbox {
-    display: inline-block;
     width: 100%;
+    padding-bottom: 2rem;
+    padding-right: 0;
 }
 
 .new-postbox > figure {
@@ -1299,17 +1301,18 @@ header.sticky {
 
 .newpst-input {
     display: inline-block;
-    margin-left: 10px;
     vertical-align: top;
-    width: 85.5%;
+    width: 95%;
 }
 
 .newpst-input > form {
     display: inline-block;
+    margin-top: 1rem;
     width: 100%;
 }
 .newpst-input textarea {
     float: left;
+    margin-top: 1rem;
     width: 100%;
 }
 .attachments {
@@ -1766,7 +1769,7 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
 .coment-area {
     display: inline-block;
     margin-top: 10px;
-    width: 100%;
+    width: 95%;
 }
 
 .we-comet {
@@ -1796,11 +1799,11 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
 .we-comment {
     border: 1px solid #ede9e9;
     display: table-cell;
-    margin-left: 20px;
-    padding: 10px;
+    margin-left: 2%;
+    padding: 2%;
     vertical-align: top;
     position: relative;
-    width: 65%;
+    width: 100%;
 }
 
 .we-comment::before,
@@ -1826,6 +1829,7 @@ for some reason nth-child(1) is always busy and elements starting from 2 */
 }
 
 .we-comet > li ul {
+    width: 85%;
     margin-left: 55px;
     margin-top: 20px;
     padding-left: 0;
@@ -10049,13 +10053,13 @@ aside.sidebar.full-style {
     width: 20%;
 }
 
-.img_avt{
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    object-fit: cover;
+.friendz-list > li {
+    margin-top: 2vw;
+    margin-bottom: 2vw;
 }
-
+.modal-backdrop {
+    display: none;
+  }
 figure{
     width: 2rem;
     height: 2rem;
@@ -10100,11 +10104,3 @@ figure{
 #post-privacy{
     padding-top: 0.5rem;
 }
-
-.friendz-list > li {
-    margin-top: 2vw;
-    margin-bottom: 2vw;
-}
-.modal-backdrop {
-    display: none;
-  }

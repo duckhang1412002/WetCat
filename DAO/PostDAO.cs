@@ -35,6 +35,17 @@ namespace WetCat.DAO
             return null;
         }
 
+        public Post GetPost(int postId) {
+            Post post = null;
+            try {
+                using var _db = new WetCat_DBContext();
+                post = _db.Posts.Find(postId);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return post;
+        }
+
         public IEnumerable<Post> GetAllPosts() {
             var posts = new List<Post>();
             try {
@@ -55,7 +66,7 @@ namespace WetCat.DAO
         public void CreatePost(Post post){
             try{
                 using var _db = new WetCat_DBContext();
-                _db.Add(post);
+                _db.Posts.Add(post);
                 _db.SaveChanges();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);           
@@ -81,6 +92,21 @@ namespace WetCat.DAO
                 throw new Exception(ex.Message);
             }
             return post;
+        }
+        public void EditPost(Post post){
+            System.Console.WriteLine(post.PostId);
+            try {
+                Post _post = GetPost(post.PostId);
+                if (_post != null) {
+                    using var _db = new WetCat_DBContext();
+                    _db.Posts.Update(post);
+                    _db.SaveChanges();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
