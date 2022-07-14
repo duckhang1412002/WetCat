@@ -110,6 +110,39 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @{
+                                @foreach (var item in Model)
+                                {
+                                    if(item.IsDeleted==0){
+                                        <tr>
+                                            <td style="text-align: center;  width: 70px;">@item.Username</td>
+                                            <td>@item.UserMail</td>
+                                            <td>@item.Password</td>
+                                            <td>@item.Nickname</td>
+                                            @{
+                                                string gender = "";
+                                                if(item.Gender==1)
+                                                {
+                                                    gender = "Male";
+                                                }
+                                                else if (item.Gender==0){
+                                                    gender = "Female";
+                                                }
+                                            }
+                                            <td style="text-align: center;">@gender</td>
+                                            <td style="text-align: center;">@item.Phone</td>
+                                            <td style="text-align: center;">@item.Birthday.ToShortDateString()</td>
+                                            <td style="text-align: center;">
+                                            <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
+                                            <a class='fas fa-exclamation-triangle' href=""></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+
+                            <!--
                             @foreach (var item in Model)
                             {
                                 <tr>
@@ -136,6 +169,7 @@
                                 </td>
                             </tr>
                             }
+                            -->
                         </tbody>
                     </table>
                 </div>
