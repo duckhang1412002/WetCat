@@ -46,7 +46,7 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="images/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="/images/profiles/admin/logo.jpg" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
@@ -72,17 +72,19 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <form class="d-none d-md-flex ms-4">
-                <input class="form-control border-0" type="search" placeholder="Search User">
+                <input class="form-control border-0" type="search" placeholder="Search User"
+                    
+                >
             </form>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="images/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <img class="rounded-circle me-lg-2" src="/images/profiles/admin/logo.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">Admin</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="Home" class="dropdown-item">Log Out</a>
+                            <a asp-action="Index" asp-controller="Home" class="dropdown-item">Log out</a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +96,7 @@
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Post List</h6>
-                        <a href="">Show All</a>
+                        <a href="">Refresh</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -118,7 +120,7 @@
                                     <td style="text-align: center;">@item.PostTime.ToShortDateString()</td>
                                     <td style="text-align: center;">@item.PrivacyMode</td>
                                     <td style="text-align: center;">
-                                        <a class="fas fa-trash" href="Delete"></a>
+                                        <a class="fas fa-trash" asp-action = "Delete" asp-controller="Admin" asp-route-postid="@item.PostId"></a>
                                         <a class='fas fa-exclamation-triangle' href=""></a>
                                     </tr>   
                                 }                      
@@ -135,7 +137,7 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">WetCat Social Network Site</a>, All Right Reserved. 
+                            &copy; <a href="Home">WetCat Social Network Site</a>, All Right Reserved. 
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
                             Designed By <a href="Group2.txt">Group 2</a>
@@ -161,7 +163,7 @@
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="js/admin_main.js"></script>
 </body>
 
 </html>

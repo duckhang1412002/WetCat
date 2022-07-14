@@ -40,12 +40,12 @@
 
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-        <a href="UserManement.html" class="navbar-brand mx-4 mb-3">
+        <a href="Admin" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>WETCAT</h3>
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
-                <img class="rounded-circle" src="images/user.jpg" alt="" style="width: 40px; height: 40px;">
+                <img class="rounded-circle" src="/images/profiles/admin/logo.jpg" alt="" style="width: 40px; height: 40px;">
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
             <div class="ms-3">
@@ -76,7 +76,7 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="images/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle me-lg-2" src="/images/profiles/admin/logo.jpg" alt="" style="width: 40px; height: 40px;">
                         <span class="d-none d-lg-inline-flex">Admin</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
@@ -93,7 +93,7 @@
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">User List</h6>
-                    <a href="">Show All</a>
+                    <a href="">Refresh</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -128,10 +128,10 @@
                                     }
                                 }
                                 <td style="text-align: center;">@gender</td>
-                                <td>@item.Phone</td>
-                                <td>@item.Birthday.ToShortDateString()</td>
+                                <td style="text-align: center;">@item.Phone</td>
+                                <td style="text-align: center;">@item.Birthday.ToShortDateString()</td>
                                 <td style="text-align: center;">
-                                    <a class="fas fa-trash" href=""></a>
+                                    <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
                                     <a class='fas fa-exclamation-triangle' href=""></a>
                                 </td>
                             </tr>
@@ -149,7 +149,7 @@
             <div class="bg-light rounded-top p-4">
                 <div class="row">
                     <div class="col-12 col-sm-6 text-center text-sm-start">
-                        &copy; <a href="#">WetCat Social Network Site</a>, All Right Reserved. 
+                        &copy; <a href="Home">WetCat Social Network Site</a>, All Right Reserved. 
                     </div>
                     <div class="col-12 col-sm-6 text-center text-sm-end">
                         Designed By <a href="Group2.txt">Group 2</a>
@@ -178,7 +178,7 @@
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="js/admin_main.js"></script>
 </body>
 
 </html>

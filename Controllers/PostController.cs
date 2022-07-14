@@ -24,7 +24,6 @@ namespace WetCat.Controllers
         private string currentSessionUser = null;
 
         public IActionResult Index(){
-            System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
             if (HttpContext.Session.GetString("username") == null) {
                 return RedirectToAction("Index", "Home");
             }   

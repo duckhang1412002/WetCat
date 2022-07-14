@@ -73,6 +73,26 @@ namespace WetCat.DAO
             }
         }
 
+        public void DeletePost(Post post){
+            try{
+                using var _db = new WetCat_DBContext();
+                _db.Remove(post);
+                _db.SaveChanges();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);           
+            }
+        }
+
+        public Post FindPost(int postid) {
+            Post post = new Post();
+            try {
+                using var _db = new WetCat_DBContext();
+                post = _db.Posts.Find(postid);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return post;
+        }
         public void EditPost(Post post){
             System.Console.WriteLine(post.PostId);
             try {

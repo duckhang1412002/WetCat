@@ -11,37 +11,40 @@ using WetCat.Models;
 namespace WetCat.Controllers
 {
     public class AdminController: Controller
-    {/*
-        PostDAO postList = null;
-        public AdminController() => postList = new PostDAO();
+    {
+        WetCat_DBContext DB = new WetCat_DBContext();
+
+        PostDAO PostDAO = new PostDAO();
+        public AdminController(){}
 
         public IActionResult Index(){
-            var postLists = postList.GetAllPosts().ToList();
+            var postLists = PostDAO.GetAllPosts().ToList();
             return View(postLists);
         }
 
-        public ActionResult Delete(int? id){
-            if (id == null){
+        public ActionResult Delete(int postid){
+            if (postid == 0){
                 return NotFound();
             }
-            var p = postList.FindID(id.Value);
-            if (p == null){
+            var post = PostDAO.FindPost(postid);
+            if (post == null){
                 return NotFound();
             }
-            return View(p);
+            return View(post);
         }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id){
+        public ActionResult Delete(Post post){
             try {
-                postList.Remove(id);
-                return RedirectToAction(nameof(Index));
+                using var _db = new WetCat_DBContext();
+                _db.Posts.Remove(post);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch (Exception ex){
                 ViewBag.Message = ex.Message;
-                return View();
             }
-        }*/
-
+            return RedirectToAction("Delete");
+        }
     }
 }

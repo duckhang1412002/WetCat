@@ -22,11 +22,13 @@ namespace WetCat.DAO
         }
 
         public User GetUserByUsername(string username) {
-            User user = null;
+            User user = new User();
             try {
                 using var _db = new WetCat_DBContext();
                 user = _db.Users.Find(username);
-            } catch (Exception) {}
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
             return user;
         }
 
@@ -40,6 +42,26 @@ namespace WetCat.DAO
             return user;
         }
 
+        public IEnumerable<User> GetUsers() {
+            var userLists = new List<User>();
+            try {
+                using var _db = new WetCat_DBContext();
+                userLists = _db.Users.ToList();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return userLists;
+        }
+
+        public void RemoveUser(User user) {
+            try {
+                System.Console.WriteLine("Day ne " + user.Username);
+                using var _db = new WetCat_DBContext();
+                _db.Users.Remove(user);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
         public void RegisterUser(User user) {
             try {
                 user.Role = "User";

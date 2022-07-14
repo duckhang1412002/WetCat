@@ -34,15 +34,17 @@ namespace WetCat.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(User _user)
+        public IActionResult Login(string username, string password)
         {
             HttpContext.Session.SetString("username", "");            
             try {
                 if (ModelState.IsValid) {
-                    HttpContext.Session.SetString("username", userDAO.LoginByUsernameAndPassword(_user.Username, _user.Password).Username);   
-                    if (HttpContext.Session.GetString("username") != null) {
+                    User user = userDAO.LoginByUsernameAndPassword(username, password);
+                    if (user.Username != null) {
+                        HttpContext.Session.SetString("username", user.Username);  
+                        if (user.Role == "Admin") 
+                            return RedirectToAction("Index", "Admin"); 
                         return RedirectToAction("Index", "Post");
-                        //set session here
                     }
                         
                 }
