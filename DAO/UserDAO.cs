@@ -90,7 +90,7 @@ namespace WetCat.DAO
             }
         }
 
-        public void EditUSer1(User user){
+        public void EditUSer1(User user){ //change isDeleted to 1
             try {
                 User _user = GetUserByUsername(user.Username);
                 if (_user != null) {

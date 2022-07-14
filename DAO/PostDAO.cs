@@ -108,6 +108,22 @@ namespace WetCat.DAO
                 throw new Exception(ex.Message);
             }
         }
+
+         public void EditPost1(Post post){ //change isDeleted to 1
+            try {
+                Post _post = FindPost(post.PostId);
+                if (_post != null) {
+                    using var _db = new WetCat_DBContext();
+                    _post.IsDeleted = 1;
+                    _db.Posts.Update(_post);
+                    _db.SaveChanges();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
 

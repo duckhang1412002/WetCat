@@ -33,6 +33,7 @@ namespace WetCat.Controllers
             return View(post);
         }
 
+        /*
         [HttpPost]
         public ActionResult Delete(Post post){
             try {
@@ -45,6 +46,19 @@ namespace WetCat.Controllers
                 ViewBag.Message = ex.Message;
             }
             return RedirectToAction("Delete");
+        }
+        */
+
+        [HttpPost]
+        public ActionResult Delete1(int postid){
+            try {
+                PostDAO.EditPost1(PostDAO.FindPost(postid)); 
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+            }
+            return View();
         }
     }
 }

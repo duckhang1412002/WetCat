@@ -54,7 +54,7 @@ namespace WetCat.Controllers
         [HttpPost]
         public ActionResult Delete1(string username){
             try {
-                UserDAO.EditUSer1(UserDAO.GetUserByUsername(username));
+                UserDAO.EditUSer1(UserDAO.GetUserByUsername(username)); 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex){
