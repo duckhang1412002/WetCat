@@ -104,6 +104,7 @@
                                 <tr class="text-dark"> 
                                     <th style="text-align: center;" scope="col">Post ID</th>
                                     <th style="text-align: center;" scope="col">Post Content</th>
+                                    <th style="text-align: center;" scope="col">Images</th>
                                     <th style="text-align: center;" scope="col">Author</th>
                                     <th style="text-align: center;" scope="col">Date Posted</th>
                                     <th style="text-align: center;" scope="col">Status</th>
@@ -112,12 +113,15 @@
                             </thead>
                             <tbody>
                                 @{
-                                @foreach (var item in Model)
+                                foreach (var item in Model)
                                 {
                                     if(item.IsDeleted==0){
                                     <tr>
                                         <td style="text-align: center; width: 70px;">@item.PostId</td>
                                         <td>@item.PostContent</td>
+                                        <td style="text-align: center;">
+                                            <img style="width:100px; height: 100px;" src="@item.PostImgSrc" alt="">
+                                        </td>
                                         <td style="text-align: center;">@item.PostAuthor</td>
                                         <td style="text-align: center;">@item.PostTime.ToShortDateString()</td>
                                         <td style="text-align: center;">@item.PrivacyMode</td>
