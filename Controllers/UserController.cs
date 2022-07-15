@@ -24,9 +24,11 @@ namespace WetCat.Controllers
             return View(user);
         }
         
-        public IActionResult Edit(User user)
+        public IActionResult Edit()
         {
-            return View();
+            string username = HttpContext.Session.GetString("username");
+            User user = userDAO.GetUserByUsername(username);
+            return View(user);
         }
         
     }

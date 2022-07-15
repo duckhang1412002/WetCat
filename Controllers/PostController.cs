@@ -135,7 +135,7 @@ namespace WetCat.Controllers
             return RedirectToAction(nameof(Index));  
         }
 
-        public ActionResult ShowComment(string id)
+        public IActionResult ShowComment(string id)
         {
             System.Console.WriteLine("HELOOOOO" + id);
             IEnumerable<Comment> model = null; //Temp to test
