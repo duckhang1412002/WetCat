@@ -10060,7 +10060,6 @@ aside.sidebar.full-style {
 .modal-backdrop {
     display: none;
   }
-<<<<<<< Updated upstream
 figure{
     width: 2rem;
     height: 2rem;
@@ -10104,4 +10103,10 @@ figure{
 
 #post-privacy{
     padding-top: 0.5rem;
+}
+.button-1{
+    width: 6vw;
+    height: 2.5vw;
+    font-size: 1.2vw;
+    padding: 0;
 }
