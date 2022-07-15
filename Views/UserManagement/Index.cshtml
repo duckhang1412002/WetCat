@@ -73,6 +73,14 @@
             <form class="d-none d-md-flex ms-4">
                 <input class="form-control border-0" type="search" placeholder="Search User">
             </form>
+            <!--
+            @using (Html.BeginForm("SearchUSer", "UserManagement"))
+            {
+                @Html.TextBox("Query")
+                <input type="submit" value="search" />
+            }
+            -->
+
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -136,7 +144,7 @@
                                             <td style="text-align: center;">@item.Birthday.ToShortDateString()</td>
                                             <td style="text-align: center;">
                                             <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
-                                            <a class='fas fa-exclamation-triangle' href=""></a>
+                                            <a class='fas fa-exclamation-triangle' asp-action = "ShowUser" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
                                             </td>
                                         </tr>
                                     }

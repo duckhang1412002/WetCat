@@ -62,5 +62,28 @@ namespace WetCat.Controllers
             }
             return View();
         }
+
+        public ActionResult ShowUser(string username){
+            if (username == null){
+                return NotFound();
+            }
+            var user = UserDAO.GetUserByUsername(username);
+            if (user == null){
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult ShowUser(User user){
+            try {
+                UserDAO.GetUsers();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+            }
+            return View();
+        }
     }
 }
