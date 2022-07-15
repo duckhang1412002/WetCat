@@ -1,27 +1,42 @@
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Wall.cshtml";
+    ViewData["Title"] = "Followings";
+    // Layout = "~/Views/Shared/_Wall.cshtml";
 }
 
 @model List<Follow>
 
 <div class="widget friend-list stick-widget">
     <h4 class="widget-title">Friends</h4>
-    <div id="searchDir"></div>
-    <ul id="people-list" class="friendz-list">
-        @foreach (Follow fl in Model)
-        {
-            <li style="position: relative;">
-                <figure>
-                    <img src="@fl.FollowedUsernameNavigation.AvatarSrc" alt="">
-                </figure>
-                <div class="friendz-meta" style="width:fit-content;">
-                    <a href="time-line.html">@fl.FollowedUsernameNavigation.Nickname</a>
-                </div>
-                <a href="this is">
-                    <button style="position: absolute; right: 4%; top: 20%" class="btn btn-danger">Unfriend</button>
-                </a>
+    <div id="searchDir">
+        <div id="searchiii"></div>
+        <ul id="people-list" class="friendz-list">
+            @foreach (Follow fl in Model)
+            {
+                <li style="position: relative;">
+                    <figure>
+                        <img src="@fl.FollowedUsernameNavigation.AvatarSrc" alt="">
+                    </figure>
+                    <div class="friendz-meta" style="width:fit-content;">
+                        <a href="time-line.html">@fl.FollowedUsernameNavigation.Nickname</a>
+                    </div>
+                    <button onclick='window.location = "@Url.Action("UnfollowAtList","Follow", new {usn = fl.FollowedUsername })";' style="position: absolute; right: 4%; top: 20%"
+                    class="button-1 btn btn-warning">Unfollow</button>
             </li>
-        }
-    </ul>
-</div>
+            }
+
+        </ul>
+    </div>
+    
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/main.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/color.css">
+    <link rel="stylesheet" href="~/css/responsive.css">
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/js/main.min.js"></script>
+    <script src="~/js/script.js"></script>

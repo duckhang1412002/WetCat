@@ -66,7 +66,7 @@ $('.notification-box > ul li > i.del').on("click", function(){
 	function listFilter(searchDir, list) { 
 	  var form = $("<form>").attr({"class":"filterform","action":"#"}),
 	  input = $("<input>").attr({"class":"filterinput","type":"text","placeholder":"Search Contacts..."});
-	  $(form).append(input).appendTo(searchDir);
+	  $(form).append(input).insertBefore(searchDir);
 
 	  $(input)
 	  .change( function () {

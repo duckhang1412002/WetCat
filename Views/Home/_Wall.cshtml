@@ -1,3 +1,4 @@
+@model User
 
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
@@ -14,8 +15,8 @@
 	<title>Winku Social Network Toolkit</title>
 	<link rel="icon" href="~/~/images/fav.png" type="image/png" sizes="16x16">
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="~/css/main.min.css">
 	<link rel="stylesheet" href="~/css/style.css">
@@ -24,6 +25,7 @@
 	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 	<script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
+
 </head>
 
 <body>
@@ -63,11 +65,11 @@
 					</li>
 					<li><span>Time Line</span>
 						<ul>
-							<li><a href="time-line.html" title="">timeline</a></li>
+							<li><a href="timeline" title="">timeline</a></li>
 							<li><a href="timeline-friends.html" title="">timeline friends</a></li>
 							<li><a href="timeline-groups.html" title="">timeline groups</a></li>
 							<li><a href="timeline-pages.html" title="">timeline pages</a></li>
-							<li><a href="timeline-photos.html" title="">timeline photos</a></li>
+							<li><a href="photos" title="">timeline photos</a></li>
 							<li><a href="timeline-videos.html" title="">timeline videos</a></li>
 							<li><a href="fav-page.html" title="">favourit page</a></li>
 							<li><a href="groups.html" title="">groups page</a></li>
@@ -152,72 +154,6 @@
 					<li><a href="widgets.html" title="">Widgts</a></li>
 				</ul>
 			</nav>
-			<nav id="shoppingbag">
-				<div>
-					<div class="">
-						<form method="post">
-							<div class="setting-row">
-								<span>use night mode</span>
-								<input type="checkbox" id="nightmode" />
-								<label for="nightmode" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Notifications</span>
-								<input type="checkbox" id="switch2" />
-								<label for="switch2" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Notification sound</span>
-								<input type="checkbox" id="switch3" />
-								<label for="switch3" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>My profile</span>
-								<input type="checkbox" id="switch4" />
-								<label for="switch4" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Show profile</span>
-								<input type="checkbox" id="switch5" />
-								<label for="switch5" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-						</form>
-						<h4 class="panel-title">Account Setting</h4>
-						<form method="post">
-							<div class="setting-row">
-								<span>Sub users</span>
-								<input type="checkbox" id="switch6" />
-								<label for="switch6" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>personal account</span>
-								<input type="checkbox" id="switch7" />
-								<label for="switch7" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Business account</span>
-								<input type="checkbox" id="switch8" />
-								<label for="switch8" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Show me online</span>
-								<input type="checkbox" id="switch9" />
-								<label for="switch9" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Delete history</span>
-								<input type="checkbox" id="switch10" />
-								<label for="switch10" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Expose author name</span>
-								<input type="checkbox" id="switch11" />
-								<label for="switch11" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-						</form>
-					</div>
-				</div>
-			</nav>
 		</div><!-- responsive header -->
 
 		<div class="topbar stick">
@@ -241,11 +177,11 @@
 					<li>
 						<a href="#" title="">timeline</a>
 						<ul>
-							<li><a href="time-line.html" title="">timeline</a></li>
+							<li><a href="timeline" title="">timeline</a></li>
 							<li><a href="timeline-friends.html" title="">timeline friends</a></li>
 							<li><a href="timeline-groups.html" title="">timeline groups</a></li>
 							<li><a href="timeline-pages.html" title="">timeline pages</a></li>
-							<li><a href="timeline-photos.html" title="">timeline photos</a></li>
+							<li><a href="photos" title="">timeline photos</a></li>
 							<li><a href="timeline-videos.html" title="">timeline videos</a></li>
 							<li><a href="fav-page.html" title="">favourit page</a></li>
 							<li><a href="groups.html" title="">groups page</a></li>
@@ -453,21 +389,23 @@
 				<figure><img src="~/images/resources/timeline-1.jpg" alt=""></figure>
 				<div class="add-btn">
 					<span id="followers-count"></span>
-					<a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
-					<script>
-						$(window).on("load", function () {				
-							var id = $(this).closest("section").find("#avtt").find("#usernamea").attr("alt");
-							$.ajax({
-								url: "@Url.Action("ShowComment", "Post")",
-								data: { id: "edward" },
-								success: function (jsReturnArgs) {
-									$("#friend-status").html(jsReturnArgs.ViewString);
-									$("#showmodal").modal("show");
-								}
+					@if (Model.Username.ToString() != HttpContextAccessor.HttpContext.Session.GetString("username"))
+					{
+						<a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
+						<script>
+							$(window).on("load", function () {
+								var id = "@Model.Username";
+								$.ajax({
+									url: "@Url.Action("FriendStatus", "Friend")",
+									data: { id: id },
+									success: function (jsReturnArgs) {
+										$("#friend-status").html(jsReturnArgs);
+									}
+								});
 							});
-						});
-					</script>
-					
+						</script>
+					}
+
 				</div>
 				<form class="edit-phto">
 					<i class="fa fa-camera-retro"></i>
@@ -481,7 +419,7 @@
 						<div class="col-lg-2 col-sm-3">
 							<div class="user-avatar">
 								<figure>
-									<img src="~/images/resources/user-avatar.jpg" alt="">
+									<img src="@Model.AvatarSrc" alt="">
 									<form class="edit-phto">
 										<i class="fa fa-camera-retro"></i>
 										<label class="fileContainer">
@@ -496,21 +434,27 @@
 							<div class="timeline-info">
 								<ul>
 									<li class="admin-name">
-										<h5>Janice Griffith</h5>
-										<span>Group Admin</span>
+										<h5>@Model.Nickname</h5>
 									</li>
 									<li>
-										<a class="" id="timeline" href="time-line.html" title="" data-ripple="">time
+										<a class="" id="timeline" href="timeline" title="" data-ripple="">time
 											line</a>
-										<a class="" id="photos" href="timeline-photos.html" title=""
+										<a class="" id="photos" href="photos" title=""
 											data-ripple="">Photos</a>
-										<a class="" id="friends" href="timeline-friends.html" title=""
-											data-ripple="">Friends</a>
-										<a class="" id="followers" href="timeline-groups.html" title=""
-											data-ripple="">Followers</a>
-										<a class="" id="followings" href="timeline-groups.html" title=""
-											data-ripple="">Followings</a>
-										<a class="" id="more" href="#" title="" data-ripple="">Hobby</a>
+										@{
+											if (Model.Username ==
+			HttpContextAccessor.HttpContext.Session.GetString("username"))
+											{
+												<a class="" id="friends" href="timeline-friends.html" title=""
+												data-ripple="">Friends</a>
+												<a class="" id="followers" href="timeline-groups.html" title=""
+												data-ripple="">Followers</a>
+												<a class="" id="followings" href="timeline-groups.html" title=""
+												data-ripple="">Followings</a>
+											}
+										}
+
+										<a class="" id="more" href="hobby" title="" data-ripple="">Hobby</a>
 										<a class="" id="about" href="about.html" title="" data-ripple="">about</a>
 									</li>
 								</ul>
@@ -544,11 +488,105 @@
 												</li>
 											</ul>
 										</div><!-- Shortcuts -->
-
 									</aside>
 								</div><!-- sidebar -->
 								<div class="col-lg-6" id="mainrender">
-									@RenderBody()
+									@{
+										if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "timeline")
+										{
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Follow", "Home")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										} else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "photos"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Follow", "Home")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										} else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "hobby"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Follow", "Home")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "hobby"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Follow", "Home")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "friends"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Friend", "Friend")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "followings"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Followings", "Follow")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "followers"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Followers", "Follow")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	
+									}
+
 								</div><!-- centerl meta -->
 							</div>
 						</div>
@@ -723,9 +761,11 @@
 			</div>
 		</form>
 	</div><!-- side panel -->
-
-	
-
+	<!--
+	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+	<script src="~/js/main.min.js"></script>
+	<script src="~/js/script.js"></script>
+-->
 </body>
 
 </html>

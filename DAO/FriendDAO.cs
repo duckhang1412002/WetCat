@@ -47,11 +47,11 @@ namespace WetCat.DAO
             return friend;
         }
 
-        public Friend GetFrienders(string friendID) {
+        public Friend GetFrienders(string userid, string friendID) {
             Friend friend = null;
             try {
                 using var context = new WetCat_DBContext();
-                //friend = context.Friends.SingleOrDefault(c => c.FriendedUsername == friendID);
+                friend = context.Friends.SingleOrDefault(c => (c.FirstUsername == friendID && c.SecondUsername == userid) || (c.FirstUsername == userid && c.SecondUsername == friendID));
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }

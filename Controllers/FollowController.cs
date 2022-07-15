@@ -31,5 +31,17 @@ namespace WetCat.Controllers
             List<Follow> followings = followDAO.GetFollowings(HttpContext.Session.GetString("username")).ToList();
             return View(followings);
         }
+        public IActionResult UnfollowAtList(string usn){
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+            System.Console.WriteLine("Unfollow " + usn);
+            followDAO.Unfollow(HttpContext.Session.GetString("username"), usn);
+            return View();
+        }
+        public IActionResult UnfollowAtWall(string usn){
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+            System.Console.WriteLine("Unfollow " + usn);
+            followDAO.Unfollow(HttpContext.Session.GetString("username"), usn);
+            return View();
+        }
     }
 }

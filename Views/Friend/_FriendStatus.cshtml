@@ -1,0 +1,21 @@
+@model Friend
+
+<script>
+    alert(@Model.FriendStatus);
+</script>
+
+@{
+    System.Console.WriteLine(Model.FirstUsername + Model.SecondUsername + Model.FriendStatus);
+     if (Model.FriendStatus == 0){
+            <a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
+        } else if(Model.FriendStatus == 1){
+            <a href="#" title="" id="friend-status" data-ripple="">Request Pending</a>
+        } else {
+            <a href="#" title="" id="friend-status" data-ripple="">Unfriend</a>
+        }
+    if(Model == null){
+        <a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
+    } else{
+       
+    }
+}
