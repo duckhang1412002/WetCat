@@ -20,6 +20,9 @@ namespace WetCat.Controllers
 
         PostDAO PostDAO = new PostDAO();
         UserDAO UserDAO = new UserDAO();
+        FollowDAO FollowDAO = new FollowDAO();
+
+        FriendDAO FriendDAO = new FriendDAO();
         public PostController(){}
         private string currentSessionUser = null;
 
@@ -31,9 +34,43 @@ namespace WetCat.Controllers
 
             dynamic model = new ExpandoObject();
 
-            var posts = PostDAO.GetAllPosts();                                   
+            List<Post> tempPosts = new List<Post>();
+
+            IEnumerable<Post> posts = PostDAO.GetAllPosts().ToList();   
+            //IEnumerable<Friend> friends = FriendDAO.get              
+            IEnumerable<Follow> followings = FollowDAO.GetFollowings(currentSessionUser.Username);
+            IEnumerable<Friend> friends = FriendDAO.GetFollowings(currentSessionUser.Username);
+            IEnumerable<Post> posts_privacy;
+            IEnumerable<Post> posts_following;
+            IEnumerable<Post> posts_friend;
+
+            posts = PostDAO.GetAllPostsByDeleteStatus(posts);            
+            posts_privacy = PostDAO.GetAllPostsByPrivacy(currentSessionUser.Username, posts); 
+            if(posts_privacy != null){
+                    tempPosts.AddRange(posts_privacy.ToHashSet());    
+            }
             
-            model.postsList = posts.Reverse(); 
+            foreach(Follow following in followings){
+                posts_following = PostDAO.GetAllPostsByFollowings(currentSessionUser.Username, posts, following);
+                if(posts_following != null)
+                    tempPosts.AddRange(posts_following.ToHashSet());            
+            }  
+
+            foreach(Friend friend in friends){
+                posts_following = PostDAO.GetAllPostsByFollowings(currentSessionUser.Username, posts, following);
+                if(posts_following != null)
+                    tempPosts.AddRange(posts_following.ToHashSet());            
+            }
+
+            System.Console.WriteLine("----------Result-----------");
+            foreach(Post p in tempPosts){
+                System.Console.WriteLine(p.PostId);         
+            }
+
+            IEnumerable<Post> result = tempPosts.ToList();
+             
+            
+            model.postsList = result.Reverse(); 
             model.currentSessionUser = currentSessionUser;
             return View(model);        
         }  
