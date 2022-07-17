@@ -383,7 +383,7 @@
 
 		<section>
 			<div class="feature-photo">
-				<figure><img src="~/images/resources/timeline-1.jpg" alt=""></figure>
+				<figure><img src="~/images/resources/admin.jpg" alt=""></figure>
 				<div class="add-btn">
 					<span id="followers-count"></span>
 					@if (Model.Username.ToString() != HttpContextAccessor.HttpContext.Session.GetString("username"))
@@ -532,7 +532,7 @@
 												$(window).on("load", function () {
 													var id = "@Model.Username";
 													$.ajax({
-														url: "@Url.Action("Follow", "Home")",
+														url: "@Url.Action("HobbyList", "HobbyList")",
 														data: { id: id },
 														success: function (jsReturnArgs) {
 															$("#mainrender").html(jsReturnArgs);
@@ -540,12 +540,12 @@
 													});
 												});
 											</script>
-										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "hobby"){
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "requests"){
 											<script>
 												$(window).on("load", function () {
 													var id = "@Model.Username";
 													$.ajax({
-														url: "@Url.Action("Follow", "Home")",
+														url: "@Url.Action("RequestList", "Friend")",
 														data: { id: id },
 														success: function (jsReturnArgs) {
 															$("#mainrender").html(jsReturnArgs);
@@ -583,7 +583,6 @@
 											<script>
 												
 												$(window).on("load", function () {
-													alert("Gi zay");
 													var id = "@Model.Username";
 													$.ajax({
 														url: "@Url.Action("Followers", "Follow")",

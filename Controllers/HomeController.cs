@@ -72,7 +72,7 @@ namespace WetCat.Controllers
             foreach(Post i in list){
                 System.Console.WriteLine("Troi oi" + i.PostAuthor);
             }
-            return View("/Views/Home/Timeline.cshtml", list);
+            return View("/Views/Home/Timeline.cshtml", list.Reverse<Post>().ToList());
         }
         
         public IActionResult Follow(string id){

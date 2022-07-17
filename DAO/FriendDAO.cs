@@ -25,7 +25,23 @@ namespace WetCat.DAO
             List<Friend> friends = null;
             try {
                 using var context = new WetCat_DBContext();
-                friends = context.Friends.Where(c => (c.FirstUsername == id || c.SecondUsername == id) && (c.FriendStatus == 3)).ToList();
+                friends = context.Friends.Where(c => ((c.FirstUsername == id || c.SecondUsername == id) && (c.FriendStatus == 3))).ToList();
+                 foreach(var fr in friends){
+                    UserDAO userDAO = new UserDAO();
+                    fr.FirstUsernameNavigation = userDAO.GetUserByUsername(fr.FirstUsername);
+                    fr.SecondUsernameNavigation = userDAO.GetUserByUsername(fr.SecondUsername);
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return friends;
+        }
+
+        public List<Friend> GetRequestList(string id) {
+            List<Friend> friends = null;
+            try {
+                using var context = new WetCat_DBContext();
+                friends = context.Friends.Where(c => (c.FirstUsername == id && c.FriendStatus == 2) || (c.SecondUsername == id && c.FriendStatus == 1)).ToList();
                  foreach(var fr in friends){
                     UserDAO userDAO = new UserDAO();
                     fr.FirstUsernameNavigation = userDAO.GetUserByUsername(fr.FirstUsername);

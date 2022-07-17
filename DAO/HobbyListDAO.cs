@@ -28,7 +28,7 @@ namespace WetCat.DAO
                 hobbies = context.HobbyLists.Where(h => h.Username == usn).ToList();
                 HobbyDAO hobbyDAO = new HobbyDAO();
                 foreach(HobbyList h in hobbies){
-                    h.Hobby = hobbyDAO.GetHobby(h.HobbyId);
+                    h.Hobby = hobbyDAO.GetHobbyByID(h.HobbyId);
                 }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
@@ -42,6 +42,7 @@ namespace WetCat.DAO
                 hobby.HobbyId = id;
                 hobby.Username = usn;
                 context.HobbyLists.Add(hobby);
+                context.SaveChanges();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
@@ -52,6 +53,7 @@ namespace WetCat.DAO
                 using var context = new WetCat_DBContext();
                 hobby = context.HobbyLists.Find(id, usn);
                 context.HobbyLists.Remove(hobby);
+                context.SaveChanges();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }

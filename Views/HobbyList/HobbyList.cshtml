@@ -1,0 +1,73 @@
+@model dynamic
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+  ViewData["Title"] = "Index";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="~/css/main.min.css">
+<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/color.css">
+<link rel="stylesheet" href="~/css/responsive.css">
+<script src="~/js/main.min.js"></script>
+<script src="~/js/script.js"></script>
+
+
+
+<div class="central-meta">
+  <div class="editing-interest">
+    <h5 class="f-title"><i class="ti-heart"></i>@Model.User interests</h5>
+    
+      <form method="Post" asp-action="AddHobby" asp-controller="HobbyList">
+        @if (HttpContextAccessor.HttpContext.Session.GetString("username") == @Model.User)
+        {
+          <label>Add interests: </label>
+          <label for="hb">Choose a new Hobby to Add:</label>
+          <select id="hb" name="hb">
+            @foreach (Hobby h in Model.HobbyItems)
+            {
+              <option value="@h.HobbyId">@h.HobbyName</option>
+            }
+          </select>
+
+          <div class="submit-btns">
+            <input type="submit" value="Add" style="float: inline-end">
+          </div>
+        }
+        <ol class="interest-added">
+          @foreach (HobbyList i in Model.HobbyList)
+          {
+            <li>
+            <a href="#" title="">
+              @i.Hobby.HobbyName
+            </a>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("username") == @Model.User){
+              <span onclick='window.location = "@Url.Action("RemoveHobby","HobbyList", new {id = i.HobbyId })";' class="remove" title="remove">
+              <i class="fa fa-close"></i></span>
+            }
+            </li>
+
+          }
+      </ol>
+      </form>
+      
+      
+</div>
+  </div>
+
+
+<!--
+
+<div class="row">
+@foreach (HobbyList i in Model.HobbyList)
+{
+      <ol class="col-sm-3 boxContainer interest-added">
+          <li><a href="#" title="">@i.Hobby.HobbyName</a><span class="remove" title="remove"><i class="fa fa-close"></i></span></li>
+      </ol>
+}
+</div>-->

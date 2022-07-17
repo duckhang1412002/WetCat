@@ -8,8 +8,7 @@
 <div class="central-meta">
 <div class="widget friend-list stick-widget">
     <h4 class="widget-title">Followings</h4>
-    <div id="searchDir">
-        <div id="searchiii"></div>
+    <div id="searchDir"></div>
         <ul id="people-list" class="friendz-list">
             @foreach (Follow fl in Model)
             {
@@ -18,7 +17,7 @@
                         <img src="@fl.FollowedUsernameNavigation.AvatarSrc" alt="">
                     </figure>
                     <div class="friendz-meta" style="width:fit-content;">
-                        <a href="time-line.html">@fl.FollowedUsernameNavigation.Nickname</a>
+                        <a href="/Wall/@fl.FollowedUsername/timeline">@fl.FollowedUsernameNavigation.Nickname</a>
                     </div>
                     <button onclick='window.location = "@Url.Action("UnfollowAtList","Follow", new {usn = fl.FollowedUsername })";' style="position: absolute; right: 4%; top: 20%"
                     class="button-1 btn btn-warning">Unfollow</button>

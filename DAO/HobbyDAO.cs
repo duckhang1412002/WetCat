@@ -21,11 +21,22 @@ namespace WetCat.DAO
             }
         }
 
-        public Hobby GetHobby(int id) {
+        public Hobby GetHobbyByID(int? id) {
             Hobby hobby = null;
             try {
                 using var context = new WetCat_DBContext();
                 hobby = context.Hobbies.Find(id);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return hobby;
+        }
+
+        public List<Hobby> GetAllHobby() {
+            List<Hobby> hobby = null;
+            try {
+                using var context = new WetCat_DBContext();
+                hobby = context.Hobbies.ToList();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }

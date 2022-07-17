@@ -18,11 +18,11 @@ namespace WetCat.Controllers {
             List<Friend> friendlist = friendDAO.GetFriendList (HttpContext.Session.GetString ("username"));
             return View (friendlist);
         }
-        /*[HttpPost]
-        public IActionResult Delete(){
-            var Follows = DB.Follows.ToList();
-            return View(Follows);
-        }*/
+        public IActionResult RequestList () {
+            List<Friend> requestList = friendDAO.GetRequestList(HttpContext.Session.GetString ("username"));
+            requestList = requestList.OrderBy(p => p.StatusTime).Reverse<Friend>().ToList();
+            return View (requestList);
+        }
         public IActionResult FriendStatus (string id) {
             System.Console.WriteLine ("ID KB: " + id);
             Friend fr = friendDAO.GetFrienders (HttpContext.Session.GetString ("username"), id);
@@ -38,19 +38,25 @@ namespace WetCat.Controllers {
             friendDAO.AddFriend (HttpContext.Session.GetString("username"), usn);
             return Redirect ("/Wall/" + usn + "/timeline");
         }
-        public IActionResult Accept (string usn) {
+        public IActionResult AcceptAtWall(string usn) {
             friendDAO.AcceptRequest(HttpContext.Session.GetString("username"), usn);
             return Redirect ("/Wall/" + usn + "/timeline");
         }
+        public IActionResult AcceptAtList(string usn) {
+            friendDAO.AcceptRequest(HttpContext.Session.GetString("username"), usn);
+            return Redirect ("/Wall/" + HttpContext.Session.GetString("username") + "/requests");
+        }
         public IActionResult UnfriendAtWall(string usn) {
             friendDAO.UnfriendOrRefuse(HttpContext.Session.GetString ("username"), usn);
-            System.Console.WriteLine("UNFRIEND " + usn);
             return Redirect ("/Wall/" + usn + "/timeline");
         }
         public IActionResult UnfriendAtList(string usn) {
             friendDAO.UnfriendOrRefuse(HttpContext.Session.GetString ("username"), usn);
-            System.Console.WriteLine("UNFRIEND " + usn);
             return Redirect ("/Wall/" + HttpContext.Session.GetString ("username") + "/friends");
+        }
+        public IActionResult RefuseAtList(string usn) {
+            friendDAO.UnfriendOrRefuse(HttpContext.Session.GetString ("username"), usn);
+            return Redirect ("/Wall/" + HttpContext.Session.GetString ("username") + "/requests");
         }
     }
 }
