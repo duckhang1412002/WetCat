@@ -144,7 +144,7 @@
                                             <td style="text-align: center;">@item.Birthday.ToShortDateString()</td>
                                             <td style="text-align: center;">
                                             <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
-                                            <a class='fas fa-exclamation-triangle' asp-action = "ShowUser" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
+                                            <a class="fa fa-info-circle" asp-action = "ShowUser" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
                                             </td>
                                         </tr>
                                     }

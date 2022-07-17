@@ -1,0 +1,40 @@
+@model Post
+@{
+    ViewData["Title"] = "ShowPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr>
+<form method="POST" asp-action="ShowPost">
+    <div class="row">
+        <b class="col-6">Post ID</b>
+        <div class="col-6">@Model.PostId</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Post Content</b>
+        <div class="col-6">@Model.PostContent</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Images</b>
+        <div class="col-6">
+            <img style="width:300px; height: 300px;" src="@Model.PostImgSrc" alt="">
+        </div>
+    </div>
+    <div class="row">
+        <b class="col-6">Author</b>
+        <div class="col-6">@Model.PostAuthor</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Date Posted</b>
+        <div class="col-6">@Model.PostTime.ToShortDateString()</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Status</b>
+        <div class="col-6">@Model.PrivacyMode</div>
+    </div>
+
+    <br> 
+    <div>
+        @Html.ActionLink("<Back to list", "Index") 
+    </div>
+</form>

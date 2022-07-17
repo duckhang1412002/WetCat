@@ -60,5 +60,28 @@ namespace WetCat.Controllers
             }
             return View();
         }
+
+        public ActionResult ShowPost(int postid){
+            if (postid.Equals("")){
+                return NotFound();
+            }
+            var post = PostDAO.GetPost(postid);
+            if (post == null){
+                return NotFound();
+            }
+            return View(post);
+        }
+
+        [HttpPost]
+        public ActionResult ShowPost(Post post){
+            try {
+                PostDAO.GetPosts();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+            }
+            return View();
+        }
     }
 }

@@ -124,6 +124,17 @@ namespace WetCat.DAO
                 throw new Exception(ex.Message);
             }
         }
+
+        public IEnumerable<Post> GetPosts() {
+            var postLists = new List<Post>();
+            try {
+                using var _db = new WetCat_DBContext();
+                postLists = _db.Posts.ToList();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return postLists;
+        }
     }
 }
 

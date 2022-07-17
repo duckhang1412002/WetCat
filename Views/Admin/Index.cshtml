@@ -127,7 +127,7 @@
                                         <td style="text-align: center;">@item.PrivacyMode</td>
                                         <td style="text-align: center;">
                                         <a class="fas fa-trash" asp-action = "Delete" asp-controller="Admin" asp-route-postid="@item.PostId"></a>
-                                        <a class='fas fa-exclamation-triangle' href=""></a>
+                                        <a class="fa fa-info-circle" asp-action = "ShowPost" asp-controller="Admin" asp-route-postid="@item.PostId"></a>
                                     </tr>  
                                     }
                                 }
