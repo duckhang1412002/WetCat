@@ -772,7 +772,10 @@ header.sticky {
 }
 
 .feature-photo > figure {
+    width: fit-content;
+    height: auto;
     margin-bottom: 0;
+    
 }
 
 .feature-photo > figure img {

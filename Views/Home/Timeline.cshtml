@@ -1,0 +1,144 @@
+@model List<Post>
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+										<div class="loadMore">
+										@foreach (var item in Model)
+										{
+											<div class="central-meta item">
+
+												<div class="container user-post">
+													<div class="row friend-info">
+														<div class="col-2" id="avt">
+															<img class="img-avt" id="post-id"
+															src="@item.PostAuthorNavigation.AvatarSrc"
+															alt="@item.PostId">
+														</div>
+														@if (HttpContextAccessor.HttpContext.Session.GetString("username") == item.PostAuthor)
+														{
+															<div class="col-9 friend-name">
+																<ins class="row"><a href="..."
+																title="">@item.PostAuthorNavigation.Nickname</a></ins>
+																<span class="row">@item.PostTime</span>
+															</div>
+															<div class="col-1 dropdown show">
+																<a class="dropdown-toggle" href="#" role="button"
+															id="dropdownMenuLink" data-toggle="dropdown"
+															aria-haspopup="true" aria-expanded="false"></a>
+																<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																	<a class="dropdown-item" asp-action="EditPost"
+																asp-controller="Post"
+																asp-route-postId="@item.PostId">Edit</a>
+																	<a class="dropdown-item" asp-action="DeletePost"
+																asp-controller="Post"
+																asp-route-postId="@item.PostId">Delete</a>
+																</div>
+															</div>
+														}
+														else
+														{
+															<div class="col-10 friend-name">
+																<ins class="row"><a href="time-line.html"
+																title="">@item.PostAuthorNavigation.Nickname</a></ins>
+																<span class="row">@item.PostTime</span>
+															</div>
+														}
+													</div>
+													<div class="row post-meta">
+														@if (item.PostImgSrc != null)
+														{
+															<img src="@item.PostImgSrc" class="img img-fluid" alt="image">
+														}
+														<div class="we-video-info">
+															<ul>
+																<li>
+																	<span class="views" data-toggle="tooltip" title="views">
+																		<i class="fa fa-eye"></i>
+																		<ins>1.2k</ins>
+																	</span>
+																</li>
+																<li>
+																	<button class="comment" id="viewbtn"
+																	data-toggle="tooltip" title="Comments">
+																		<i class="fa fa-comments-o"></i>
+																		<ins>52</ins>
+																	</button>
+																</li>
+																<li>
+																	<span class="like" data-toggle="tooltip" title="like">
+																		<i class="ti-heart"></i>
+																		<ins>2.2k</ins>
+																	</span>
+																</li>
+																<li>
+																	<span class="dislike" data-toggle="tooltip"
+																	title="dislike">
+																		<i class="ti-heart-broken"></i>
+																		<ins>200</ins>
+																	</span>
+																</li>
+																<li class="social-media">
+																	<div class="menu">
+																		<div class="btn trigger"><i
+																			class="fa fa-share-alt"></i></div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i class="fa fa-html5"></i></a>
+																			</div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i
+																					class="fa fa-facebook"></i></a>
+																			</div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i
+																					class="fa fa-google-plus"></i></a>
+																			</div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i
+																					class="fa fa-twitter"></i></a></div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i class="fa fa-css3"></i></a>
+																			</div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i
+																					class="fa fa-instagram"></i></a>
+																			</div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i
+																					class="fa fa-dribbble"></i></a>
+																			</div>
+																		</div>
+																		<div class="rotater">
+																			<div class="btn btn-icon"><a href="#"
+																				title=""><i
+																					class="fa fa-pinterest"></i></a>
+																			</div>
+																		</div>
+
+																	</div>
+																</li>
+															</ul>
+														</div>
+														<div class="description">
+															<p>
+																@item.PostContent
+															</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										}
+									</div>
+									</div>

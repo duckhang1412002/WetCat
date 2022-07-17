@@ -1,21 +1,57 @@
 @model Friend
 
-<script>
-    alert(@Model.FriendStatus);
-</script>
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    System.Console.WriteLine(Model.FirstUsername + Model.SecondUsername + Model.FriendStatus);
-     if (Model.FriendStatus == 0){
-            <a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
-        } else if(Model.FriendStatus == 1){
-            <a href="#" title="" id="friend-status" data-ripple="">Request Pending</a>
-        } else {
-            <a href="#" title="" id="friend-status" data-ripple="">Unfriend</a>
+    System.Console.WriteLine(Model.FirstUsername + "Chua co Model");
+    if (Model.FirstUsername == "")
+    {
+        <a onclick='window.location = "@Url.Action("AddFriend","Friend", new {usn = Model.SecondUsername })";' title="" id="friend-status" data-ripple="">Add Friend</a>
+    }
+    else
+    {
+        if (Model.FriendStatus == 0)
+        { 
+            if (Model.FirstUsername == HttpContextAccessor.HttpContext.Session.GetString("username")){
+                 <a onclick='window.location = "@Url.Action("AddFriend","Friend", new {usn = Model.SecondUsername })";' title="" id="friend-status" data-ripple="">Add Friend</a>
+            } else {
+                <a onclick='window.location = "@Url.Action("AddFriend","Friend", new {usn = Model.FirstUsername })";' title="" id="friend-status" data-ripple="">Add Friend</a>
+            }
         }
-    if(Model == null){
-        <a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
-    } else{
-       
+        else if (Model.FriendStatus == 1)
+        {
+            if (HttpContextAccessor.HttpContext.Session.GetString("username") == Model.FirstUsername)
+            {
+                <a onclick='window.location = "@Url.Action("UnfriendAtWall","Friend", new {usn = Model.SecondUsername })";' title="" id="friend-status"
+    data-ripple="">Request Pending</a>
+            }
+            else
+            {
+                <a onclick='window.location = "@Url.Action("Accept","Friend", new {usn = Model.FirstUsername })";' title="" id="friend-status"
+    data-ripple="">Accept Request</a>
+            }
+        }
+        else if (Model.FriendStatus == 2)
+        {
+            if (HttpContextAccessor.HttpContext.Session.GetString("username") == Model.FirstUsername)
+            {
+                <a onclick='window.location = "@Url.Action("Accept","Friend", new {usn = Model.SecondUsername })";' title="" id="friend-status"
+    data-ripple="">Accept Request</a>
+            }
+            else
+            {
+                <a onclick='window.location = "@Url.Action("UnfriendAtWall","Friend", new {usn = Model.FirstUsername })";' title="" id="friend-status"
+    data-ripple="">Request Pending</a>
+            }
+        }
+        else
+        {
+            if (Model.FirstUsername == HttpContextAccessor.HttpContext.Session.GetString("username")){
+                 <a onclick='window.location = "@Url.Action("UnfriendAtWall","Friend", new {usn = Model.SecondUsername })";' title="" id="friend-status" data-ripple="">Unfriend</a>
+            } else {
+                <a onclick='window.location = "@Url.Action("UnfriendAtWall","Friend", new {usn = Model.FirstUsername })";' title="" id="friend-status" data-ripple="">Unfriend</a>
+            }
+        }
     }
 }

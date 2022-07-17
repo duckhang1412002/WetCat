@@ -66,7 +66,7 @@ $('.notification-box > ul li > i.del').on("click", function(){
 	function listFilter(searchDir, list) { 
 	  var form = $("<form>").attr({"class":"filterform","action":"#"}),
 	  input = $("<input>").attr({"class":"filterinput","type":"text","placeholder":"Search Contacts..."});
-	  $(form).append(input).insertBefore(searchDir);
+	  $(form).append(input)
 
 	  $(input)
 	  .change( function () {
@@ -397,24 +397,8 @@ jQuery(".post-comt-box textarea").on("keydown", function(event) {
 		return false;
 	});	
 	
-	//New Code _ Daviz
-	$('#privacy-list-public').on('click', function () {
-		$('#privacy-list a').attr('class', 'fa fa-globe');		
-		$('#privacy-list span').html('Public');
-		$('#privacy').attr('value', 'Public');
-	});
-	
-	$('#privacy-list-friend').on('click', function () {
-		$('#privacy-list a').attr('class', 'fa fa-user');
-		$('#privacy-list span').html('Friend');
-		$('#privacy').attr('value', 'Friend');
-	});	
 
-	$('#privacy-list-private').on('click', function () {
-		$('#privacy-list a').attr('class', 'fa fa-lock');
-		$('#privacy-list span').html('Private');
-		$('#privacy').attr('value', 'Private');
-	});	
+
 });//document ready end
 
 

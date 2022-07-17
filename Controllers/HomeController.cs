@@ -62,8 +62,17 @@ namespace WetCat.Controllers
             System.Console.WriteLine("Xin chao " + usn);
             dynamic model = new ExpandoObject();
             User user = userDAO.GetUserByUsername(usn);
-            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
-            return PartialView("/Views/Home/_Wall.cshtml", user);
+            return View("/Views/Home/_Wall.cshtml", user);
+        }
+
+        public IActionResult Timeline(string id){
+            System.Console.WriteLine("timeline " + id);
+            PostDAO postDAO = new PostDAO();
+            List<Post> list = postDAO.GetPostByUsername(id);
+            foreach(Post i in list){
+                System.Console.WriteLine("Troi oi" + i.PostAuthor);
+            }
+            return View("/Views/Home/Timeline.cshtml", list);
         }
         
         public IActionResult Follow(string id){

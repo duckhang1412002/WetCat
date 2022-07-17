@@ -142,7 +142,7 @@ namespace WetCat.Models
                 entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.StatusTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("status_time");
 
                 entity.HasOne(d => d.FirstUsernameNavigation)

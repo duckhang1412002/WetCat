@@ -1,27 +1,71 @@
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Wall.cshtml";
+    //Layout = "~/Views/Shared/_Wall.cshtml";
 }
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 
 @model List<Friend>
 
-<div class="widget friend-list stick-widget">
-    <h4 class="widget-title">Friends</h4>
-    <div id="searchDir"></div>
-    <ul id="people-list" class="friendz-list">
-        @foreach (Friend frd in Model)
-        {
-            <li style="position: relative;">
-                <figure>
-                    <img src="@frd.SecondUsernameNavigation.AvatarSrc" alt="">
-                </figure>
-                <div class="friendz-meta" style="width:fit-content;">
-                    <a href="time-line.html">@frd.SecondUsernameNavigation.Nickname</a>
-                </div>
-                <a href="this is">
-                    <button style="position: absolute; right: 4%; top: 20%" class="button-1 btn btn-danger">Unfriend</button>
-                </a>
-            </li>
-        }
-    </ul>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="~/css/main.min.css">
+<link rel="stylesheet" href="~/css/style.css">
+<link rel="stylesheet" href="~/css/color.css">
+<link rel="stylesheet" href="~/css/responsive.css">
+<script src="~/js/main.min.js"></script>
+<script src="~/js/script.js"></script>
+
+
+<div class="central-meta">
+    <div class="frnds">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="active" href="#frends" data-toggle="tab">My Friends</a> <span>@Model.Count</span></li>
+            <li><div id="searchDir"></div></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active fade show " id="frends">
+                <ul class="nearby-contct" id="people-list">
+                    @foreach (var item in Model)
+                    {
+                        <li>
+                            <div class="nearly-pepls">
+
+                                @if (item.FirstUsername == HttpContextAccessor.HttpContext.Session.GetString("username"))
+                                {
+                                    <figure>
+                                        <a onclick='window.location = "@Url.Action("UnfriendAtList","Friend", new {usn = item.SecondUsernameNavigation.Nickname})";' title=""><img src="@item.SecondUsernameNavigation.AvatarSrc" alt=""></a>
+                                    </figure>
+                                    <div class="pepl-info">
+                                        <h4><a href="/Wall/@item.SecondUsernameNavigation.Nickname/timeline" title="">@item.SecondUsernameNavigation.Nickname</a></h4>
+                                        <span>ftv model</span>
+                                        <a href="#" title="" class="add-butn more-action" data-ripple="">unfriend</a>
+                                    </div>
+                                } else {
+                                    <figure>
+                                        <a href="time-line.html" title=""><img src="@item.FirstUsernameNavigation.AvatarSrc" alt=""></a>
+                                    </figure>
+                                    <div class="pepl-info">
+                                        <h4><a href="/Wall/@item.FirstUsernameNavigation.Nickname/timeline" title="">@item.FirstUsernameNavigation.Nickname</a></h4>
+                                        <span>ftv model</span>
+                                        <a onclick='window.location = "@Url.Action("UnfriendAtList","Friend", new {usn = item.FirstUsernameNavigation.Nickname})";' class="add-butn more-action" data-ripple="">unfriend</a>
+                                    </div>
+                                }
+                            </div>
+                        </li>
+                    }
+
+
+                </ul>
+
+                <button class="btn-view btn-load-more"></button>
+            </div>
+        </div>
+    </div>
+
 </div>
