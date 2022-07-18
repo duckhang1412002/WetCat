@@ -8,7 +8,7 @@ namespace WetCat.DAO
 {
     public class FriendDAO
     {
-         private static FriendDAO instance = null;
+        private static FriendDAO instance = null;
         private static readonly object instanceLock = new object();
         public static FriendDAO Instance {
             get {

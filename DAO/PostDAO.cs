@@ -65,17 +65,31 @@ namespace WetCat.DAO
 
         public IEnumerable<Post> GetAllPostsByDeleteStatus(IEnumerable<Post> posts) {
             try {
-                posts = posts.Where(x => x.IsDeleted == 0);
+                posts = posts.Where(x => x.IsDeleted == 0 || x.IsDeleted == null);
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
 
-            System.Console.WriteLine("------Delete Post------");
+            System.Console.WriteLine("------Undelete Post------");
             foreach(Post i in posts){
-                System.Console.WriteLine(i.IsDeleted);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
             }
             return posts;
         }
+
+        public IEnumerable<Post> GetAllAdminPosts(IEnumerable<Post> posts){
+            posts = posts.Where(x => 
+            x.PostAuthorNavigation.Role == "Admin"   
+            );
+
+            System.Console.WriteLine("------Admin Post------");
+            foreach(Post i in posts){
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+            }
+         
+            return posts;
+        }
+
 
         public IEnumerable<Post> GetAllPostsByPrivacy(string currentSessionUser, IEnumerable<Post> posts){
             posts = posts.Where(x => 
@@ -83,35 +97,22 @@ namespace WetCat.DAO
             (x.PrivacyMode == "Private" && x.PostAuthorNavigation.Username == currentSessionUser)     
             );
 
-            System.Console.WriteLine("----Privacy----");
+            System.Console.WriteLine("----Personal Privacy Post----");
             foreach(Post i in posts){
-                System.Console.WriteLine(i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
             }
          
             return posts;
-        }
-
-        /*public IEnumerable<Post> GetAllPostsByFriend(string currentSessionUser, IEnumerable<Post> posts, IEnumerable<Follow> friends){        
-            System.Console.WriteLine("------Following-----");
-            foreach(Follow i in followings){
-                System.Console.WriteLine("Follow: " + i.FollowerUsername + " ---> " + i.FollowedUsername);
-            }
-            
-            foreach(Follow following in followings){
-                posts = posts.Where(x => x.PostAuthorNavigation.Username == following.FollowedUsername);
-            }
-            
-            return posts;
-        }*/
+        }  
 
         public IEnumerable<Post> GetAllPostsByFollowings(string currentSessionUser, IEnumerable<Post> posts, Follow following){        
             posts = posts.Where(x => 
             x.PostAuthor == following.FollowedUsername && x.PrivacyMode == "Public"
             );
 
-            System.Console.WriteLine("----Followings----" + following.FollowedUsername);
+            System.Console.WriteLine("----Followings----({0})", following.FollowedUsername);
             foreach(Post i in posts){
-                System.Console.WriteLine(i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
             }
             
             return posts;
@@ -119,12 +120,12 @@ namespace WetCat.DAO
 
         public IEnumerable<Post> GetAllPostsByFriends(string currentSessionUser, IEnumerable<Post> posts, Friend friend){        
             posts = posts.Where(x => 
-            (x.PostAuthor == friend.SecondUsername) && x.PrivacyMode == "Friend"
+            (x.PostAuthor == friend.SecondUsername) && (x.PrivacyMode == "Friend" || x.PrivacyMode == "Public")
             );
 
-            System.Console.WriteLine("----Friends----(" + friend.FirstUsername + " .... " + friend.SecondUsername + ")");
+            System.Console.WriteLine("----Friends----({0})", friend.SecondUsername);
             foreach(Post i in posts){
-                System.Console.WriteLine(i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
             }
             
             return posts;
