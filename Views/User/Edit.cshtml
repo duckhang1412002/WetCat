@@ -7,116 +7,68 @@
 	<div class="editing-info">
 		<h5 class="f-title"><i class="ti-info-alt"></i> Edit Basic Information</h5>
 
-		<form method="post">
+		<form method="post" asp-action="Edit">
+			<input asp-for="Username" hidden />
+			<input asp-for="Password" hidden />
+			<input asp-for="Role" hidden />
+			<input asp-for="AvatarSrc" hidden />
+			<input asp-for="BackgroundSrc" hidden />
 			<div class="form-group">
-				<input type="text" id="input" required="required" asp-for="Nickname"/>
+				<input type="text" id="input" required="required" asp-for="Nickname" />
 				<label class="control-label" for="input">Nickname</label><i class="mtrl-select"></i>
 			</div>
 			<div class="form-group">
-				<input type="text" required="required" />
+				<input type="text" required="required" asp-for="UserMail" />
 				<label class="control-label" for="input"><a href="https://wpkixx.com/cdn-cgi/l/email-protection"
 						class="__cf_email__" data-cfemail="4b0e262a22270b">[email&#160;protected]</a></label><i
 					class="mtrl-select"></i>
 			</div>
 			<div class="form-group">
-				<input type="text" required="required" />
+				<input type="text" required="required" asp-for="Phone" />
 				<label class="control-label" for="input">Phone No.</label><i class="mtrl-select"></i>
 			</div>
 			<div class="form-group">
-				<input type="date" required="required" />
+				<input type="date" required="required" asp-for="Birthday" />
 				<label class="control-label" for="input">Birthday</label><i class="mtrl-select"></i>
 			</div>
-			@* <div class="dob">
-				<div class="form-group">
-					<select>
-						<option value="Day">Day</option>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-						<option>6</option>
-						<option>7</option>
-						<option>8</option>
-						<option>9</option>
-						<option>10</option>
-						<option>11</option>
-						<option>12</option>
-						<option>13</option>
-						<option>14</option>
-						<option>15</option>
-						<option>16</option>
-						<option>17</option>
-						<option>18</option>
-						<option>19</option>
-						<option>20</option>
-						<option>21</option>
-						<option>22</option>
-						<option>23</option>
-						<option>24</option>
-						<option>25</option>
-						<option>26</option>
-						<option>27</option>
-						<option>28</option>
-						<option>29</option>
-						<option>30</option>
-						<option>31</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<select>
-						<option value="month">Month</option>
-						<option>Jan</option>
-						<option>Feb</option>
-						<option>Mar</option>
-						<option>Apr</option>
-						<option>May</option>
-						<option>Jun</option>
-						<option>Jul</option>
-						<option>Aug</option>
-						<option>Sep</option>
-						<option>Oct</option>
-						<option>Nov</option>
-						<option>Dec</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<select>
-						<option value="year">Year</option>
-						<option>2000</option>
-						<option>2001</option>
-						<option>2002</option>
-						<option>2004</option>
-						<option>2005</option>
-						<option>2006</option>
-						<option>2007</option>
-						<option>2008</option>
-						<option>2009</option>
-						<option>2010</option>
-						<option>2011</option>
-						<option>2012</option>
-					</select>
-				</div>
-			</div> *@
 			<div class="form-radio">
-				<div class="radio">
-					<label>
-						<input type="radio" checked="checked" name="radio"><i class="check-box"></i>Male
-					</label>
-				</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="radio"><i class="check-box"></i>Female
-					</label>
-				</div>
+				@if (Model.Gender == 1)
+				{
+					<div class="radio">
+						<label>
+							<input type="radio" checked name="gender" value="Male"><i
+							class="check-box"></i>Male
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="gender" value="Female"><i class="check-box"></i>Female
+						</label>
+					</div>
+				}
+				else
+				{
+					<div class="radio">
+						<label>
+							<input type="radio" name="gender" value="Male"><i class="check-box"></i>Male
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" checked name="gender" value="Female"><i
+							class="check-box"></i>Female
+						</label>
+					</div>
+				}
+
 			</div>
 			<div class="form-group">
-				<textarea rows="4" id="textarea" required="required"></textarea>
+				<textarea rows="4" id="textarea" required="required" asp-for="Quote"></textarea>
 				<label class="control-label" for="textarea">Quote</label><i class="mtrl-select"></i>
 			</div>
 			<div class="submit-btns">
 				<button type="button" class="mtr-btn"><span>Cancel</span></button>
-				<button type="button" class="mtr-btn"><span>Update</span></button>
+				<button type="submit" class="mtr-btn"><span>Update</span></button>
 			</div>
 		</form>
 	</div>

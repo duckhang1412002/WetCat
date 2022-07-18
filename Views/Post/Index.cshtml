@@ -879,15 +879,16 @@
 		</form>
 	</div><!-- side panel -->
 
-	<script src="js/main.min.js"></script>
-	<script src="js/script.js"></script>
-	<script src="js/map-init.js"></script>
+	<script src="~/js/main.min.js"></script>
+	<script src="~/js/script.js"></script>
+	<script src="~/js/map-init.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script>
 	@section scripts{
 	<script>
 		$("#showtable").on("click", "#viewbtn", function () {
 			var id = $(this).closest("section").find("#avt").find("#post-id").attr("alt");
 			$.ajax({
+				alert("HI");
 				url: "@Url.Action("ShowComment", "Post")",
 				data: { id: id },
 				success: function (data) {
