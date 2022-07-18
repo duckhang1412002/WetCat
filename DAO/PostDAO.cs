@@ -46,6 +46,26 @@ namespace WetCat.DAO
             return post;
         }
 
+         public List<Post> GetPostByUsername(string usn) {
+            List<Post> posts = null;
+            try {
+                using var _db = new WetCat_DBContext();
+                posts = _db.Posts.ToList().Where(
+                    p => p.PostAuthor == usn
+                ).ToList();
+                foreach(var post in posts){
+                    var user = FindByUsername(post.PostAuthor);
+                    if (user != null) {
+                        post.PostAuthorNavigation = user;
+                    }
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            System.Console.WriteLine("COUNT NE" + posts.Count);
+            return posts;
+        }
+
         public IEnumerable<Post> GetAllPosts() {
             var posts = new List<Post>();
             try {

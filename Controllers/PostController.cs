@@ -137,9 +137,10 @@ namespace WetCat.Controllers
 
         public IActionResult ShowComment(string id)
         {
+            System.Console.WriteLine("Xin chao ngay mai");
             System.Console.WriteLine("HELOOOOO" + id);
             IEnumerable<Comment> model = null; //Temp to test
-            return PartialView("_PostComment", model);
+            return PartialView("/Views/Post/_PostComment.cshtml", model);
         }
     }
 }

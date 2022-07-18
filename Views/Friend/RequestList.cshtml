@@ -22,10 +22,10 @@
 
 
 <div class="central-meta">
-    <div class="frnds">
-        <ul class="nav nav-tabs" style="position: relative;">
-            <li class="nav-item">My Friends<span>@Model.Count</span></li>
-            <li class="nav-item"><a href='/Wall/@HttpContextAccessor.HttpContext.Session.GetString("username")/requests'>Pending Requests</a></li>
+    <div class="frnds">                                                         
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a href='/Wall/@HttpContextAccessor.HttpContext.Session.GetString("username")/friends'>My Friends</a></li>
+            <li class="nav-item">Pending Requests<span>@Model.Count</span></li>
         </ul>
         <ul style="list-style-type: none;">
             <li class="nav-item" style="position: absolute; right: 0" id="searchDir"></li>
@@ -46,7 +46,9 @@
                                     </figure>
                                     <div class="pepl-info">
                                         <h4><a href="/Wall/@item.FirstUsernameNavigation.Username/timeline" title="">@item.SecondUsernameNavigation.Nickname</a></h4>
-                                        <a href="" onclick='window.location = "@Url.Action("UnfriendAtList","Friend", new {usn = item.SecondUsernameNavigation.Username})";' title="" class="add-butn more-action" style="top: 0;" data-ripple="">unfriend</a>
+                                        <span style="color: #757575;">@item.StatusTime</span>
+                                        <a href="" onclick='window.location = "@Url.Action("AcceptAtList","Friend", new {usn = item.SecondUsernameNavigation.Username})";' title="" class="add-butn more-action" style="top: 0; right: 35%" data-ripple="">Accept</a>
+                                        <a href="" onclick='window.location = "@Url.Action("RefuseAtList","Friend", new {usn = item.SecondUsernameNavigation.Username})";' title="" class="add-butn more-action" style="top: 0; right: 10%" data-ripple="">Refuse</a>
                                     </div>
                                 } else {
                                     <figure>
@@ -54,7 +56,9 @@
                                     </figure>
                                     <div class="pepl-info">
                                         <h4><a href="/Wall/@item.FirstUsernameNavigation.Username/timeline" title="">@item.FirstUsernameNavigation.Nickname</a></h4>
-                                        <a href="" onclick='window.location = "@Url.Action("UnfriendAtList","Friend", new {usn = item.FirstUsernameNavigation.Username})";' class="add-butn more-action" style="top: 0;" data-ripple="">unfriend</a>
+                                        <span style="color: #757575;">@item.StatusTime</span>
+                                        <a href="" onclick='window.location = "@Url.Action("AcceptAtList","Friend", new {usn = item.FirstUsernameNavigation.Username})";' class="add-butn more-action" style="top: 0; right: 35%" data-ripple="">Accept</a>
+                                        <a href="" onclick='window.location = "@Url.Action("RefuseAtList","Friend", new {usn = item.FirstUsernameNavigation.Username})";' class="add-butn more-action" style="top: 0; right: 10%" data-ripple="">Refuse</a>
                                     </div>
                                 }
                             </div>

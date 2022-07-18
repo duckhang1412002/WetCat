@@ -1,4 +1,5 @@
 @model User
+
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
@@ -12,20 +13,16 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<title>Winku Social Network Toolkit</title>
-	<link rel="icon" href="~/~/images/fav.png" type="image/png" sizes="16x16">
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
 	<link rel="stylesheet" href="~/css/main.min.css">
 	<link rel="stylesheet" href="~/css/style.css">
 	<link rel="stylesheet" href="~/css/color.css">
 	<link rel="stylesheet" href="~/css/responsive.css">
-	<link rel="stylesheet" href="~/css/pixelarity.css">
-
-	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-	<script src="~/js/main.min.js"></script>
+	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
+
 </head>
 
 <body>
@@ -65,11 +62,11 @@
 					</li>
 					<li><span>Time Line</span>
 						<ul>
-							<li><a href="time-line.html" title="">timeline</a></li>
+							<li><a href="timeline" title="">timeline</a></li>
 							<li><a href="timeline-friends.html" title="">timeline friends</a></li>
 							<li><a href="timeline-groups.html" title="">timeline groups</a></li>
 							<li><a href="timeline-pages.html" title="">timeline pages</a></li>
-							<li><a href="timeline-photos.html" title="">timeline photos</a></li>
+							<li><a href="photos" title="">timeline photos</a></li>
 							<li><a href="timeline-videos.html" title="">timeline videos</a></li>
 							<li><a href="fav-page.html" title="">favourit page</a></li>
 							<li><a href="groups.html" title="">groups page</a></li>
@@ -154,72 +151,6 @@
 					<li><a href="widgets.html" title="">Widgts</a></li>
 				</ul>
 			</nav>
-			<nav id="shoppingbag">
-				<div>
-					<div class="">
-						<form method="post">
-							<div class="setting-row">
-								<span>use night mode</span>
-								<input type="checkbox" id="nightmode" />
-								<label for="nightmode" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Notifications</span>
-								<input type="checkbox" id="switch2" />
-								<label for="switch2" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Notification sound</span>
-								<input type="checkbox" id="switch3" />
-								<label for="switch3" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>My profile</span>
-								<input type="checkbox" id="switch4" />
-								<label for="switch4" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Show profile</span>
-								<input type="checkbox" id="switch5" />
-								<label for="switch5" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-						</form>
-						<h4 class="panel-title">Account Setting</h4>
-						<form method="post">
-							<div class="setting-row">
-								<span>Sub users</span>
-								<input type="checkbox" id="switch6" />
-								<label for="switch6" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>personal account</span>
-								<input type="checkbox" id="switch7" />
-								<label for="switch7" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Business account</span>
-								<input type="checkbox" id="switch8" />
-								<label for="switch8" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Show me online</span>
-								<input type="checkbox" id="switch9" />
-								<label for="switch9" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Delete history</span>
-								<input type="checkbox" id="switch10" />
-								<label for="switch10" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-							<div class="setting-row">
-								<span>Expose author name</span>
-								<input type="checkbox" id="switch11" />
-								<label for="switch11" data-on-label="ON" data-off-label="OFF"></label>
-							</div>
-						</form>
-					</div>
-				</div>
-			</nav>
 		</div><!-- responsive header -->
 
 		<div class="topbar stick">
@@ -243,11 +174,11 @@
 					<li>
 						<a href="#" title="">timeline</a>
 						<ul>
-							<li><a href="time-line.html" title="">timeline</a></li>
+							<li><a href="timeline" title="">timeline</a></li>
 							<li><a href="timeline-friends.html" title="">timeline friends</a></li>
 							<li><a href="timeline-groups.html" title="">timeline groups</a></li>
 							<li><a href="timeline-pages.html" title="">timeline pages</a></li>
-							<li><a href="timeline-photos.html" title="">timeline photos</a></li>
+							<li><a href="photos" title="">timeline photos</a></li>
 							<li><a href="timeline-videos.html" title="">timeline videos</a></li>
 							<li><a href="fav-page.html" title="">favourit page</a></li>
 							<li><a href="groups.html" title="">groups page</a></li>
@@ -452,47 +383,53 @@
 
 		<section>
 			<div class="feature-photo">
-				<figure style="max-height: 400px">
-					@if (Model == null || Model.BackgroundSrc == null)
-					{
-						<img src="~/images/resources/timeline-1.jpg" alt="">
-					}
-					else
-					{
-						<img src="~/@Model.BackgroundSrc" alt="">
-					}					
-				</figure>
+				<figure><img src="~/images/resources/admin.jpg" alt=""></figure>
 				<div class="add-btn">
 					<span id="followers-count"></span>
-					<a href="#" title="" data-ripple="">Add Friend</a>
+					@if (Model.Username.ToString() != HttpContextAccessor.HttpContext.Session.GetString("username"))
+					{
+						<a href="#" title="" id="follow-status" data-ripple=""></a>
+						<a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
+						<script>
+							$(window).on("load", function () {
+								var id = "@Model.Username";
+								$.ajax({
+									url: "@Url.Action("FriendStatus", "Friend")",
+									data: { id: id },
+									success: function (jsReturnArgs) {
+										$("#friend-status").html(jsReturnArgs);
+									}
+								});
+								$.ajax({
+									url: "@Url.Action("FollowStatus", "Follow")",
+									data: { id: id },
+									success: function (jsReturnArgs) {
+										$("#follow-status").html(jsReturnArgs);
+									}
+								});
+							});
+						</script>
+					}
+
 				</div>
-				<form id="wallpaperForm" class="edit-phto" asp-action="UploadWallpaper" enctype="multipart/form-data">
+				<form class="edit-phto">
 					<i class="fa fa-camera-retro"></i>
 					<label class="fileContainer">
 						Edit Cover Photo
-						<input type="file" name="file" id="wallpaper">
+						<input type="file" />
 					</label>
 				</form>
 				<div class="container-fluid">
 					<div class="row merged">
 						<div class="col-lg-2 col-sm-3">
 							<div class="user-avatar">
-								<figure>
-									@if (Model == null || Model.AvatarSrc == null)
-									{
-										<img id="result" src="~/images/resources/user-avatar.jpg" alt="">
-									}
-									else
-									{
-										<img id="result" src="~/@Model.AvatarSrc" alt="">
-									}
-									<form method="POST" id="avatarForm" class="edit-phto" asp-action="UploadAvatar"
-										enctype="multipart/form-data">
+								<figure style="width: 100%; height: auto;">
+									<img src="~/images/resources/user-avatar.jpg" style="width:1000px"alt="">
+									<form class="edit-phto">
 										<i class="fa fa-camera-retro"></i>
 										<label class="fileContainer">
 											Edit Display Photo
-											<input type="text" name="file" id="imgbase64" hidden />
-											<input id="file" type="file" />
+											<input type="file" />
 										</label>
 									</form>
 								</figure>
@@ -502,21 +439,27 @@
 							<div class="timeline-info">
 								<ul>
 									<li class="admin-name">
-										<h5>Janice Griffith</h5>
-										<span>Group Admin</span>
+										<h5>@Model.Nickname</h5>
 									</li>
 									<li>
-										<a class="" id="timeline" href="time-line.html" title="" data-ripple="">time
+										<a class="" id="timeline" href="timeline" title="" data-ripple="">time
 											line</a>
-										<a class="" id="photos" href="timeline-photos.html" title=""
+										<a class="" id="photos" href="photos" title=""
 											data-ripple="">Photos</a>
-										<a class="" id="friends" href="timeline-friends.html" title=""
-											data-ripple="">Friends</a>
-										<a class="" id="followers" href="timeline-groups.html" title=""
-											data-ripple="">Followers</a>
-										<a class="" id="followings" href="timeline-groups.html" title=""
-											data-ripple="">Followings</a>
-										<a class="" id="more" href="#" title="" data-ripple="">Hobby</a>
+										@{
+											if (Model.Username ==
+			HttpContextAccessor.HttpContext.Session.GetString("username"))
+											{
+												<a class="" href="friends" title=""
+												data-ripple="">Friends</a>
+												<a class="" href="followers" title=""
+												data-ripple="">Followers</a>
+												<a class="" href="followings" title=""
+												data-ripple="">Followings</a>
+											}
+										}
+
+										<a class="" id="more" href="hobby" title="" data-ripple="">Hobby</a>
 										<a class="" id="about" href="about.html" title="" data-ripple="">about</a>
 									</li>
 								</ul>
@@ -550,12 +493,121 @@
 												</li>
 											</ul>
 										</div><!-- Shortcuts -->
-
 									</aside>
 								</div><!-- sidebar -->
-								<div class="col-lg-6" id="mainrender">
-									@RenderBody()
+								<div class="col-lg-6">
+									<div  id="mainrender">
+
+									</div>
+									@{
+										if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "timeline")
+										{
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Timeline", "Home")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										} else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "photos"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Follow", "Home")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										} else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "hobby"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("HobbyList", "HobbyList")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "requests"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("RequestList", "Friend")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "friends"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Index", "Friend")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "followings"){
+											<script>
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Followings", "Follow")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "followers"){
+											<script>
+												
+												$(window).on("load", function () {
+													var id = "@Model.Username";
+													$.ajax({
+														url: "@Url.Action("Followers", "Follow")",
+														data: { id: id },
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	
+									}
+
 								</div><!-- centerl meta -->
+								<div class="col-lg-3">
+								<aside class="sidebar static">
+									
+									<div class="widget friend-list stick-widget">
+										<h4 class="widget-title">Quotes</h4>
+										<ul class="friendz-list">
+											@Model.Quote
+										</ul>
+									</div><!-- friends list sidebar -->
+								</aside>
+							</div><!-- sidebar -->
 							</div>
 						</div>
 					</div>
@@ -563,97 +615,7 @@
 			</div>
 		</section>
 
-		<footer>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-4">
-						<div class="widget">
-							<div class="foot-logo">
-								<div class="logo">
-									<a href="index-2.html" title=""><img src="~/images/logo.png" alt=""></a>
-								</div>
-								<p>
-									The trio took this simple idea and built it into the world’s leading carpooling
-									platform.
-								</p>
-							</div>
-							<ul class="location">
-								<li>
-									<i class="ti-map-alt"></i>
-									<p>33 new montgomery st.750 san francisco, CA USA 94105.</p>
-								</li>
-								<li>
-									<i class="ti-mobile"></i>
-									<p>+1-56-346 345</p>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-4">
-						<div class="widget">
-							<div class="widget-title">
-								<h4>follow</h4>
-							</div>
-							<ul class="list-style">
-								<li><i class="fa fa-facebook-square"></i> <a href="https://web.facebook.com/shopcircut/"
-										title="">facebook</a></li>
-								<li><i class="fa fa-twitter-square"></i><a href="https://twitter.com/login?lang=en"
-										title="">twitter</a></li>
-								<li><i class="fa fa-instagram"></i><a href="https://www.instagram.com/?hl=en"
-										title="">instagram</a></li>
-								<li><i class="fa fa-google-plus-square"></i> <a href="https://plus.google.com/discover"
-										title="">Google+</a></li>
-								<li><i class="fa fa-pinterest-square"></i> <a href="https://www.pinterest.com/"
-										title="">Pintrest</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-4">
-						<div class="widget">
-							<div class="widget-title">
-								<h4>Navigate</h4>
-							</div>
-							<ul class="list-style">
-								<li><a href="about.html" title="">about us</a></li>
-								<li><a href="contact.html" title="">contact us</a></li>
-								<li><a href="terms.html" title="">terms & Conditions</a></li>
-								<li><a href="#" title="">RSS syndication</a></li>
-								<li><a href="sitemap.html" title="">Sitemap</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-4">
-						<div class="widget">
-							<div class="widget-title">
-								<h4>useful links</h4>
-							</div>
-							<ul class="list-style">
-								<li><a href="#" title="">leasing</a></li>
-								<li><a href="#" title="">submit route</a></li>
-								<li><a href="#" title="">how does it work?</a></li>
-								<li><a href="#" title="">agent listings</a></li>
-								<li><a href="#" title="">view All</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-4">
-						<div class="widget">
-							<div class="widget-title">
-								<h4>download apps</h4>
-							</div>
-							<ul class="colla-apps">
-								<li><a href="https://play.google.com/store?hl=en" title=""><i
-											class="fa fa-android"></i>android</a></li>
-								<li><a href="https://www.apple.com/lae/ios/app-store/" title=""><i
-											class="ti-apple"></i>iPhone</a></li>
-								<li><a href="https://www.microsoft.com/store/apps" title=""><i
-											class="fa fa-windows"></i>Windows</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer><!-- footer -->
+		
 		<div class="bottombar">
 			<div class="container">
 				<div class="row">
@@ -729,31 +691,11 @@
 			</div>
 		</form>
 	</div><!-- side panel -->
-
+	<!--
 	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 	<script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
-	<script src="~/js/pixelarity.js"></script>
-	<script>
-		$(document).ready(function () {
-			$("#file").change(function (e) {
-				var img = e.target.files[0];
-				if (!pixelarity.open(img, true, function (res) {
-					$("#result").attr("src", res);
-					document.getElementById("imgbase64").value = res;
-					$("#avatarForm").submit();
-					//alert(document.getElementById("imgbase64").value);
-				}, "jpg", 1)) {
-					alert("Whoops! That is not an image!");
-				}
-
-			});
-			$("#wallpaper").change(function (e) {
-				$("#wallpaperForm").submit();
-			});
-		});
-	</script>
-
+-->
 </body>
 
 </html>
