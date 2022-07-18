@@ -43,6 +43,7 @@ namespace WetCat.Controllers
         [HttpPost]
         public IActionResult UploadAvatar(string file)
         {
+            System.Console.WriteLine("Im in upload avatar!");
             string author = HttpContext.Session.GetString("username");  
             byte[] bytes = Convert.FromBase64String(file.Split(',')[1]);
             string dirPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/profiles/" + author);
@@ -56,7 +57,7 @@ namespace WetCat.Controllers
             string imgSrc = String.Format("images/profiles/{0}/{1}", author, fileName);
             userDAO.UpdateAvatar(author,imgSrc);
             System.Console.WriteLine(userDAO.GetUserByUsername(author).AvatarSrc);
-            return RedirectToAction("Edit", "User");  
+            return Redirect ("/Wall/" + author + "/timeline");
         }
         
         [HttpPost]
@@ -78,9 +79,8 @@ namespace WetCat.Controllers
 
                 imgSrc = String.Format("images/profiles/{0}/{1}", author, file.FileName);
                 userDAO.UpdateWallpaper(author,imgSrc);
-                //System.Console.WriteLine("Updated avatar src");
             }  
-            return RedirectToAction("Edit", "User");       
+            return Redirect ("/Wall/" + author + "/timeline");      
         }
     }
 }

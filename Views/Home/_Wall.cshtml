@@ -13,14 +13,19 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<title>Winku Social Network Toolkit</title>
+	<link rel="icon" href="~/~/images/fav.png" type="image/png" sizes="16x16">
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<link rel="stylesheet" href="~/css/main.min.css">
 	<link rel="stylesheet" href="~/css/style.css">
 	<link rel="stylesheet" href="~/css/color.css">
 	<link rel="stylesheet" href="~/css/responsive.css">
-	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="~/js/main.min.js"></script>
+	<link rel="stylesheet" href="~/css/pixelarity.css">
+	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+	<script src="~/js/main.min.js"></script>
+	<script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
 
 </head>
@@ -383,7 +388,16 @@
 
 		<section>
 			<div class="feature-photo">
-				<figure><img src="~/images/resources/admin.jpg" alt=""></figure>
+				<figure>
+					@if (Model == null || Model.BackgroundSrc == null)
+					{
+						<img src="~/images/resources/timeline-1.jpg" alt="">
+					}
+					else
+					{
+						<img src="~/@Model.BackgroundSrc" alt="">
+					}
+				</figure>
 				<div class="add-btn">
 					<span id="followers-count"></span>
 					@if (Model.Username.ToString() != HttpContextAccessor.HttpContext.Session.GetString("username"))
@@ -412,24 +426,34 @@
 					}
 
 				</div>
-				<form class="edit-phto">
+				<form id="wallpaperForm" class="edit-phto" asp-action="UploadWallpaper" asp-controller="User"
+					enctype="multipart/form-data">
 					<i class="fa fa-camera-retro"></i>
 					<label class="fileContainer">
 						Edit Cover Photo
-						<input type="file" />
+						<input type="file" name="file" id="wallpaper">
 					</label>
 				</form>
 				<div class="container-fluid">
 					<div class="row merged">
 						<div class="col-lg-2 col-sm-3">
 							<div class="user-avatar">
-								<figure style="width: 100%; height: auto;">
-									<img src="~/images/resources/user-avatar.jpg" style="width:1000px"alt="">
-									<form class="edit-phto">
+								<figure>
+									@if (Model == null || Model.AvatarSrc == null)
+									{
+										<img id="result" src="~/images/resources/user-avatar.jpg" alt="">
+									}
+									else
+									{
+										<img id="result" src="~/@Model.AvatarSrc" alt="">
+									}
+									<form method="POST" id="avatarForm" class="edit-phto" asp-action="UploadAvatar"
+										asp-controller="User" enctype="multipart/form-data">
 										<i class="fa fa-camera-retro"></i>
 										<label class="fileContainer">
 											Edit Display Photo
-											<input type="file" />
+											<input type="text" name="file" id="imgbase64" hidden />
+											<input id="file" type="file" />
 										</label>
 									</form>
 								</figure>
@@ -444,18 +468,14 @@
 									<li>
 										<a class="" id="timeline" href="timeline" title="" data-ripple="">time
 											line</a>
-										<a class="" id="photos" href="photos" title=""
-											data-ripple="">Photos</a>
+										<a class="" id="photos" href="photos" title="" data-ripple="">Photos</a>
 										@{
 											if (Model.Username ==
 			HttpContextAccessor.HttpContext.Session.GetString("username"))
 											{
-												<a class="" href="friends" title=""
-												data-ripple="">Friends</a>
-												<a class="" href="followers" title=""
-												data-ripple="">Followers</a>
-												<a class="" href="followings" title=""
-												data-ripple="">Followings</a>
+												<a class="" href="friends" title="" data-ripple="">Friends</a>
+												<a class="" href="followers" title="" data-ripple="">Followers</a>
+												<a class="" href="followings" title="" data-ripple="">Followings</a>
 											}
 										}
 
@@ -496,11 +516,13 @@
 									</aside>
 								</div><!-- sidebar -->
 								<div class="col-lg-6">
-									<div  id="mainrender">
+									<div id="mainrender">
 
 									</div>
 									@{
-										if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "timeline")
+										if
+			(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+			Model.Username.Length + 2) == "timeline")
 										{
 											<script>
 												$(window).on("load", function () {
@@ -514,7 +536,11 @@
 													});
 												});
 											</script>
-										} else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "photos"){
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "photos")
+										{
 											<script>
 												$(window).on("load", function () {
 													var id = "@Model.Username";
@@ -527,7 +553,11 @@
 													});
 												});
 											</script>
-										} else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "hobby"){
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "hobby")
+										{
 											<script>
 												$(window).on("load", function () {
 													var id = "@Model.Username";
@@ -540,7 +570,11 @@
 													});
 												});
 											</script>
-										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "requests"){
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "requests")
+										{
 											<script>
 												$(window).on("load", function () {
 													var id = "@Model.Username";
@@ -553,7 +587,11 @@
 													});
 												});
 											</script>
-										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "friends"){
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "friends")
+										{
 											<script>
 												$(window).on("load", function () {
 													var id = "@Model.Username";
@@ -566,7 +604,11 @@
 													});
 												});
 											</script>
-										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "followings"){
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "followings")
+										{
 											<script>
 												$(window).on("load", function () {
 													var id = "@Model.Username";
@@ -579,9 +621,13 @@
 													});
 												});
 											</script>
-										}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "followers"){
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "followers")
+										{
 											<script>
-												
+
 												$(window).on("load", function () {
 													var id = "@Model.Username";
 													$.ajax({
@@ -593,21 +639,37 @@
 													});
 												});
 											</script>
-										}	
+										}
+										else if
+											(this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/" + Model.Username + "/") +
+											Model.Username.Length + 2) == "edit")
+										{
+											<script>
+
+												$(window).on("load", function () {
+													$.ajax({
+														url: "@Url.Action("Edit", "User")",
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}
 									}
 
 								</div><!-- centerl meta -->
 								<div class="col-lg-3">
-								<aside class="sidebar static">
-									
-									<div class="widget friend-list stick-widget">
-										<h4 class="widget-title">Quotes</h4>
-										<ul class="friendz-list">
-											@Model.Quote
-										</ul>
-									</div><!-- friends list sidebar -->
-								</aside>
-							</div><!-- sidebar -->
+									<aside class="sidebar static">
+
+										<div class="widget friend-list stick-widget">
+											<h4 class="widget-title">Quotes</h4>
+											<ul class="friendz-list">
+												@Model.Quote
+											</ul>
+										</div><!-- friends list sidebar -->
+									</aside>
+								</div><!-- sidebar -->
 							</div>
 						</div>
 					</div>
@@ -615,7 +677,7 @@
 			</div>
 		</section>
 
-		
+
 		<div class="bottombar">
 			<div class="container">
 				<div class="row">
@@ -691,11 +753,25 @@
 			</div>
 		</form>
 	</div><!-- side panel -->
-	<!--
-	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-	<script src="~/js/main.min.js"></script>
-	<script src="~/js/script.js"></script>
--->
+	<script src="~/js/pixelarity.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#file").change(function (e) {
+				var img = e.target.files[0];
+				if (!pixelarity.open(img, true, function (res) {
+					$("#result").attr("src", res);
+					document.getElementById("imgbase64").value = res;
+					$("#avatarForm").submit();
+					//alert(document.getElementById("imgbase64").value);
+				}, "jpg", 1)) {
+					alert("Whoops! That is not an image!");
+				}
+			});
+			$("#wallpaper").change(function (e) {
+				$("#wallpaperForm").submit();
+			});
+		});
+	</script>
 </body>
 
 </html>
