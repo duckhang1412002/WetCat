@@ -178,6 +178,18 @@ namespace WetCat.Controllers
             return RedirectToAction(nameof(Index));  
         }
 
+        public IActionResult DeletePost(int? postId){
+            System.Console.WriteLine(postId);
+            Post post = PostDAO.FindPost(postId.Value);
+            System.Console.WriteLine("OK");
+
+            if(post != null){
+                post.IsDeleted = 1;
+                PostDAO.EditPost(post);
+            }
+            return RedirectToAction(nameof(Index));   
+        }
+
         public ActionResult ShowComment(string id)
         {
             System.Console.WriteLine("HELOOOOO" + id);
