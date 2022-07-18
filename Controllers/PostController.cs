@@ -20,6 +20,9 @@ namespace WetCat.Controllers
 
         PostDAO PostDAO = new PostDAO();
         UserDAO UserDAO = new UserDAO();
+        FollowDAO FollowDAO = new FollowDAO();
+
+        FriendDAO FriendDAO = new FriendDAO();
         public PostController(){}
         private string currentSessionUser = null;
 
@@ -31,8 +34,48 @@ namespace WetCat.Controllers
 
             dynamic model = new ExpandoObject();
 
-            var posts = PostDAO.GetAllPosts();                                   
+            IEnumerable<Post> tempPosts = null;           
+             
+            IEnumerable<Follow> followings = FollowDAO.GetFollowings(currentSessionUser.Username);
+            IEnumerable<Friend> friends = FriendDAO.GetFriendList(currentSessionUser.Username);
+            friends = FriendDAO.SwapColumnFriend(currentSessionUser.Username, friends);
+            IEnumerable<Post> posts = PostDAO.GetAllPosts().ToList();   
+            IEnumerable<Post> posts_admin;
+            IEnumerable<Post> posts_privacy;           
+            IEnumerable<Post> posts_following;
+            IEnumerable<Post> posts_friend;
+
+            posts = PostDAO.GetAllPostsByDeleteStatus(posts);   
+            posts_admin = PostDAO.GetAllAdminPosts(posts);  
+            tempPosts = posts_admin; 
+            if(posts_admin != null){
+                    tempPosts = tempPosts.Union(posts_admin.ToHashSet());    
+            }
+
+            posts_privacy = PostDAO.GetAllPostsByPrivacy(currentSessionUser.Username, posts);
+            if(posts_privacy != null){
+                    tempPosts =  tempPosts.Union(posts_privacy.ToHashSet());    
+            }
             
+            foreach(Follow following in followings){
+                posts_following = PostDAO.GetAllPostsByFollowings(currentSessionUser.Username, posts, following);
+                if(posts_following != null)
+                    tempPosts =  tempPosts.Union(posts_following.ToHashSet());            
+            }  
+
+            foreach(Friend friend in friends){
+                posts_friend = PostDAO.GetAllPostsByFriends(currentSessionUser.Username, posts, friend);
+                if(posts_friend != null){
+                    tempPosts = tempPosts.Union(posts_friend.ToHashSet()); 
+                }           
+            }
+
+            System.Console.WriteLine("----------Result Posts-----------");
+            foreach(Post post in tempPosts){
+                System.Console.WriteLine("Post: " + post.PostId + "---" + post.PostAuthor);         
+            }
+
+            posts = tempPosts.ToList();                  
             model.postsList = posts.Reverse(); 
             model.currentSessionUser = currentSessionUser;
             return View(model);        

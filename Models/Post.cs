@@ -21,6 +21,7 @@ namespace WetCat.Models
             this.PostTime = PostTime;
             this.PostContent = PostContent;
             this.PostImgSrc = PostImgSrc;
+            IsDeleted = 0;
         }
 
         public Post(int PostId, string PrivacyMode, string PostAuthor, DateTime PostTime, string PostContent, string PostImgSrc){
@@ -30,6 +31,7 @@ namespace WetCat.Models
             this.PostTime = PostTime;
             this.PostContent = PostContent;
             this.PostImgSrc = PostImgSrc;
+            IsDeleted = 0;
         }
 
         [Key]

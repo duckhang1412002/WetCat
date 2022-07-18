@@ -83,6 +83,74 @@ namespace WetCat.DAO
             return posts;
         }
 
+        public IEnumerable<Post> GetAllPostsByDeleteStatus(IEnumerable<Post> posts) {
+            try {
+                posts = posts.Where(x => x.IsDeleted == 0 || x.IsDeleted == null);
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+
+            System.Console.WriteLine("------Undelete Post------");
+            foreach(Post i in posts){
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+            }
+            return posts;
+        }
+
+        public IEnumerable<Post> GetAllAdminPosts(IEnumerable<Post> posts){
+            posts = posts.Where(x => 
+            x.PostAuthorNavigation.Role == "Admin"   
+            );
+
+            System.Console.WriteLine("------Admin Post------");
+            foreach(Post i in posts){
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+            }
+         
+            return posts;
+        }
+
+
+        public IEnumerable<Post> GetAllPostsByPrivacy(string currentSessionUser, IEnumerable<Post> posts){
+            posts = posts.Where(x => 
+            x.PostAuthorNavigation.Username == currentSessionUser ||
+            (x.PrivacyMode == "Private" && x.PostAuthorNavigation.Username == currentSessionUser)     
+            );
+
+            System.Console.WriteLine("----Personal Privacy Post----");
+            foreach(Post i in posts){
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+            }
+         
+            return posts;
+        }  
+
+        public IEnumerable<Post> GetAllPostsByFollowings(string currentSessionUser, IEnumerable<Post> posts, Follow following){        
+            posts = posts.Where(x => 
+            x.PostAuthor == following.FollowedUsername && x.PrivacyMode == "Public"
+            );
+
+            System.Console.WriteLine("----Followings----({0})", following.FollowedUsername);
+            foreach(Post i in posts){
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+            }
+            
+            return posts;
+        }
+
+        public IEnumerable<Post> GetAllPostsByFriends(string currentSessionUser, IEnumerable<Post> posts, Friend friend){        
+            posts = posts.Where(x => 
+            (x.PostAuthor == friend.SecondUsername) && (x.PrivacyMode == "Friend" || x.PrivacyMode == "Public")
+            );
+
+            System.Console.WriteLine("----Friends----({0})", friend.SecondUsername);
+            foreach(Post i in posts){
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+            }
+            
+            return posts;
+        }
+
         public void CreatePost(Post post){
             try{
                 using var _db = new WetCat_DBContext();
@@ -96,7 +164,8 @@ namespace WetCat.DAO
         public void DeletePost(Post post){
             try{
                 using var _db = new WetCat_DBContext();
-                _db.Remove(post);
+                post.IsDeleted = 1;
+                _db.Posts.Update(post);
                 _db.SaveChanges();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);           
