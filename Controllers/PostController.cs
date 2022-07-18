@@ -39,10 +39,17 @@ namespace WetCat.Controllers
             IEnumerable<Post> posts = PostDAO.GetAllPosts().ToList();   
             //IEnumerable<Friend> friends = FriendDAO.get              
             IEnumerable<Follow> followings = FollowDAO.GetFollowings(currentSessionUser.Username);
-            IEnumerable<Friend> friends = FriendDAO.GetFollowings(currentSessionUser.Username);
+            IEnumerable<Friend> friends = FriendDAO.GetFriendList(currentSessionUser.Username);
+            friends = FriendDAO.SwapColumnFriend(currentSessionUser.Username, friends);
             IEnumerable<Post> posts_privacy;
             IEnumerable<Post> posts_following;
             IEnumerable<Post> posts_friend;
+
+            System.Console.WriteLine("=============f===========");
+            foreach(Friend friend in friends){
+                System.Console.WriteLine(friend.FirstUsername + "====" + friend.SecondUsername);            
+            }
+
 
             posts = PostDAO.GetAllPostsByDeleteStatus(posts);            
             posts_privacy = PostDAO.GetAllPostsByPrivacy(currentSessionUser.Username, posts); 
@@ -57,10 +64,13 @@ namespace WetCat.Controllers
             }  
 
             foreach(Friend friend in friends){
-                posts_following = PostDAO.GetAllPostsByFollowings(currentSessionUser.Username, posts, following);
-                if(posts_following != null)
-                    tempPosts.AddRange(posts_following.ToHashSet());            
+                posts_friend = PostDAO.GetAllPostsByFriends(currentSessionUser.Username, posts, friend);
+                if(posts_friend != null){
+                    tempPosts.AddRange(posts_friend.ToHashSet()); 
+                }           
             }
+
+
 
             System.Console.WriteLine("----------Result-----------");
             foreach(Post p in tempPosts){

@@ -106,10 +106,23 @@ namespace WetCat.DAO
 
         public IEnumerable<Post> GetAllPostsByFollowings(string currentSessionUser, IEnumerable<Post> posts, Follow following){        
             posts = posts.Where(x => 
-            x.PostAuthor == following.FollowedUsername && x.PrivacyMode != "Private"
+            x.PostAuthor == following.FollowedUsername && x.PrivacyMode == "Public"
             );
 
             System.Console.WriteLine("----Followings----" + following.FollowedUsername);
+            foreach(Post i in posts){
+                System.Console.WriteLine(i.PostId + " --- " + i.PostAuthor);
+            }
+            
+            return posts;
+        }
+
+        public IEnumerable<Post> GetAllPostsByFriends(string currentSessionUser, IEnumerable<Post> posts, Friend friend){        
+            posts = posts.Where(x => 
+            (x.PostAuthor == friend.SecondUsername) && x.PrivacyMode == "Friend"
+            );
+
+            System.Console.WriteLine("----Friends----(" + friend.FirstUsername + " .... " + friend.SecondUsername + ")");
             foreach(Post i in posts){
                 System.Console.WriteLine(i.PostId + " --- " + i.PostAuthor);
             }
