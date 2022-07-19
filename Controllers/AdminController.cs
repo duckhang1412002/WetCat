@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WetCat.DAO;
@@ -18,6 +19,9 @@ namespace WetCat.Controllers
         public AdminController(){}
 
         public IActionResult Index(){
+            if (HttpContext.Session.GetString("username") == null) {
+                return RedirectToAction("Index", "Home");
+            }  
             var postLists = PostDAO.GetAllPosts().ToList();
             return View(postLists);
         }

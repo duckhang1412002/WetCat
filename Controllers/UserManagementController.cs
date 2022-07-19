@@ -19,6 +19,9 @@ namespace WetCat.Controllers
         public UserManagementController(){}
 
         public IActionResult Index(){
+            if (HttpContext.Session.GetString("username") == null) {
+                return RedirectToAction("Index", "Home");
+            }  
             var users = UserDAO.GetUsers().ToList();
             return View(users);
         }

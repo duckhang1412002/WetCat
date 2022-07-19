@@ -73,5 +73,12 @@ namespace WetCat.Controllers
             userDAO.RegisterUser(user);
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+        
     }
 }
