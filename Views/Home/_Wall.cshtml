@@ -594,7 +594,21 @@
 												});
 											</script>
 										}	
-									}
+									}	else if (this.Url.PageLink().Substring(this.Url.PageLink().IndexOf("/"+Model.Username+"/") + Model.Username.Length+2) == "edit"){
+											<script>
+												
+												$(window).on("load", function () {
+													$.ajax({
+														url: "@Url.Action("Edit", "User")",
+														success: function (jsReturnArgs) {
+															$("#mainrender").html(jsReturnArgs);
+														}
+													});
+												});
+											</script>
+										}	
+
+
 
 								</div><!-- centerl meta -->
 								<div class="col-lg-3">
