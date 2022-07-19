@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "ViewComment";
+    ViewData["Title"] = "EditComment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,14 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-	<title>View Comment</title>
+	<title>Edit Comment</title>
     <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
-    
-    @* <link rel="stylesheet" href="~/css/main.min.css">
-    <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="~/css/color.css">
-    <link rel="stylesheet" href="~/css/responsive.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> *@
 </head>
 <body>
 	<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
@@ -624,7 +618,7 @@
 																				<a class="dropdown-toggle" href="#" role="button"
 																					id="dropdownMenuLink" data-toggle="dropdown"
 																					aria-haspopup="true" aria-expanded="false"></a>
-																																						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																																							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 																					<a class="dropdown-item" asp-action="EditComment"
 																						asp-controller="Post"
 																						asp-route-commentId="@comment.CommentId">Edit</a>
@@ -635,7 +629,22 @@
 																			</span>
 																		}
 																	</div>
-																	<p>@comment.CommentContent</p>
+																	<p>
+                                                                        @if (comment.CommentId == ViewBag.CommentID) {
+                                                                            <form method="post" asp-action="EditComment">
+																				<input name="commentID" value="@comment.CommentId" hidden>
+                                                                                <textarea placeholder="Post your comment" name="content">@comment.CommentContent</textarea>
+                                                                                <div class="add-smiles" style="padding-right: 10px">
+                                                                                    <button type="submit" style="background-color: white">
+                                                                                        <img src="~/images/send-icon.png">
+                                                                                    </button>
+                                                                                </div>	
+                                                                            </form>            
+                                                                        } else {
+                                                                            <p>@comment.CommentContent</p>
+                                                                        }
+                                                                        
+                                                                    </p>
 																</div>
 																<ul id="reply-@comment.CommentId" class="reply-comment" style="display: none;">
 																	<li class="post-comment">

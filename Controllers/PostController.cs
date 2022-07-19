@@ -202,5 +202,49 @@ namespace WetCat.Controllers
             model.CommentList = cmtList;
             return View(model);      
         }
+
+        [HttpPost]
+        public IActionResult AddComment(int? postID, int? parentID, string content)
+        {
+            if (postID == null || parentID == null || content == null) return NotFound();
+            Comment comment = new Comment();
+            comment.CommentAuthor = HttpContext.Session.GetString("username");
+            comment.CommentTime = DateTime.Now;
+            comment.PostId = postID.Value;
+            comment.CommentContent = content;
+            comment.ParentId = parentID;
+            CommentDAO.AddNewComment(comment);
+            return RedirectToAction("ViewComment", new {postId = postID});
+        }
+
+        public IActionResult EditComment(int? commentId)
+        {
+            if (commentId == null) return NotFound();
+            Comment comment = CommentDAO.GetCommentByCommentID(commentId.Value);
+            Post post = PostDAO.GetPost(comment.PostId);
+            List<Comment> cmtList = CommentDAO.GetCommentByPostID(comment.PostId);
+            if (post == null) System.Console.WriteLine("Post is null!");
+            User currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+            
+            dynamic model = new ExpandoObject();                             
+            model.post = post;
+            model.currentSessionUser = currentSessionUser;
+            model.CommentList = cmtList;
+            ViewBag.CommentID = commentId.Value;
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditComment(int? commentID, string content)
+        {
+            if (commentID == null || content == null) return NotFound();
+            Comment comment = CommentDAO.GetCommentByCommentID(commentID.Value);
+            comment.CommentAuthor = HttpContext.Session.GetString("username");
+            comment.CommentTime = DateTime.Now;
+            comment.CommentContent = content;
+            CommentDAO.UpdateComment(comment);
+            return RedirectToAction("ViewComment", new {postId = comment.PostId});
+        }
+        
     }
 }

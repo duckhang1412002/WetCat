@@ -35,5 +35,41 @@ namespace WetCat.DAO
             }
             return comments;
         }
+
+        public Comment GetCommentByCommentID(int commentID) {
+            Comment comment = null;
+            try {
+                using var context = new WetCat_DBContext();
+                foreach (var cmt in context.Comments.ToList()) {
+                    if (cmt.CommentId == commentID) {
+                        comment = cmt;
+                        break;
+                    }
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return comment;
+        }
+
+        public void AddNewComment(Comment comment) {
+            try {
+                using var _db = new WetCat_DBContext();
+                _db.Comments.Add(comment);
+                _db.SaveChanges();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void UpdateComment(Comment comment) {
+            try {
+                using var _db = new WetCat_DBContext();
+                _db.Comments.Update(comment);
+                _db.SaveChanges();
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
