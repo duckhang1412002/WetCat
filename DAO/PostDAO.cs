@@ -72,7 +72,7 @@ namespace WetCat.DAO
 
             System.Console.WriteLine("------Undelete Post------");
             foreach(Post i in posts){
-                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor + "---" + i.PrivacyMode);
             }
             return posts;
         }
@@ -84,7 +84,7 @@ namespace WetCat.DAO
 
             System.Console.WriteLine("------Admin Post------");
             foreach(Post i in posts){
-                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor + "---" + i.PrivacyMode);
             }
          
             return posts;
@@ -99,7 +99,7 @@ namespace WetCat.DAO
 
             System.Console.WriteLine("----Personal Privacy Post----");
             foreach(Post i in posts){
-                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor + "---" + i.PrivacyMode);
             }
          
             return posts;
@@ -112,7 +112,7 @@ namespace WetCat.DAO
 
             System.Console.WriteLine("----Followings----({0})", following.FollowedUsername);
             foreach(Post i in posts){
-                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor + "---" + i.PrivacyMode);
             }
             
             return posts;
@@ -125,7 +125,7 @@ namespace WetCat.DAO
 
             System.Console.WriteLine("----Friends----({0})", friend.SecondUsername);
             foreach(Post i in posts){
-                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor);
+                System.Console.WriteLine("Post: " + i.PostId + " --- " + i.PostAuthor + "---" + i.PrivacyMode);  
             }
             
             return posts;

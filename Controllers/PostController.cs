@@ -70,13 +70,14 @@ namespace WetCat.Controllers
                 }           
             }
 
+            posts = tempPosts.ToList().OrderByDescending(p => p.PostId);
+            
             System.Console.WriteLine("----------Result Posts-----------");
             foreach(Post post in tempPosts){
-                System.Console.WriteLine("Post: " + post.PostId + "---" + post.PostAuthor);         
+                System.Console.WriteLine("Post: " + post.PostId + "---" + post.PostAuthor + "---" + post.PrivacyMode);         
             }
-
-            posts = tempPosts.ToList();                  
-            model.postsList = posts.Reverse(); 
+                            
+            model.postsList = posts; 
             model.currentSessionUser = currentSessionUser;
             return View(model);        
         }  
