@@ -35,19 +35,19 @@ namespace WetCat.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=123456;database=WetCat_DB");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AI");
 
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.HasKey(e => new { e.CommentId, e.PostId })
-                    .HasName("PK__comment__94780EF1F11FA75C");
+                    .HasName("PK__comment__94780EF124FE0A17");
 
                 entity.ToTable("comment");
 
@@ -91,7 +91,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Follow>(entity =>
             {
                 entity.HasKey(e => new { e.FollowerUsername, e.FollowedUsername })
-                    .HasName("PK__follow__127834062431B271");
+                    .HasName("PK__follow__12783406E5CE3132");
 
                 entity.ToTable("follow");
 
@@ -111,19 +111,19 @@ namespace WetCat.Models
                     .WithMany(p => p.FollowFollowedUsernameNavigations)
                     .HasForeignKey(d => d.FollowedUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__follow__followed__46E78A0C");
+                    .HasConstraintName("FK__follow__followed__48CFD27E");
 
                 entity.HasOne(d => d.FollowerUsernameNavigation)
                     .WithMany(p => p.FollowFollowerUsernameNavigations)
                     .HasForeignKey(d => d.FollowerUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__follow__follower__45F365D3");
+                    .HasConstraintName("FK__follow__follower__47DBAE45");
             });
 
             modelBuilder.Entity<Friend>(entity =>
             {
                 entity.HasKey(e => new { e.FirstUsername, e.SecondUsername })
-                    .HasName("PK__friend__13CF4392900C6BDA");
+                    .HasName("PK__friend__13CF4392172071B3");
 
                 entity.ToTable("friend");
 
@@ -149,13 +149,13 @@ namespace WetCat.Models
                     .WithMany(p => p.FriendFirstUsernameNavigations)
                     .HasForeignKey(d => d.FirstUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__friend__first_us__49C3F6B7");
+                    .HasConstraintName("FK__friend__first_us__4BAC3F29");
 
                 entity.HasOne(d => d.SecondUsernameNavigation)
                     .WithMany(p => p.FriendSecondUsernameNavigations)
                     .HasForeignKey(d => d.SecondUsername)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__friend__second_u__4AB81AF0");
+                    .HasConstraintName("FK__friend__second_u__4CA06362");
             });
 
             modelBuilder.Entity<Hobby>(entity =>
@@ -174,7 +174,7 @@ namespace WetCat.Models
             modelBuilder.Entity<HobbyList>(entity =>
             {
                 entity.HasKey(e => new { e.HobbyId, e.Username })
-                    .HasName("PK__hobby_li__84F68163A150921F");
+                    .HasName("PK__hobby_li__84F68163EA7B8395");
 
                 entity.ToTable("hobby_list");
 
@@ -191,19 +191,19 @@ namespace WetCat.Models
                     .WithMany(p => p.HobbyLists)
                     .HasForeignKey(d => d.HobbyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__hobby_lis__hobby__3B75D760");
+                    .HasConstraintName("FK__hobby_lis__hobby__3D5E1FD2");
 
                 entity.HasOne(d => d.UsernameNavigation)
                     .WithMany(p => p.HobbyLists)
                     .HasForeignKey(d => d.Username)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__hobby_lis__usern__3C69FB99");
+                    .HasConstraintName("FK__hobby_lis__usern__3E52440B");
             });
 
             modelBuilder.Entity<Notification>(entity =>
             {
                 entity.HasKey(e => e.NotificationType)
-                    .HasName("PK__notifica__9C93F2792A676B65");
+                    .HasName("PK__notifica__9C93F279EC29EC38");
 
                 entity.ToTable("notification");
 
@@ -223,11 +223,16 @@ namespace WetCat.Models
             modelBuilder.Entity<NotificationList>(entity =>
             {
                 entity.HasKey(e => e.NotificationId)
-                    .HasName("PK__notifica__E059842F5B31E059");
+                    .HasName("PK__notifica__E059842FE3AE0F6B");
 
                 entity.ToTable("notification_list");
 
                 entity.Property(e => e.NotificationId).HasColumnName("notification_id");
+
+                entity.Property(e => e.Causer)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("causer");
 
                 entity.Property(e => e.CommentId).HasColumnName("comment_id");
 
@@ -245,11 +250,26 @@ namespace WetCat.Models
 
                 entity.Property(e => e.PostId).HasColumnName("post_id");
 
+                entity.Property(e => e.Target)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("target");
+
+                entity.HasOne(d => d.CauserNavigation)
+                    .WithMany(p => p.NotificationListCauserNavigations)
+                    .HasForeignKey(d => d.Causer)
+                    .HasConstraintName("FK__notificat__cause__35BCFE0A");
+
                 entity.HasOne(d => d.NotificationTypeNavigation)
                     .WithMany(p => p.NotificationLists)
                     .HasForeignKey(d => d.NotificationType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__notificat__notif__33D4B598");
+
+                entity.HasOne(d => d.TargetNavigation)
+                    .WithMany(p => p.NotificationListTargetNavigations)
+                    .HasForeignKey(d => d.Target)
+                    .HasConstraintName("FK__notificat__targe__34C8D9D1");
 
                 entity.HasOne(d => d.Comment)
                     .WithMany(p => p.NotificationLists)
@@ -299,7 +319,7 @@ namespace WetCat.Models
             modelBuilder.Entity<React>(entity =>
             {
                 entity.HasKey(e => e.ReactType)
-                    .HasName("PK__react__F604EFCD30C35268");
+                    .HasName("PK__react__F604EFCD3E3C9A1E");
 
                 entity.ToTable("react");
 
@@ -319,7 +339,7 @@ namespace WetCat.Models
             modelBuilder.Entity<ReactList>(entity =>
             {
                 entity.HasKey(e => new { e.ReactType, e.PostId, e.Username })
-                    .HasName("PK__react_li__F71A4C7EF378CD09");
+                    .HasName("PK__react_li__F71A4C7E2B069063");
 
                 entity.ToTable("react_list");
 
@@ -341,25 +361,25 @@ namespace WetCat.Models
                     .WithMany(p => p.ReactLists)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__react_lis__post___37A5467C");
+                    .HasConstraintName("FK__react_lis__post___398D8EEE");
 
                 entity.HasOne(d => d.ReactTypeNavigation)
                     .WithMany(p => p.ReactLists)
                     .HasForeignKey(d => d.ReactType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__react_lis__react__36B12243");
+                    .HasConstraintName("FK__react_lis__react__38996AB5");
 
                 entity.HasOne(d => d.UsernameNavigation)
                     .WithMany(p => p.ReactLists)
                     .HasForeignKey(d => d.Username)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__react_lis__usern__38996AB5");
+                    .HasConstraintName("FK__react_lis__usern__3A81B327");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Username)
-                    .HasName("PK__user__F3DBC57380B97BA1");
+                    .HasName("PK__user__F3DBC57359859C45");
 
                 entity.ToTable("user");
 
@@ -420,7 +440,7 @@ namespace WetCat.Models
             modelBuilder.Entity<Warning>(entity =>
             {
                 entity.HasKey(e => e.WarningType)
-                    .HasName("PK__warning__0F27B8CD4876F419");
+                    .HasName("PK__warning__0F27B8CD9168EE23");
 
                 entity.ToTable("warning");
 
@@ -440,7 +460,7 @@ namespace WetCat.Models
             modelBuilder.Entity<WarningList>(entity =>
             {
                 entity.HasKey(e => e.WarningId)
-                    .HasName("PK__warning___DFF7B6E506A09364");
+                    .HasName("PK__warning___DFF7B6E5CDC8E77A");
 
                 entity.ToTable("warning_list");
 
@@ -480,18 +500,18 @@ namespace WetCat.Models
                     .WithMany(p => p.WarningLists)
                     .HasForeignKey(d => d.Username)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__warning_l__usern__412EB0B6");
+                    .HasConstraintName("FK__warning_l__usern__4316F928");
 
                 entity.HasOne(d => d.WarningTypeNavigation)
                     .WithMany(p => p.WarningLists)
                     .HasForeignKey(d => d.WarningType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__warning_l__warni__4316F928");
+                    .HasConstraintName("FK__warning_l__warni__44FF419A");
 
                 entity.HasOne(d => d.Comment)
                     .WithMany(p => p.WarningLists)
                     .HasForeignKey(d => new { d.CommentId, d.PostId })
-                    .HasConstraintName("FK__warning_list__4222D4EF");
+                    .HasConstraintName("FK__warning_list__440B1D61");
             });
 
             OnModelCreatingPartial(modelBuilder);

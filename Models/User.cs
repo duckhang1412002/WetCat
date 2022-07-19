@@ -39,6 +39,9 @@ namespace WetCat.Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Follow> FollowFollowedUsernameNavigations { get; set; }
         public virtual ICollection<Follow> FollowFollowerUsernameNavigations { get; set; }
+
+        public virtual ICollection<NotificationList> NotificationListCauserNavigations { get; set; }
+        public virtual ICollection<NotificationList> NotificationListTargetNavigations { get; set; }
         public virtual ICollection<Friend> FriendFirstUsernameNavigations { get; set; }
         public virtual ICollection<Friend> FriendSecondUsernameNavigations { get; set; }
         public virtual ICollection<HobbyList> HobbyLists { get; set; }
@@ -47,3 +50,4 @@ namespace WetCat.Models
         public virtual ICollection<WarningList> WarningLists { get; set; }
     }
 }
+

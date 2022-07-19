@@ -16,6 +16,12 @@
 	<meta name="keywords" content="" />
 	<title>Winku Social Network Toolkit</title>
 	<link rel="icon" href="images/fav.png" type="image/png" sizes="16x16">
+
+	@* <link rel="stylesheet" href="css/main.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/color.css">
+	<link rel="stylesheet" href="css/responsive.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> *@
 </head>
 
 <body>
@@ -80,7 +86,7 @@
 							<li><a href="edit-work-eductation.html" title="">edit work educations</a></li>
 							<li><a href="messages.html" title="">message box</a></li>
 							<li><a href="inbox.html" title="">Inbox</a></li>
-							<li><a href="/NotificationList/NotificationList" title="">notifications page</a></li>
+							<li><a href="notifications.html" title="">notifications page</a></li>
 						</ul>
 					</li>
 					<li><span>forum</span>
@@ -414,8 +420,8 @@
 								class="ti-themify-favicon"></i></a></li>
 					<li><a href="widgets.html" title="Widgets" data-toggle="tooltip" data-placement="right"><i
 								class="ti-eraser"></i></a></li>
-					<li><a href="/NotificationList/NotificationList" title="Notification" data-toggle="tooltip"
-							data-placement="right"><span>@Model.countNoti</span><i class="ti-bookmark-alt"></i></a></li>
+					<li><a href="notifications.html" title="Notification" data-toggle="tooltip"
+							data-placement="right"><i class="ti-bookmark-alt"></i></a></li>
 				</ul>
 			</div>
 		</div><!-- left sidebar menu -->
@@ -460,18 +466,8 @@
 													<a href="messages.html" title="">Messages</a>
 												</li>
 												<li>
-													<i class="ti-bell"></i><span id="notiCnt" style="color: red;">@Model.countNoti</span>
-													<a href="/NotificationList/NotificationList" title="">Notifications</a>
-													<script>
-														$(window).on("mousemove", function () {
-														$.ajax({
-															url: "@Url.Action("NotiCount", "NotificationList")",
-															success: function (jsReturnArgs) {
-																$("#notiCnt").html(jsReturnArgs);
-															}
-														});
-														});
-													</script>
+													<i class="ti-bell"></i>
+													<a href="notifications.html" title="">Notifications</a>
 												</li>
 												<li>
 													<i class="ti-share"></i>
@@ -492,203 +488,40 @@
 
 								<div class="col-lg-6">
 									<div class="central-meta">
-										<div class="new-postbox w-100">
-											<div class="currentUserSession flex-container w-100">
-												<img src="@Model.currentSessionUser.AvatarSrc" alt="avt"
-													class="img-avt">
-												<span id="currentUserSession-username"><ins><a href="..."
-															title="">@Model.currentSessionUser.Nickname</a></ins></span>
-												<span class="dropdown show" id="post-privacy">
-													<button class="dropdown-toggle btn" href="#" role="button"
-														id="privacy-list" data-toggle="dropdown" aria-haspopup="true"
-														aria-expanded="false">
-														<a class="fa fa-globe"></a><span>Public</span>
-													</button>
-													<div class="dropdown-menu" aria-labelledby="privacy-list">
-														<a class="dropdown-item fa fa-globe"
-															id="privacy-list-public"><span
-																value="Public">Public</span></a>
-														<a class="dropdown-item fa fa-user"
-															id="privacy-list-friend"><span
-																value="Friend">Friend</span></a>
-														<a class="dropdown-item fa fa-lock"
-															id="privacy-list-private"><span
-																value="Private">Private</span></a>
-													</div>
-												</span>
-											</div>
-											<div class="newpst-input">
-												<form id="post-form-create" method="post" asp-action="CreatePost"
-													asp-controller="Post" enctype="multipart/form-data">
-													<div>
-														<input id="privacy" type="text" name="privacy" value="Public"
-															hidden>
-
-														<div id="img-file">
-															<label for="file"></label>
-															<input type="file" name="file" accept="image/*">
-														</div>
-
-														<div>
-															<label for="content"></label>
-															<textarea form="post-form-create" rows="3"
-																placeholder="Write something" name="content"
-																required></textarea>
-															</br>
-														</div>
-														</br>
-													</div>
-
-													<div class="attachments">
-														<button type="submit">Post</button>
-													</div>
-												</form>
-											</div>
+									<div class="editing-interest">
+										<h5 class="f-title"><i class="ti-bell"></i>All Notifications </h5>
+										<div class="notification-box">
+											<ul>
+                                                @foreach (NotificationList item in Model)
+                                                {
+                                                    <li>
+                                                        <figure><img src="@item.CauserNavigation.AvatarSrc" alt=""></figure>
+                                                        <div class="notifi-meta">
+                                                            @if (item.NotificationType == "accept"){
+                                                                <a href="/Wall/@item.Causer/timeline"><p> @item.CauserNavigation.Nickname Accept your friend Request</p></a>
+                                                            } else if (item.NotificationType == "request"){
+                                                                <a href="/Wall/@item.Causer/timeline"><p>@item.CauserNavigation.Nickname Send you a friend Request</p></a>
+                                                            } else if (item.NotificationType == "comment"){
+                                                                <a href="/Post/ViewComment/@item.PostId"><p> @item.CauserNavigation.Nickname Comment on your post</p></a>
+                                                            } else if (item.NotificationType == "reply"){
+                                                                <a href="/Post/ViewComment/@item.PostId"><p> @item.CauserNavigation.Nickname Reply on your comment</p></a>
+                                                            } else if (item.NotificationType == "react"){
+                                                                <a href="/Post/ViewComment/@item.PostId"><p> @item.CauserNavigation.Nickname React on your post</p></a>
+                                                            }
+                                                            <span>at @item.NotifyTime.ToString("dd/MM/yyyy, HH:mm:ss")</span>
+                                                            
+                                                            
+                                                        </div>
+                                                        <i class="del fa fa-close"></i>
+                                                    </li>
+                                                }
+												
+											</ul>
 										</div>
-									</div><!-- add post new box -->
-
-									<div class="loadMore" id="showtable">
-										@foreach (var item in Model.postsList)
-										{
-											<section class="central-meta item">
-
-												<div class="container user-post">
-													<div class="row friend-info">
-														<div class="col-2" id="avt">
-															<img class="img-avt" id="post-id"
-															src="@item.PostAuthorNavigation.AvatarSrc"
-															alt="@item.PostId">
-														</div>
-														@if (Model.currentSessionUser.Username == item.PostAuthor)
-														{
-															<div class="col-9 friend-name">
-																<ins class="row"><a href="..."
-																title="">@item.PostAuthorNavigation.Nickname</a></ins>
-																<span class="row">@item.PostTime</span>
-															</div>
-															<div class="col-1 dropdown show">
-																<a class="dropdown-toggle" href="#" role="button"
-																	id="dropdownMenuLink" data-toggle="dropdown"
-																	aria-haspopup="true" aria-expanded="false"></a>
-																<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-																	<a class="dropdown-item" asp-action="EditPost"
-																asp-controller="Post"
-																asp-route-postId="@item.PostId">Edit</a>
-																	<a class="dropdown-item" asp-action="DeletePost"
-																asp-controller="Post"
-																asp-route-postId="@item.PostId">Delete</a>
-																</div>
-															</div>
-														}
-														else
-														{
-															<div class="col-10 friend-name">
-																<ins class="row"><a href="time-line.html"
-																title="">@item.PostAuthorNavigation.Nickname</a></ins>
-																<span class="row">@item.PostTime</span>
-															</div>
-														}
-													</div>
-													<div class="row post-meta">
-														@if (item.PostImgSrc != null)
-														{
-															<img src="@item.PostImgSrc" class="img img-fluid" alt="image">
-														}
-														<div class="we-video-info">
-															<ul>
-																<li>
-																	<span class="views" data-toggle="tooltip" title="views">
-																		<i class="fa fa-eye"></i>
-																		<ins>1.2k</ins>
-																	</span>
-																</li>
-																<li>
-																	<a asp-action="ViewComment" asp-controller="Post" asp-route-postId="@item.PostId">
-																	<span class="comment" data-toggle="tooltip"
-																	title="Comments">
-																		<i class="fa fa-comments-o"></i>
-																		<ins>52</ins>
-																	</span>
-																	</a>
-																</li>
-																<li>
-																	<span class="like" data-toggle="tooltip" title="like">
-																		<i class="ti-heart"></i>
-																		<ins>2.2k</ins>
-																	</span>
-																</li>
-																<li>
-																	<span class="dislike" data-toggle="tooltip"
-																	title="dislike">
-																		<i class="ti-heart-broken"></i>
-																		<ins>200</ins>
-																	</span>
-																</li>
-																<li class="social-media">
-																	<div class="menu">
-																		<div class="btn trigger"><i
-																			class="fa fa-share-alt"></i></div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i class="fa fa-html5"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-facebook"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-google-plus"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-twitter"></i></a></div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i class="fa fa-css3"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-instagram"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-dribbble"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-pinterest"></i></a>
-																			</div>
-																		</div>
-
-																	</div>
-																</li>
-															</ul>
-														</div>
-														<div class="description">
-															<p>
-																@item.PostContent
-															</p>
-														</div>
-													</div>
-												</div>
-											</section>
-										}
-
 									</div>
+								</div>	
+
+									
 								</div><!-- centerl meta -->
 								<div class="col-lg-3"></div><!-- sidebar -->
 							</div>
@@ -776,6 +609,11 @@
 	</div><!-- side panel -->
 
 	<script src="~/js/map-init.js"></script>
+	@* <script src="~/js/main.min.js"></script>
+	<script src="~/js/script.js"></script>
+	<script src="~/js/map-init.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script> *@
+
 </body>
 
 </html>
