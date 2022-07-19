@@ -17,11 +17,11 @@
 	<title>View Comment</title>
     <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
     
-    <link rel="stylesheet" href="~/css/main.min.css">
+    @* <link rel="stylesheet" href="~/css/main.min.css">
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/color.css">
     <link rel="stylesheet" href="~/css/responsive.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> *@
 </head>
 <body>
 	<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
@@ -484,8 +484,8 @@
 															</div>
 															<div class="col-1 dropdown show">
 																<a class="dropdown-toggle" href="#" role="button"
-															id="dropdownMenuLink" data-toggle="dropdown"
-															aria-haspopup="true" aria-expanded="false"></a>
+																	id="dropdownMenuLink" data-toggle="dropdown"
+																	aria-haspopup="true" aria-expanded="false"></a>
 																<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 																	<a class="dropdown-item" asp-action="EditPost"
 																asp-controller="Post"
@@ -595,9 +595,7 @@
 															</ul>
 														</div>
 														<div class="description">
-															<p>
-																@Model.post.PostContent
-															</p>
+															<p>@Model.post.PostContent</p>
 														</div>
 													</div>
 												</div>
@@ -605,14 +603,11 @@
 													<ul class="we-comet">
                                                         @foreach (var comment in Model.CommentList)
                                                         {
+															bool hasChild = false; 
+															foreach (var reply in Model.CommentList)
+                                                     			if (reply.ParentId == comment.CommentId)
+																	hasChild = true;
                                                             if (comment.ParentId != null) continue;
-                                                            bool hasChild = false;
-                                                            foreach(var cmt in Model.CommentList) {
-                                                                if (cmt.ParentId == comment.CommentId) {
-                                                                    hasChild = true;
-                                                                    break;
-                                                                }
-                                                            }
                                                             <li>
 																<div class="comet-avatar">
 																	<img src="~/@comment.CommentAuthorNavigation.AvatarSrc" alt="">
@@ -654,7 +649,7 @@
                                                         }
                                                         <li>
 															<div class="comet-avatar">
-																<img src="images/resources/comet-1.jpg" alt="">
+																<img src="~/images/resources/comet-1.jpg" alt="">
 															</div>
 															<div class="we-comment">
 																<div class="coment-head">
@@ -671,7 +666,7 @@
 															<ul>
 																<li>
 																	<div class="comet-avatar">
-																		<img src="images/resources/comet-2.jpg" alt="">
+																		<img src="~/images/resources/comet-2.jpg" alt="">
 																	</div>
 																	<div class="we-comment">
 																		<div class="coment-head">
@@ -704,7 +699,37 @@
 																			really outstanding than lexus</p>
 																	</div>
 																</li>
+																<li class="post-comment">
+															<div class="comet-avatar">
+																<img src="~/images/resources/comet-1.jpg" alt="">
+															</div>
+															<div class="post-comt-box">
+																<form method="post">
+																	<textarea placeholder="Post your comment"></textarea>
+																	<div class="add-smiles">
+																		<span class="em em-expressionless"
+																		title="add icon"></span>
+																	</div>
+																	<button type="submit"></button>
+																</form>
+															</div>
+														</li>			
 															</ul>
+														</li>
+                                                        <li class="post-comment">
+															<div class="comet-avatar">
+																<img src="~/images/resources/comet-1.jpg" alt="">
+															</div>
+															<div class="post-comt-box">
+																<form method="post">
+																	<textarea placeholder="Post your comment"></textarea>
+																	<div class="add-smiles">
+																		<span class="em em-expressionless"
+																		title="add icon"></span>
+																	</div>
+																	<button type="submit"></button>
+																</form>
+															</div>
 														</li>			
 													</ul>
 												</div>
@@ -794,9 +819,9 @@
 			</form>
 		</div><!-- side panel -->		
 	
-	<script src="~/js/main.min.js"></script>
+	@* <script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
 	<script src="~/js/map-init.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script> *@
 </body>	
 </html>
