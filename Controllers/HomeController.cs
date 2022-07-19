@@ -16,7 +16,7 @@ using System.Dynamic;
 namespace WetCat.Controllers
 {
     public class HomeController : Controller
-    {
+    { 
         UserDAO userDAO = null;
         PostDAO postDAO = null;
         FollowDAO followDAO = null;
@@ -39,8 +39,10 @@ namespace WetCat.Controllers
             HttpContext.Session.SetString("username", "");            
             try {
                 if (ModelState.IsValid) {
+                    System.Console.WriteLine("HI");
                     User user = userDAO.LoginByUsernameAndPassword(username, password);
                     if (user.Username != null) {
+                        System.Console.WriteLine("Found user");
                         HttpContext.Session.SetString("username", user.Username);  
                         if (user.Role == "Admin") 
                             return RedirectToAction("Index", "Admin"); 
@@ -54,22 +56,42 @@ namespace WetCat.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Wall(){
+        [HttpGet("/Wall/{usn}/{what}")]
+        public IActionResult Wall(string usn, string what){
             /*if (HttpContext.Session.GetString("username") == null) {
                 return RedirectToAction("Index", "Home");
             }*/
-
+            System.Console.WriteLine("Xin chao " + usn);
             dynamic model = new ExpandoObject();
-            model.following = followDAO.GetFollowings(HttpContext.Session.GetString("username"));
-            model.followers = followDAO.GetFollowers(HttpContext.Session.GetString("username"));
-            return View(model);   
+            User user = userDAO.GetUserByUsername(usn);
+            return View("/Views/Home/_Wall.cshtml", user);
+        }
+
+        public IActionResult Timeline(string id){
+            System.Console.WriteLine("timeline " + id);
+            PostDAO postDAO = new PostDAO();
+            List<Post> list = postDAO.GetPostByUsername(id);
+            foreach(Post i in list){
+                System.Console.WriteLine("Troi oi" + i.PostAuthor);
+            }
+            return View("/Views/Home/Timeline.cshtml", list.Reverse<Post>().ToList());
         }
         
-        
+        public IActionResult Follow(string id){
+            System.Console.WriteLine("Con cho " + id);
+            List<Follow> Followings = followDAO.GetFollowings(id);
+            return View("/Views/Follow/Followings.cshtml",Followings);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(User user) {
-            System.Console.WriteLine(user.Username + " " + user.Password + " " + user.Gender);
+        public IActionResult Register(User user, string confirmPassword, string Gender) {
+            System.Console.WriteLine(user.Username + " " + user.Password + " " + confirmPassword + " " + user.Gender);
+            if (user.Password != confirmPassword) {
+                System.Console.WriteLine("Confirm password is wrong");
+                return RedirectToAction("Index", "Home");
+            }
+            user.Gender = (Gender == "Male") ? 1 : 0;
             userDAO.RegisterUser(user);
             return RedirectToAction("Index", "Home");
         }

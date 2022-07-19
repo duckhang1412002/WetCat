@@ -1,0 +1,11 @@
+@model Follow
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    if (Model.FollowerUsername == ""){
+        <a onclick='window.location = "@Url.Action("Follow","Follow", new {usn = Model.FollowedUsername })";' title="" id="follow-status" data-ripple="">Follow</a>
+    } else{
+        <a onclick='window.location = "@Url.Action("UnfollowAtWall","Follow", new {usn = Model.FollowedUsername })";' title="" id="follow-status" data-ripple="">Unfollow</a>
+    }
+}

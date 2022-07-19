@@ -9,10 +9,10 @@
 	<title>Winku Social Network Toolkit</title>
     <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
     
-    <link rel="stylesheet" href="css/main.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/color.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="~/css/main.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/color.css">
+    <link rel="stylesheet" href="~/css/responsive.css">
 
 </head>
 <body>
@@ -73,25 +73,25 @@
 							  <label class="control-label" for="input">Password</label><i class="mtrl-select"></i>
 							</div>
 							<div class="form-group">	
-							  <input type="password" required="required" asp-for="ConfirmPassword"/>
+							  <input type="password" required="required" name="ConfirmPassword"/>
 							  <label class="control-label" for="input">Confirm Password</label><i class="mtrl-select"></i>
 							</div>
 							<div class="form-group">	
 							  <input type="text" required="required" asp-for="Nickname"/>
 							  <label class="control-label" for="input">Nickname</label><i class="mtrl-select"></i>
 							</div>
-							<!--div class="form-radio">
+							<div class="form-radio">
 							  <div class="radio">
 								<label>
-								  <input type="radio" name="radio" checked="checked" asp-for="Gender" value="1"/><i class="check-box"></i>Male
+								  <input type="radio" name="radio" checked="checked" name="Gender" value="Male"/><i class="check-box"></i>Male
 								</label>
 							  </div>
 							  <div class="radio">
 								<label>
-								  <input type="radio" name="radio" asp-for="Gender" value="0"/><i class="check-box"></i>Female
+								  <input type="radio" name="radio" name="Gender" value="Female"/><i class="check-box"></i>Female
 								</label>
 							  </div>
-							</div-->
+							</div>
 							<div class="form-group">	
 							  <input type="text" required="required" asp-for="UserMail"/>
 							  <label class="control-label" for="input"><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c29010d05002c">[email&#160;protected]</a></label><i class="mtrl-select"></i>
