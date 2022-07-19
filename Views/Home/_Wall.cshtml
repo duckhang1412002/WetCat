@@ -25,7 +25,6 @@
 	<link rel="stylesheet" href="~/css/pixelarity.css">
 	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 	<script src="~/js/main.min.js"></script>
-	<script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
 
 </head>
@@ -34,7 +33,6 @@
 
 	<!--<div class="se-pre-con"></div>-->
 	<div class="theme-layout">
-
 		<div class="responsive-header">
 			<div class="mh-head first Sticky">
 				<span class="mh-btns-left">
@@ -388,16 +386,18 @@
 
 		<section>
 			<div class="feature-photo">
-				<figure>
 					@if (Model == null || Model.BackgroundSrc == null)
 					{
-						<img src="~/images/resources/timeline-1.jpg" alt="">
+						<figure style="width: auto;">
+							<img src="~/images/resources/timeline-1.jpg" alt="">
+						</figure>
 					}
 					else
 					{
-						<img src="~/@Model.BackgroundSrc" alt="">
-					}
-				</figure>
+						<figure>
+							<img src="~/@Model.BackgroundSrc" alt="">
+						</figure>
+					}	
 				<div class="add-btn">
 					<span id="followers-count"></span>
 					@if (Model.Username.ToString() != HttpContextAccessor.HttpContext.Session.GetString("username"))

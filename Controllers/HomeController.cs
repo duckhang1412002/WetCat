@@ -57,9 +57,6 @@ namespace WetCat.Controllers
 
         [HttpGet("/Wall/{usn}/{what}")]
         public IActionResult Wall(string usn, string what){
-            /*if (HttpContext.Session.GetString("username") == null) {
-                return RedirectToAction("Index", "Home");
-            }*/
             System.Console.WriteLine("Xin chao " + usn);
             dynamic model = new ExpandoObject();
             User user = userDAO.GetUserByUsername(usn);
@@ -87,7 +84,14 @@ namespace WetCat.Controllers
         public IActionResult Register(User user, string confirmPassword, string Gender) {
             System.Console.WriteLine(user.Username + " " + user.Password + " " + confirmPassword + " " + user.Gender);
             if (user.Password != confirmPassword) {
-                System.Console.WriteLine("Confirm password is wrong");
+                ViewBag.ConfirmPassword = "Confirm password is wrong";
+                //System.Console.WriteLine("Confirm password is wrong");
+                return RedirectToAction("Index", "Home");
+            }
+            User _user = userDAO.GetUserByUsername(user.Username);
+            if (_user != null) {
+                ViewBag.UserExisted = "Username already existed";
+                //System.Console.WriteLine("User already existed");
                 return RedirectToAction("Index", "Home");
             }
             user.Gender = (Gender == "Male") ? 1 : 0;

@@ -81,6 +81,19 @@ namespace WetCat.Controllers
             return View(model);        
         }  
 
+        public IActionResult DeletePost(int? postId){
+            System.Console.WriteLine(postId);
+            Post post = PostDAO.FindPost(postId.Value);
+            //System.Console.WriteLine("OK");
+
+            if(post != null){
+                post.IsDeleted = 1;
+                PostDAO.EditPost(post);
+            }
+            return RedirectToAction(nameof(Index));   
+        }
+
+
         [HttpPost]  
         [ValidateAntiForgeryToken]  
         public IActionResult CreatePost(string content, IFormFile file, string privacy)  
@@ -130,11 +143,12 @@ namespace WetCat.Controllers
                 return NotFound();
             }
 
-            System.Console.WriteLine("Post: " + postId);
-            System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
+            //System.Console.WriteLine("Post: " + postId);
+            //System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
 
 
             Post post = PostDAO.GetPost(postId.Value);
+            if (post.IsDeleted == 1) return NotFound();
             User currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
 
             dynamic model = new ExpandoObject();                             
@@ -178,14 +192,6 @@ namespace WetCat.Controllers
             return RedirectToAction(nameof(Index));  
         }
 
-        public IActionResult ShowComment(string id)
-        {
-            System.Console.WriteLine("Xin chao ngay mai");
-            System.Console.WriteLine("HELOOOOO" + id);
-            IEnumerable<Comment> model = null; //Temp to test
-            return PartialView("/Views/Post/_PostComment.cshtml", model);
-        }
-
         [HttpGet("/Post/ViewComment/{postId}")]
         public IActionResult ViewComment(int? postId){
             if(postId == null){
@@ -222,8 +228,9 @@ namespace WetCat.Controllers
             if (commentId == null) return NotFound();
             Comment comment = CommentDAO.GetCommentByCommentID(commentId.Value);
             Post post = PostDAO.GetPost(comment.PostId);
+            if (post.IsDeleted == 1 || comment.IsDeleted == 1) return NotFound();
             List<Comment> cmtList = CommentDAO.GetCommentByPostID(comment.PostId);
-            if (post == null) System.Console.WriteLine("Post is null!");
+            //if (post == null) System.Console.WriteLine("Post is null!");
             User currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
             
             dynamic model = new ExpandoObject();                             
