@@ -206,7 +206,7 @@ namespace WetCat.Controllers
         [HttpPost]
         public IActionResult AddComment(int? postID, int? parentID, string content)
         {
-            if (postID == null || parentID == null || content == null) return NotFound();
+            if (postID == null || content == null) return NotFound();
             Comment comment = new Comment();
             comment.CommentAuthor = HttpContext.Session.GetString("username");
             comment.CommentTime = DateTime.Now;
@@ -242,6 +242,15 @@ namespace WetCat.Controllers
             comment.CommentAuthor = HttpContext.Session.GetString("username");
             comment.CommentTime = DateTime.Now;
             comment.CommentContent = content;
+            CommentDAO.UpdateComment(comment);
+            return RedirectToAction("ViewComment", new {postId = comment.PostId});
+        }
+
+        public IActionResult DeleteComment(int? commentId)
+        {
+            if (commentId == null) return NotFound();
+            Comment comment = CommentDAO.GetCommentByCommentID(commentId.Value);
+            comment.IsDeleted = 1;
             CommentDAO.UpdateComment(comment);
             return RedirectToAction("ViewComment", new {postId = comment.PostId});
         }

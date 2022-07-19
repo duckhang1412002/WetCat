@@ -30,6 +30,7 @@ namespace WetCat.DAO
                     UserDAO userDAO = new UserDAO();
                     cm.CommentAuthorNavigation = userDAO.GetUserByUsername(cm.CommentAuthor);
                 }
+                comments.RemoveAll(x => x.IsDeleted == 1);
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
@@ -46,6 +47,7 @@ namespace WetCat.DAO
                         break;
                     }
                 }
+                if (comment.IsDeleted == 1) return null;
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }

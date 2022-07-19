@@ -42,7 +42,6 @@ namespace WetCat.Controllers
                     System.Console.WriteLine("HI");
                     User user = userDAO.LoginByUsernameAndPassword(username, password);
                     if (user.Username != null) {
-                        System.Console.WriteLine("Found user");
                         HttpContext.Session.SetString("username", user.Username);  
                         if (user.Role == "Admin") 
                             return RedirectToAction("Index", "Admin"); 
