@@ -40,6 +40,10 @@ namespace WetCat.DAO
             try {
                 using var _db = new WetCat_DBContext();
                 post = _db.Posts.Find(postId);
+                var user = FindByUsername(post.PostAuthor);
+                if (user != null) {
+                    post.PostAuthorNavigation = user;
+                }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }

@@ -21,7 +21,7 @@ namespace WetCat.Controllers
         PostDAO PostDAO = new PostDAO();
         UserDAO UserDAO = new UserDAO();
         FollowDAO FollowDAO = new FollowDAO();
-
+        CommentDAO CommentDAO = new CommentDAO();
         FriendDAO FriendDAO = new FriendDAO();
         public PostController(){}
         private string currentSessionUser = null;
@@ -184,6 +184,23 @@ namespace WetCat.Controllers
             System.Console.WriteLine("HELOOOOO" + id);
             IEnumerable<Comment> model = null; //Temp to test
             return PartialView("/Views/Post/_PostComment.cshtml", model);
+        }
+
+        [HttpGet("/Post/ViewComment/{postId}")]
+        public IActionResult ViewComment(int? postId){
+            if(postId == null){
+                return NotFound();
+            }
+            Post post = PostDAO.GetPost(postId.Value);
+            List<Comment> cmtList = CommentDAO.GetCommentByPostID(postId.Value);
+            if (post == null) System.Console.WriteLine("Post is null!");
+            User currentSessionUser = UserDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+            
+            dynamic model = new ExpandoObject();                             
+            model.post = post;
+            model.currentSessionUser = currentSessionUser;
+            model.CommentList = cmtList;
+            return View(model);      
         }
     }
 }

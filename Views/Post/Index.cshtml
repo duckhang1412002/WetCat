@@ -17,11 +17,11 @@
 	<title>Winku Social Network Toolkit</title>
 	<link rel="icon" href="images/fav.png" type="image/png" sizes="16x16">
 
-	<link rel="stylesheet" href="css/main.min.css">
+	@* <link rel="stylesheet" href="css/main.min.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/color.css">
 	<link rel="stylesheet" href="css/responsive.css">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> *@
 </head>
 
 <body>
@@ -543,7 +543,7 @@
 										</div>
 									</div><!-- add post new box -->
 
-									<div class="loadMore" id="showtable" style="position: absolute;">
+									<div class="loadMore" id="showtable">
 										@foreach (var item in Model.postsList)
 										{
 											<section class="central-meta item">
@@ -599,11 +599,13 @@
 																	</span>
 																</li>
 																<li>
-																	<button class="comment" id="viewbtn"
-																	data-toggle="tooltip" title="Comments">
+																	<a asp-action="ViewComment" asp-controller="Post" asp-route-postId="@item.PostId">
+																	<span class="comment" data-toggle="tooltip"
+																	title="Comments">
 																		<i class="fa fa-comments-o"></i>
 																		<ins>52</ins>
-																	</button>
+																	</span>
+																	</a>
 																</li>
 																<li>
 																	<span class="like" data-toggle="tooltip" title="like">
@@ -879,26 +881,11 @@
 		</form>
 	</div><!-- side panel -->
 
-	<script src="~/js/main.min.js"></script>
+	<script src="~/js/map-init.js"></script>
+	@* <script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>
 	<script src="~/js/map-init.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script>
-	@section scripts{
-	<script>
-		$("#showtable").on("click", "#viewbtn", function () {
-			var id = $(this).closest("section").find("#avt").find("#post-id").attr("alt");
-			$.ajax({
-				alert("HI");
-				url: "@Url.Action("ShowComment", "Post")",
-				data: { id: id },
-				success: function (data) {
-					$("#showmodal .modal-dialog").html(data);
-					$("#showmodal").modal("show");
-				}
-			});
-		});
-	</script>
-	}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script> *@
 
 </body>
 
