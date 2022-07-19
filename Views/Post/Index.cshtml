@@ -44,8 +44,8 @@
 			</span>
 		</div>
 		<div class="mh-head second">
-			<form class="mh-form">
-				<input placeholder="search" />
+			<form method="post" class="mh-form" asp-action="Search" asp-controller="Home">
+				<input type="text" placeholder="search" required="required" name="data" />
 				<a href="#/" class="fa fa-search"></a>
 			</form>
 		</div>
@@ -224,8 +224,8 @@
 		
 		<div class="top-area">
 			<div class="top-search">
-				<form method="post" class="">
-					<input type="text" placeholder="Search Friend">
+				<form method="post" asp-action="Search" asp-controller="Home">
+					<input type="text" placeholder="Search Friend" required="required" name="data">
 					<button data-ripple><i class="ti-search"></i></button>
 				</form>
 			</div>
