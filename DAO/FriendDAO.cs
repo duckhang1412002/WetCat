@@ -8,7 +8,7 @@ namespace WetCat.DAO
 {
     public class FriendDAO
     {
-         private static FriendDAO instance = null;
+        private static FriendDAO instance = null;
         private static readonly object instanceLock = new object();
         public static FriendDAO Instance {
             get {
@@ -19,22 +19,6 @@ namespace WetCat.DAO
                     return instance;
                 }
             }
-        }
-
-        public List<Friend> GetFriendList(string id) {
-            List<Friend> friends = null;
-            try {
-                using var context = new WetCat_DBContext();
-                friends = context.Friends.Where(c => ((c.FirstUsername == id || c.SecondUsername == id) && (c.FriendStatus == 3))).ToList();
-                 foreach(var fr in friends){
-                    UserDAO userDAO = new UserDAO();
-                    fr.FirstUsernameNavigation = userDAO.GetUserByUsername(fr.FirstUsername);
-                    fr.SecondUsernameNavigation = userDAO.GetUserByUsername(fr.SecondUsername);
-                }
-            } catch (Exception ex) {
-                throw new Exception(ex.Message);
-            }
-            return friends;
         }
 
         public List<Friend> GetRequestList(string id) {
@@ -49,6 +33,32 @@ namespace WetCat.DAO
                 }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
+            }
+            return friends;
+        }
+        
+        public List<Friend> GetFriendList(string id) {
+            List<Friend> friends = null;
+            try {
+                using var context = new WetCat_DBContext();
+                friends = context.Friends.Where(c => (c.FirstUsername == id || c.SecondUsername == id) && (c.FriendStatus == 3)).ToList();
+                 foreach(var fr in friends){
+                    UserDAO userDAO = new UserDAO();
+                    fr.FirstUsernameNavigation = userDAO.GetUserByUsername(fr.FirstUsername);
+                    fr.SecondUsernameNavigation = userDAO.GetUserByUsername(fr.SecondUsername);
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            return friends;
+        }
+
+        public IEnumerable<Friend> SwapColumnFriend(string currentSessionUser, IEnumerable<Friend> friends){
+            foreach(Friend friend in friends){
+                if(friend.FirstUsername != currentSessionUser){
+                    friend.SecondUsername = friend.FirstUsername;
+                    friend.FirstUsername = currentSessionUser;                   
+                }
             }
             return friends;
         }

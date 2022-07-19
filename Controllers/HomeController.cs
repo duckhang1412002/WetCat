@@ -16,7 +16,7 @@ using System.Dynamic;
 namespace WetCat.Controllers
 {
     public class HomeController : Controller
-    {
+    { 
         UserDAO userDAO = null;
         PostDAO postDAO = null;
         FollowDAO followDAO = null;
@@ -39,8 +39,10 @@ namespace WetCat.Controllers
             HttpContext.Session.SetString("username", "");            
             try {
                 if (ModelState.IsValid) {
+                    System.Console.WriteLine("HI");
                     User user = userDAO.LoginByUsernameAndPassword(username, password);
                     if (user.Username != null) {
+                        System.Console.WriteLine("Found user");
                         HttpContext.Session.SetString("username", user.Username);  
                         if (user.Role == "Admin") 
                             return RedirectToAction("Index", "Admin"); 
@@ -83,8 +85,13 @@ namespace WetCat.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(User user) {
-            System.Console.WriteLine(user.Username + " " + user.Password + " " + user.Gender);
+        public IActionResult Register(User user, string confirmPassword, string Gender) {
+            System.Console.WriteLine(user.Username + " " + user.Password + " " + confirmPassword + " " + user.Gender);
+            if (user.Password != confirmPassword) {
+                System.Console.WriteLine("Confirm password is wrong");
+                return RedirectToAction("Index", "Home");
+            }
+            user.Gender = (Gender == "Male") ? 1 : 0;
             userDAO.RegisterUser(user);
             return RedirectToAction("Index", "Home");
         }

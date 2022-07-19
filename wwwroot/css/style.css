@@ -602,7 +602,7 @@ header.sticky {
 
 .submit-btns {
     display: inline-block;
-    margin-top: 20px;
+    margin: 20px auto;
     width: 100%;
 }
 
@@ -10081,11 +10081,13 @@ aside.sidebar.full-style {
 }
 .modal-backdrop {
     display: none;
-  }
+}
+/*
 figure{
     width: 2rem;
     height: 2rem;
 }
+*/
 
 .w-100{
     width: 100%;
