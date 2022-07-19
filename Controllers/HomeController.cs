@@ -98,5 +98,17 @@ namespace WetCat.Controllers
             userDAO.RegisterUser(user);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public IActionResult Search(string data){
+            if (data == "") return View(data);
+            
+            data = data.ToLower();
+            System.Console.WriteLine("DATA " + data);
+            List<User> result = userDAO.GetUsers().ToList()
+            .Where(p =>    p.Nickname.ToString().ToLower().Contains(data)
+                        || p.UserMail.ToString().ToLower() == data).ToList();
+            return View(result);
+        }
     }
 }
