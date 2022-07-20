@@ -29,6 +29,8 @@ namespace WetCat.Controllers
         }
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("username") != null)
+                return RedirectToAction("Index", "Post");
             return View();
         }
 
@@ -55,9 +57,10 @@ namespace WetCat.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("/Wall/{usn}/{what}")]
+        [HttpGet("/Wall/{usn}/{what?}")]
         public IActionResult Wall(string usn, string what){
-            System.Console.WriteLine("Xin chao " + usn);
+            System.Console.WriteLine("Xin chao? " + usn);
+            if (what == "") what = "timeline";
             dynamic model = new ExpandoObject();
             User user = userDAO.GetUserByUsername(usn);
             return View("/Views/Home/_Wall.cshtml", user);
@@ -67,12 +70,12 @@ namespace WetCat.Controllers
             System.Console.WriteLine("timeline " + id);
             PostDAO postDAO = new PostDAO();
             List<Post> list = postDAO.GetPostByUsername(id);
-            foreach(Post i in list){
-                System.Console.WriteLine("Troi oi" + i.PostAuthor);
-            }
-            return View("/Views/Home/Timeline.cshtml", list.Reverse<Post>().ToList());
+            dynamic model = new ExpandoObject();
+            model.postsList = list.Reverse<Post>().ToList();
+            model.currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+            return View("/Views/Home/Timeline.cshtml", model);
         }
-        
+
         public IActionResult Follow(string id){
             System.Console.WriteLine("Con cho " + id);
             List<Follow> Followings = followDAO.GetFollowings(id);
@@ -110,5 +113,13 @@ namespace WetCat.Controllers
                         || p.UserMail.ToString().ToLower() == data).ToList();
             return View(result);
         }
+
+        public IActionResult Logout()
+        {
+            System.Console.WriteLine("Im going to logout");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+        
     }
 }

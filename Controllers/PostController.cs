@@ -22,7 +22,6 @@ namespace WetCat.Controllers {
         CommentDAO CommentDAO = new CommentDAO ();
         FriendDAO FriendDAO = new FriendDAO ();
         public PostController () { }
-        private string currentSessionUser = null;
 
         public IActionResult Index () {
             if (HttpContext.Session.GetString ("username") == null) {
@@ -173,7 +172,7 @@ namespace WetCat.Controllers {
                 string author = HttpContext.Session.GetString ("username");
                 DateTime time = DateTime.Now;
 
-                bool check = (postId != 0) && (author != null) && (content != null) && (time != null) && (privacy != null);
+                bool check = (postId != 0) && (author != null) && (content != null) && (privacy != null);
 
                 if (check) {
                     string imgSrc = UploadedFile (author, file);

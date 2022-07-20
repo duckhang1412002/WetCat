@@ -29,6 +29,7 @@ namespace WetCat.Controllers
         {
             string username = HttpContext.Session.GetString("username");
             User user = userDAO.GetUserByUsername(username);
+            //System.Console.WriteLine("Hi");
             return View(user);
         }
 
@@ -37,7 +38,7 @@ namespace WetCat.Controllers
         {
             user.Gender = (gender == "Male") ? 1 : 0;
             userDAO.EditUser(user);
-            return RedirectToAction("Wall", "Home", $"/{HttpContext.Session.GetString("username")}/timeline");
+            return Redirect ("/Wall/" + user.Username + "/timeline");
         }
 
         [HttpPost]

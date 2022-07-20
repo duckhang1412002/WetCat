@@ -400,7 +400,7 @@
 					}	
 				<div class="add-btn">
 					<span id="followers-count"></span>
-					@if (Model.Username.ToString() != HttpContextAccessor.HttpContext.Session.GetString("username"))
+					@if (Model.Username != HttpContextAccessor.HttpContext.Session.GetString("username"))
 					{
 						<a href="#" title="" id="follow-status" data-ripple=""></a>
 						<a href="#" title="" id="friend-status" data-ripple="">Add Friend</a>
@@ -466,9 +466,9 @@
 										<h5>@Model.Nickname</h5>
 									</li>
 									<li>
+										<a class="" id="edit" href="edit" title="" data-ripple="">Edit</a>
 										<a class="" id="timeline" href="timeline" title="" data-ripple="">time
 											line</a>
-										<a class="" id="photos" href="photos" title="" data-ripple="">Photos</a>
 										@{
 											if (Model.Username ==
 			HttpContextAccessor.HttpContext.Session.GetString("username"))
@@ -480,7 +480,6 @@
 										}
 
 										<a class="" id="more" href="hobby" title="" data-ripple="">Hobby</a>
-										<a class="" id="about" href="about.html" title="" data-ripple="">about</a>
 									</li>
 								</ul>
 							</div>

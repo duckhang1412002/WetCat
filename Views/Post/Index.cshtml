@@ -225,7 +225,10 @@
 						<button data-ripple><i class="ti-search"></i></button>
 					</form>
 				</div>
-
+				<a href="Wall/@Model.currentSessionUser.Username/timeline">
+				<i class="ti-user"></i>
+				</a>
+				<a asp-controller="Home" asp-action="Logout" title=""><i class="ti-power-off"></i></a>
 				<div class="user-img">
 					<img src="images/resources/admin.jpg" alt="">
 					<span class="status f-online"></span>
@@ -233,11 +236,11 @@
 						<a href="#" title=""><span class="status f-online"></span>online</a>
 						<a href="#" title=""><span class="status f-away"></span>away</a>
 						<a href="#" title=""><span class="status f-off"></span>offline</a>
-						<a href="#" title=""><i class="ti-user"></i> view profile</a>
+						
 						<a href="#" title=""><i class="ti-pencil-alt"></i>edit profile</a>
 						<a href="#" title=""><i class="ti-target"></i>activity log</a>
 						<a href="#" title=""><i class="ti-settings"></i>account setting</a>
-						<a href="#" title=""><i class="ti-power-off"></i>log out</a>
+						<a asp-controller="Home" asp-action="Logout" title=""><i class="ti-power-off"></i>log out</a>
 					</div>
 				</div>
 				<span class="ti-menu main-menu" data-ripple=""></span>
@@ -483,7 +486,7 @@
 												</li>
 												<li>
 													<i class="ti-power-off"></i>
-													<a href="landing.html" title="">Logout</a>
+													<a asp-action="Logout" asp-controller="Home" title="">Logout</a>
 												</li>
 											</ul>
 										</div><!-- Shortcuts -->
