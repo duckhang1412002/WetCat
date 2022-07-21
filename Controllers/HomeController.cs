@@ -57,7 +57,7 @@ namespace WetCat.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("/Wall/{usn}/{what?}")]
+        [HttpGet("/Wall/{usn}/{what}")]
         public IActionResult Wall(string usn, string what){
             System.Console.WriteLine("Xin chao? " + usn);
             if (what == "") what = "timeline";

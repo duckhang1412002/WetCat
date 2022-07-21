@@ -648,7 +648,7 @@
 																<img src="~/@Model.currentSessionUser.AvatarSrc" alt="">
 															</div>
 															<div class="post-comt-box">
-																<form method="post">
+																<form method="post" asp-action="AddComment">
 																	<textarea placeholder="Post your comment"></textarea>
 																	<input name="postID" value="@Model.post.PostId" hidden>
 																	<input name="parentID" hidden>	
