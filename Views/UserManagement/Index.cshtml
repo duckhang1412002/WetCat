@@ -120,7 +120,7 @@
                             @{
                                 @foreach (var item in Model)
                                 {
-                                    if(item.IsDeleted==0){
+                                    if(item.IsDeleted != 1){
                                         <tr>
                                             <td style="text-align: center;  width: 70px;">@item.Username</td>
                                             <td>@item.UserMail</td>

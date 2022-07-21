@@ -23,6 +23,7 @@ namespace WetCat.Controllers
                 return RedirectToAction("Index", "Home");
             }  
             var users = UserDAO.GetUsers().ToList();
+            System.Console.WriteLine(users.Count);
             return View(users);
         }
         
