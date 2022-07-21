@@ -415,6 +415,7 @@ jQuery(".post-comt-box textarea").on("keydown", function(event) {
 		$('#privacy-list span').html('Private');
 		$('#privacy').attr('value', 'Private');
 	});	
+	
 
 });//document ready end
 

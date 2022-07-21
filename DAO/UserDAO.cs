@@ -37,6 +37,7 @@ namespace WetCat.DAO
             try {
                 using var _db = new WetCat_DBContext();
                 user = _db.Users.Find(username);
+                //System.Console.WriteLine(password + " -- " + user.Password);
                 if (!user.Password.Equals(password)) user = null;
             } catch (Exception e) {
                 System.Console.WriteLine(e.InnerException.Message);

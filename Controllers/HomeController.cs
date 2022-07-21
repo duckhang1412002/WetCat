@@ -27,33 +27,66 @@ namespace WetCat.Controllers
             followDAO = new FollowDAO();
             friendDAO = new FriendDAO();
         }
-        public IActionResult Index()
+        public IActionResult Index(User? user)
         {
+            if(TempData.ContainsKey("LoginFailed"))
+                ViewBag.LoginFailed = TempData["LoginFailed"];
+            if (TempData.ContainsKey("UserExisted"))
+                ViewBag.UserExisted = TempData["UserExisted"];
+            if (TempData.ContainsKey("ConfirmPasswordIncorrect"))
+                ViewBag.ConfirmPasswordIncorrect = TempData["ConfirmPasswordIncorrect"];
             if (HttpContext.Session.GetString("username") != null)
                 return RedirectToAction("Index", "Post");
-            return View();
+            dynamic model = new ExpandoObject();
+
+            return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(string username, string password)
         {
-            HttpContext.Session.SetString("username", "");            
             try {
                 if (ModelState.IsValid) {
                     System.Console.WriteLine("HI");
                     User user = userDAO.LoginByUsernameAndPassword(username, password);
-                    if (user.Username != null) {
+                    if (user != null) {
                         HttpContext.Session.SetString("username", user.Username);  
                         if (user.Role == "Admin") 
                             return RedirectToAction("Index", "Admin"); 
                         return RedirectToAction("Index", "Post");
+                    } else {
+                        
                     }
                         
                 }
             } catch (Exception) {
 
             }
+            System.Console.WriteLine("Login failed");
+            TempData["LoginFailed"] = "Username or Password incorrect!";
+            return RedirectToAction("Index", "Home");
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(User user, string confirmPassword, string Gender) {
+            //System.Console.WriteLine(user.Username + " " + user.Password + " " + confirmPassword + " " + user.Gender);
+            if (user.Password != confirmPassword) {
+                TempData["ConfirmPasswordIncorrect"] = "Confirm Password is incorrect!";
+                System.Console.WriteLine("Confirm password is wrong");
+                return RedirectToAction("Index", "Home", user);
+            }
+            User _user = userDAO.GetUserByUsername(user.Username);
+            if (_user != null) {
+                TempData["UserExisted"] = "Username already existed";
+                System.Console.WriteLine("User already existed");
+                return RedirectToAction("Index", "Home", user);
+            }
+            user.Gender = (Gender == "Male") ? 1 : 0;
+            userDAO.RegisterUser(user);
+            System.Console.WriteLine("Login successfully");
             return RedirectToAction("Index", "Home");
         }
 
@@ -77,29 +110,8 @@ namespace WetCat.Controllers
         }
 
         public IActionResult Follow(string id){
-            System.Console.WriteLine("Con cho " + id);
             List<Follow> Followings = followDAO.GetFollowings(id);
             return View("/Views/Follow/Followings.cshtml",Followings);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Register(User user, string confirmPassword, string Gender) {
-            System.Console.WriteLine(user.Username + " " + user.Password + " " + confirmPassword + " " + user.Gender);
-            if (user.Password != confirmPassword) {
-                ViewBag.ConfirmPassword = "Confirm password is wrong";
-                //System.Console.WriteLine("Confirm password is wrong");
-                return RedirectToAction("Index", "Home");
-            }
-            User _user = userDAO.GetUserByUsername(user.Username);
-            if (_user != null) {
-                ViewBag.UserExisted = "Username already existed";
-                //System.Console.WriteLine("User already existed");
-                return RedirectToAction("Index", "Home");
-            }
-            user.Gender = (Gender == "Male") ? 1 : 0;
-            userDAO.RegisterUser(user);
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

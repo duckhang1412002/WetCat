@@ -23,12 +23,15 @@ namespace WetCat.Models
         }
 
         [Key]
+        [StringLength(20, ErrorMessage = "Maximum 20 characters exceeded")]
         public string Username { get; set; }
         public string UserMail { get; set; }
         public string AvatarSrc { get; set; }
         public string BackgroundSrc { get; set; }
+        [StringLength(30, ErrorMessage = "Maximum 30 characters exceeded")]
         public string Password { get; set; }
         public string Role { get; set; }
+        [StringLength(30, ErrorMessage = "Maximum 30 characters exceeded")]
         public string Nickname { get; set; }
         public int? Gender { get; set; }
         public string Phone { get; set; }
