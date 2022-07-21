@@ -19,10 +19,13 @@ namespace WetCat.Controllers
         public UserManagementController(){}
 
         public IActionResult Index(){
+            if (HttpContext.Session.GetString("username") == null) {
+                return RedirectToAction("Index", "Home");
+            }  
             var users = UserDAO.GetUsers().ToList();
             return View(users);
         }
-
+        
         public ActionResult Delete(string username){
             if (username == null){
                 return NotFound();
@@ -34,13 +37,50 @@ namespace WetCat.Controllers
             return View(user);
         }
 
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(User user){
             try {
                 using var _db = new WetCat_DBContext();
-                _db.Users.Remove(user);
+                _db.Users.Update(user);
                 _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+            }
+            return View();
+        }
+        */
+
+        [HttpPost]
+        public ActionResult Delete1(string username){
+            try {
+                UserDAO.EditUSer1(UserDAO.GetUserByUsername(username)); 
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex){
+                ViewBag.Message = ex.Message;
+            }
+            return View();
+        }
+
+        public ActionResult ShowUser(string username){
+            if (username == null){
+                return NotFound();
+            }
+            var user = UserDAO.GetUserByUsername(username);
+            if (user == null){
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult ShowUser(User user){
+            try {
+                UserDAO.GetUsers();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex){

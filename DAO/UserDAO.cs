@@ -118,5 +118,36 @@ namespace WetCat.DAO
                 Console.WriteLine(e.InnerException.Message);
             }
         }
+
+        public void EditUSer(User user){
+            try {
+                User _user = GetUserByUsername(user.Username);
+                if (_user != null) {
+                    using var _db = new WetCat_DBContext();
+                    _db.Users.Update(user);
+                    _db.SaveChanges();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void EditUSer1(User user){ //change isDeleted to 1
+            try {
+                User _user = GetUserByUsername(user.Username);
+                if (_user != null) {
+                    using var _db = new WetCat_DBContext();
+                    _user.IsDeleted = 1;
+                    _db.Users.Update(_user);
+                    _db.SaveChanges();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -40,7 +40,7 @@
 
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-        <a href="Admin" class="navbar-brand mx-4 mb-3">
+        <a asp-action="Index" asp-controller="Admin" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>WETCAT</h3>
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
@@ -53,8 +53,8 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="Admin" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Post Management</a>
-            <a href="UserManagement" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>User Management</a>
+            <a asp-action="Index" asp-controller="Admin" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Post Management</a>
+            <a asp-action="Index" asp-controller="UserManagement" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>User Management</a>
         </div>
     </nav>
 </div>
@@ -64,7 +64,7 @@
     <div class="content">
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+            <a asp-action="Index" asp-controller="Admin" class="navbar-brand d-flex d-lg-none me-4">
                 <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
             </a>
             <a href="#" class="sidebar-toggler flex-shrink-0">
@@ -73,6 +73,14 @@
             <form class="d-none d-md-flex ms-4">
                 <input class="form-control border-0" type="search" placeholder="Search User">
             </form>
+            <!--
+            @using (Html.BeginForm("SearchUSer", "UserManagement"))
+            {
+                @Html.TextBox("Query")
+                <input type="submit" value="search" />
+            }
+            -->
+
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -80,19 +88,18 @@
                         <span class="d-none d-lg-inline-flex">Admin</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        <a href="#" class="dropdown-item">My Profile</a>
-                        <a href="Home" class="dropdown-item">Log Out</a>
+                        <a asp-action="Logout" asp-controller="Home" class="dropdown-item">Log out</a>
                     </div>
                 </div>
             </div>
         </nav>
         <!-- Navbar End -->
 
-        <!-- Post List Start -->
+        <!-- User List Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">User List</h6>
+                    <h4 class="mb-0">User List</h4>
                     <a href="">Refresh</a>
                 </div>
                 <div class="table-responsive">
@@ -101,7 +108,7 @@
                             <tr class="text-dark"> 
                                 <th style="text-align: center;" scope="col">Username</th>
                                 <th style="text-align: center;" scope="col">Email</th>
-                                <th style="text-align: center;" scope="col">Password</th>
+                                <th style="text-align: center;" scope="col">Avatar</th>
                                 <th style="text-align: center;" scope="col">Nickname</th>
                                 <th style="text-align: center;" scope="col">Gender</th>
                                 <th style="text-align: center;" scope="col">Phone</th>
@@ -110,46 +117,51 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                <td style="text-align: center;  width: 70px;">@item.Username</td>
-                                <td>@item.UserMail</td>
-                                <td>@item.Password</td>
-                                <td>@item.Nickname</td>
-                                @{
-                                    string gender = "";
-                                    if(item.Gender==1)
-                                    {
-                                        gender = "Male";
-                                    }
-                                    else if (item.Gender==0){
-                                        gender = "Female";
+                            @{
+                                @foreach (var item in Model)
+                                {
+                                    if(item.IsDeleted==0){
+                                        <tr>
+                                            <td style="text-align: center;  width: 70px;">@item.Username</td>
+                                            <td>@item.UserMail</td>
+                                            <td>
+                                                <img style="width:100px; height: 100px;" src="@item.AvatarSrc" alt="">
+                                            </td>
+                                            <td>@item.Nickname</td>
+                                            @{
+                                                string gender = "";
+                                                if(item.Gender==1)
+                                                {
+                                                    gender = "Male";
+                                                }
+                                                else if (item.Gender==0){
+                                                    gender = "Female";
+                                                }
+                                            }
+                                            <td style="text-align: center;">@gender</td>
+                                            <td style="text-align: center;">@item.Phone</td>
+                                            <td style="text-align: center;">@item.Birthday.ToShortDateString()</td>
+                                            <td style="text-align: center;">
+                                            <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
+                                            <a class="fa fa-info-circle" asp-action = "ShowUser" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
+                                            </td>
+                                        </tr>
                                     }
                                 }
-                                <td style="text-align: center;">@gender</td>
-                                <td style="text-align: center;">@item.Phone</td>
-                                <td style="text-align: center;">@item.Birthday.ToShortDateString()</td>
-                                <td style="text-align: center;">
-                                    <a class="fas fa-trash" asp-action = "Delete" asp-controller="UserManagement" asp-route-username="@item.Username"></a>
-                                    <a class='fas fa-exclamation-triangle' href=""></a>
-                                </td>
-                            </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <!-- Post List End -->
-
+        <!-- User List End -->
 
         <!-- Footer Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light rounded-top p-4">
                 <div class="row">
                     <div class="col-12 col-sm-6 text-center text-sm-start">
-                        &copy; <a href="Home">WetCat Social Network Site</a>, All Right Reserved. 
+                        &copy;  <a asp-action="Index" asp-controller="Home">WetCat Social Networking Site</a>, All Right Reserved. 
                     </div>
                     <div class="col-12 col-sm-6 text-center text-sm-end">
                         Designed By <a href="Group2.txt">Group 2</a>
