@@ -23,23 +23,15 @@ namespace WetCat.Models
         }
 
         [Key]
+        [StringLength(20, ErrorMessage = "Maximum 20 characters exceeded")]
         public string Username { get; set; }
         public string UserMail { get; set; }
         public string AvatarSrc { get; set; }
         public string BackgroundSrc { get; set; }
-
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(30, ErrorMessage = "Must be between 5 and 30 characters", MinimumLength = 5)]
-        [DataType(DataType.Password)]
+        [StringLength(30, ErrorMessage = "Maximum 30 characters exceeded")]
         public string Password { get; set; }
-
-        [StringLength(30, ErrorMessage = "Must be between 5 and 30 characters", MinimumLength = 5)]
-        [DataType(DataType.Password)]
-        [Compare("Password")]
-        [NotMapped]
-        public string ConfirmPassword { get; set; }
-
         public string Role { get; set; }
+        [StringLength(30, ErrorMessage = "Maximum 30 characters exceeded")]
         public string Nickname { get; set; }
         public int? Gender { get; set; }
         public string Phone { get; set; }
@@ -50,6 +42,9 @@ namespace WetCat.Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Follow> FollowFollowedUsernameNavigations { get; set; }
         public virtual ICollection<Follow> FollowFollowerUsernameNavigations { get; set; }
+
+        public virtual ICollection<NotificationList> NotificationListCauserNavigations { get; set; }
+        public virtual ICollection<NotificationList> NotificationListTargetNavigations { get; set; }
         public virtual ICollection<Friend> FriendFirstUsernameNavigations { get; set; }
         public virtual ICollection<Friend> FriendSecondUsernameNavigations { get; set; }
         public virtual ICollection<HobbyList> HobbyLists { get; set; }
@@ -58,3 +53,4 @@ namespace WetCat.Models
         public virtual ICollection<WarningList> WarningLists { get; set; }
     }
 }
+

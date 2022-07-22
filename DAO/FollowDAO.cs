@@ -91,12 +91,12 @@ namespace WetCat.DAO
         public void Follow(Follow follow) {
             try {
                 Follow _follow = GetFollowStatus(follow.FollowerUsername, follow.FollowedUsername);
-                if (_follow != null) {
+                if (_follow == null) {
                     using var context = new WetCat_DBContext();
                     context.Follows.Add(follow);
                     context.SaveChanges();
                 } else {
-                    throw new Exception("The follow does not not exist.");
+                    throw new Exception("The follow is already exist.");
                 }
             } catch (Exception ex) {
                 throw new Exception(ex.Message);

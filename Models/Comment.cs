@@ -21,7 +21,6 @@ namespace WetCat.Models
         public DateTime CommentTime { get; set; }
         public string CommentContent { get; set; }
         public int? IsDeleted { get; set; }
-
         public virtual User CommentAuthorNavigation { get; set; }
         public virtual Comment P { get; set; }
         public virtual ICollection<Comment> InverseP { get; set; }

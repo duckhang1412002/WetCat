@@ -37,8 +37,11 @@ namespace WetCat.DAO
             try {
                 using var _db = new WetCat_DBContext();
                 user = _db.Users.Find(username);
+                //System.Console.WriteLine(password + " -- " + user.Password);
                 if (!user.Password.Equals(password)) user = null;
-            } catch (Exception) {}
+            } catch (Exception e) {
+                System.Console.WriteLine(e.InnerException.Message);
+            }
             return user;
         }
 
@@ -53,11 +56,53 @@ namespace WetCat.DAO
             return userLists;
         }
 
+        public void EditUser(User user) {
+            try {
+                using var _db = new WetCat_DBContext();
+                _db.Users.Update(user);
+                _db.SaveChanges();
+            } catch (Exception ex) {
+                throw new Exception(ex.InnerException.Message);
+            }
+        }
+
+        public void UpdateAvatar(string username, string imgSrc) {
+            try {
+                using var _db = new WetCat_DBContext();
+                foreach (var u in _db.Users.ToList()) {
+                    if (u.Username == username) {
+                        u.AvatarSrc = imgSrc;
+                        break;
+                    }
+                }
+                _db.SaveChanges();
+            } catch (Exception e) {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateWallpaper(string username, string imgSrc) {
+            try {
+                using var _db = new WetCat_DBContext();
+                foreach (var u in _db.Users.ToList()) {
+                    if (u.Username == username) {
+                        u.BackgroundSrc = imgSrc;
+                        break;
+                    }
+                }
+                _db.SaveChanges();
+            } catch (Exception e) {
+                throw new Exception(e.Message);
+            }
+        }
+
+
         public void RemoveUser(User user) {
             try {
                 System.Console.WriteLine("Day ne " + user.Username);
                 using var _db = new WetCat_DBContext();
                 _db.Users.Remove(user);
+                _db.SaveChanges();
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
@@ -72,6 +117,37 @@ namespace WetCat.DAO
             } catch (Exception e) {
                 System.Console.WriteLine(e.Message);
                 Console.WriteLine(e.InnerException.Message);
+            }
+        }
+
+        public void EditUSer(User user){
+            try {
+                User _user = GetUserByUsername(user.Username);
+                if (_user != null) {
+                    using var _db = new WetCat_DBContext();
+                    _db.Users.Update(user);
+                    _db.SaveChanges();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void EditUSer1(User user){ //change isDeleted to 1
+            try {
+                User _user = GetUserByUsername(user.Username);
+                if (_user != null) {
+                    using var _db = new WetCat_DBContext();
+                    _user.IsDeleted = 1;
+                    _db.Users.Update(_user);
+                    _db.SaveChanges();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ex) {
+                throw new Exception(ex.Message);
             }
         }
     }

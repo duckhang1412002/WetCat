@@ -1,0 +1,43 @@
+@model User
+@{
+    ViewData["Title"] = "ShowUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr>
+<form method="POST" asp-action="ShowUser">
+    <div class="row">
+        <b class="col-6">Username</b>
+        <div class="col-6">@Model.Username</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Email</b>
+        <div class="col-6">@Model.UserMail</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Avatar</b>
+        <div class="col-6">
+            <img style="width:100px; height: 100px;" src="@Model.AvatarSrc" alt="">
+        </div>
+    </div>
+    <div class="row">
+        <b class="col-6">Nickname</b>
+        <div class="col-6">@Model.Nickname</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Gender</b>
+        <div class="col-6">@Model.Gender</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Phone</b>
+        <div class="col-6">@Model.Phone</div>
+    </div>
+    <div class="row">
+        <b class="col-6">Birthday</b>
+        <div class="col-6">@Model.Birthday.ToShortDateString()</div>
+    </div>
+    <br> 
+    <div>
+        @Html.ActionLink("<Back to list", "Index") 
+    </div>
+</form>

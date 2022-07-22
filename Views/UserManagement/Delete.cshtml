@@ -7,7 +7,7 @@
 <h2>Are you sure you want to delete this User?</h2>
 
 <hr>
-<form method="POST" asp-action="Delete">
+<form method="POST" asp-action="Delete1">
     <div class="row">
         <b class="col-6">Username</b>
         <div class="col-6">@Model.Username</div>
@@ -17,8 +17,10 @@
         <div class="col-6">@Model.UserMail</div>
     </div>
     <div class="row">
-        <b class="col-6">Password</b>
-        <div class="col-6">@Model.Password</div>
+        <b class="col-6">Avatar</b>
+        <div class="col-6">
+            <img style="width:100px; height: 100px;" src="@Model.AvatarSrc" alt="">
+        </div>
     </div>
     <div class="row">
         <b class="col-6">Nickname</b>
@@ -38,8 +40,8 @@
     </div>
     <br> 
     <div>
-        <input type="submit" value="Delete" class="btn btn-danger" asp-controller="UserManagement" asp-action="Delete"/>
+        <input type="submit" value="Delete" class="btn btn-danger" asp-controller="UserManagement" asp-action="Delete1" asp-route-username="@Model.Username"/>
 
-        @Html.ActionLink("Back to list", "Index") 
+        @Html.ActionLink("<Back to list", "Index") 
     </div>
 </form>

@@ -6,17 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-	<title>Winku Social Network Toolkit</title>
+	<title>WetCat Social Network</title>
     <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
     
-    <link rel="stylesheet" href="css/main.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/color.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="~/css/main.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/color.css">
+    <link rel="stylesheet" href="~/css/responsive.css">
 
 </head>
-<body>
-<!--<div class="se-pre-con"></div>-->
+<body onload="checkRegister()">
 <div class="theme-layout">
 	<div class="container-fluid pdng0">
 		<div class="row merged">
@@ -38,76 +37,68 @@
 				<div class="login-reg-bg">
 					<div class="log-reg-area sign">
 						<h2 class="log-title">Login</h2>
-							<p>
-								Don’t use WetCat Yet? <a href="#" title="">Take the tour</a> or <a href="#" title="">Join now</a>
-							</p>
 						<form method="post" asp-controller="Home" asp-action="Login">
 							<div class="form-group">	
-							  <input type="text" id="input" required="required" name="username"/>
+							  <input type="text" id="input" required="required" name="username" onchange="hideError()"/>
 							  <label class="control-label" for="input">Username</label><i class="mtrl-select"></i>
 							</div>
 							<div class="form-group">	
-							  <input type="password" required="required" name="password"/>
+							  <input type="password" required="required" name="password" onchange="hideError()"/>
 							  <label class="control-label" for="input">Password</label><i class="mtrl-select"></i>
 							</div>
-
-							<a href="#" title="" class="forgot-pwd">Forgot Password?</a>
+							<div class="text-danger error-message">
+								@ViewBag.LoginFailed
+							</div>
 							<div class="submit-btns">
 								<button class="mtr-btn signin" type="submit"><span>Login</span></button>
-								<button class="mtr-btn signup" type="button"><span>Register</span></button>
+								<button class="mtr-btn signup" type="button" id="register-btn"><span>Register</span></button>
 							</div>
 						</form>
 					</div>
 					<div class="log-reg-area reg">
 						<h2 class="log-title">Register</h2>
-							<p>
-								Don’t use WetCat Yet? <a href="#" title="">Take the tour</a> or <a href="#" title="">Join now</a>
-							</p>
-						<form method="post" asp-action="Register">				
+						<form method="post" asp-action="Register" id="form-register" onsubmit="return checkConfirmPassword()">				
 							<div class="form-group">	
-							  <input type="text" required="required" asp-for="Username"/>
+							  <input type="text" required="required" asp-for="Username" onchange="hideError()"/>
 							  <label class="control-label" for="input">Username</label><i class="mtrl-select"></i>
+							  <label class="text-danger error-message" id="user-existed" style="display: none;">@ViewBag.UserExisted</label>
 							</div>
 							<div class="form-group">	
-							  <input type="password" required="required" asp-for="Password"/>
+							  <input id="Password" type="password" required="required" asp-for="Password" onchange="hideError()"/>
 							  <label class="control-label" for="input">Password</label><i class="mtrl-select"></i>
 							</div>
 							<div class="form-group">	
-							  <input type="password" required="required" asp-for="ConfirmPassword"/>
+							  <input id="ConfirmPassword" type="password" required="required" name="ConfirmPassword" onchange="hideError()"/>
 							  <label class="control-label" for="input">Confirm Password</label><i class="mtrl-select"></i>
+							  <label class="text-danger error-message" id="error-confirm-pass" style="display: none;">@ViewBag.ConfirmPasswordIncorrect</label>
 							</div>
 							<div class="form-group">	
-							  <input type="text" required="required" asp-for="Nickname"/>
+							  <input type="text" required="required" asp-for="Nickname" onchange="hideError()"/>
 							  <label class="control-label" for="input">Nickname</label><i class="mtrl-select"></i>
 							</div>
-							<!--div class="form-radio">
+							<div class="form-radio">
 							  <div class="radio">
 								<label>
-								  <input type="radio" name="radio" checked="checked" asp-for="Gender" value="1"/><i class="check-box"></i>Male
+								  <input type="radio" name="radio" checked="checked" name="Gender" value="Male"/><i class="check-box"></i>Male
 								</label>
 							  </div>
 							  <div class="radio">
 								<label>
-								  <input type="radio" name="radio" asp-for="Gender" value="0"/><i class="check-box"></i>Female
+								  <input type="radio" name="radio" name="Gender" value="Female"/><i class="check-box"></i>Female
 								</label>
 							  </div>
-							</div-->
+							</div>
 							<div class="form-group">	
-							  <input type="text" required="required" asp-for="UserMail"/>
+							  <input type="email" required="required" asp-for="UserMail" onchange="hideError()"/>
 							  <label class="control-label" for="input"><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c29010d05002c">[email&#160;protected]</a></label><i class="mtrl-select"></i>
 							</div>
 							<div class="form-group">	
-							  <input type="date" required="required" asp-for="Birthday"/>
+							  <input id="birthday" type="date" required="required" asp-for="Birthday" onchange="hideError()"/>
 							  <label class="control-label" for="input">Birthday</label><i class="mtrl-select"></i>
 							</div>
-							<div class="checkbox">
-							  <label>
-								<input type="checkbox" checked="checked"/><i class="check-box"></i>Accept Terms & Conditions ?
-							  </label>
-							</div>
-							<a href="#" title="" class="already-have">Already have an account</a>
+							<a href="#" title="" class="already-have text-left">Already have an account</a>
 							<div class="submit-btns">
-								<button class="mtr-btn signin" type="submit"><span>Register!</span></button>
+								<button id="register-submit-btn" class="mtr-btn signin" type="submit"><span>Register!</span></button>
 							</div>
 						</form>
 					</div>
@@ -116,10 +107,32 @@
 		</div>
 	</div>
 </div>
-	
-	<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.min.js"></script>
-	<script src="js/script.js"></script>
-
+	<script>
+		function hideError() {
+			const div = document.querySelectorAll('.error-message');
+			for (var i of div) {
+				i.style.display = 'none';
+			}
+		}
+		function checkRegister() {
+			var div = document.querySelectorAll('.error-message');
+			for (var i of div) {
+				if(i.innerText != "") i.style.display = 'block';
+			}
+			var lblUserExisted = document.getElementById("user-existed");
+			var lblConfPass = document.getElementById("error-confirm-pass");
+			if (lblUserExisted.innerText != "" || lblConfPass.innerText != "") document.getElementById("register-btn").click();
+		}
+		
+		birthday.max = new Date().toLocaleDateString('en-ca')
+	</script>
+	<script src="~/js/main.min.js"></script>
+	<script src="~/js/script.js"></script>
+	@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
 </body>	
 
 </html>
