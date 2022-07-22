@@ -114,12 +114,12 @@
                                 @{
                                 foreach (var item in Model)
                                 {
-                                    if(item.IsDeleted==0){
+                                    if(item.IsDeleted != 1){
                                     <tr>
                                         <td style="text-align: center; width: 70px;">@item.PostId</td>
                                         <td>@item.PostContent</td>
                                         <td style="text-align: center;">
-                                            <img style="width:100px; height: 100px;" src="@item.PostImgSrc" alt="">
+                                            <img style="width:100px; height: 100px;" src="~/@item.PostImgSrc" alt="">
                                         </td>
                                         <td style="text-align: center;">@item.PostAuthor</td>
                                         <td style="text-align: center;">@item.PostTime.ToShortDateString()</td>
@@ -161,7 +161,7 @@
                                 @{
                                 @foreach (var item in Model)
                                 {
-                                    if(item.IsDeleted==1){
+                                    if(item.IsDeleted !=1){
                                     <tr>
                                         <td style="text-align: center; width: 70px;">@item.PostId</td>
                                         <td>@item.PostContent</td>

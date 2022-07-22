@@ -27,7 +27,7 @@ namespace WetCat.Controllers
             followDAO = new FollowDAO();
             friendDAO = new FriendDAO();
         }
-        public IActionResult Index(User? user)
+        public IActionResult Index(User user)
         {
             if(TempData.ContainsKey("LoginFailed"))
                 ViewBag.LoginFailed = TempData["LoginFailed"];
@@ -35,8 +35,11 @@ namespace WetCat.Controllers
                 ViewBag.UserExisted = TempData["UserExisted"];
             if (TempData.ContainsKey("ConfirmPasswordIncorrect"))
                 ViewBag.ConfirmPasswordIncorrect = TempData["ConfirmPasswordIncorrect"];
-            if (HttpContext.Session.GetString("username") != null)
-                return RedirectToAction("Index", "Post");
+            if (HttpContext.Session.GetString("username") != null) {
+                if (HttpContext.Session.GetString("username") != "admin") return RedirectToAction("Index", "Post");
+                return RedirectToAction("Index","Admin");
+            }
+                
             dynamic model = new ExpandoObject();
 
             return View(user);

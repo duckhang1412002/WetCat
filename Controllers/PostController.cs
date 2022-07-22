@@ -35,35 +35,35 @@ namespace WetCat.Controllers {
 
             IEnumerable<Follow> followings = FollowDAO.GetFollowings (currentSessionUser.Username);
             IEnumerable<Friend> friends = FriendDAO.GetFriendList (currentSessionUser.Username);
-            friends = FriendDAO.SwapColumnFriend(currentSessionUser.Username, friends);
-            IEnumerable<Post> posts = PostDAO.GetAllPosts().ToList ();
+            friends = FriendDAO.SwapColumnFriend (currentSessionUser.Username, friends);
+            IEnumerable<Post> posts = PostDAO.GetAllPosts ().ToList ();
             IEnumerable<Post> posts_admin;
             IEnumerable<Post> posts_privacy;
             IEnumerable<Post> posts_following;
             IEnumerable<Post> posts_friend;
 
-            posts = PostDAO.GetAllPostsByDeleteStatus(posts);
-            posts_admin = PostDAO.GetAllAdminPosts(posts);
+            posts = PostDAO.GetAllPostsByDeleteStatus (posts);
+            posts_admin = PostDAO.GetAllAdminPosts (posts);
             tempPosts = posts_admin;
             if (posts_admin != null) {
-                tempPosts = tempPosts.Union(posts_admin.ToHashSet ());
+                tempPosts = tempPosts.Union (posts_admin.ToHashSet ());
             }
 
-            posts_privacy = PostDAO.GetAllPostsByPrivacy(currentSessionUser.Username, posts);
+            posts_privacy = PostDAO.GetAllPostsByPrivacy (currentSessionUser.Username, posts);
             if (posts_privacy != null) {
-                tempPosts = tempPosts.Union(posts_privacy.ToHashSet ());
+                tempPosts = tempPosts.Union (posts_privacy.ToHashSet ());
             }
 
             foreach (Follow following in followings) {
-                posts_following = PostDAO.GetAllPostsByFollowings(currentSessionUser.Username, posts, following);
+                posts_following = PostDAO.GetAllPostsByFollowings (currentSessionUser.Username, posts, following);
                 if (posts_following != null)
-                    tempPosts = tempPosts.Union(posts_following.ToHashSet ());
+                    tempPosts = tempPosts.Union (posts_following.ToHashSet ());
             }
 
             foreach (Friend friend in friends) {
                 posts_friend = PostDAO.GetAllPostsByFriends (currentSessionUser.Username, posts, friend);
                 if (posts_friend != null) {
-                    tempPosts = tempPosts.Union(posts_friend.ToHashSet ());
+                    tempPosts = tempPosts.Union (posts_friend.ToHashSet ());
                 }
             }
 
@@ -72,13 +72,17 @@ namespace WetCat.Controllers {
             System.Console.WriteLine("----------Result Posts-----------");
             foreach(Post post in tempPosts){
                 System.Console.WriteLine("Post: " + post.PostId + "---" + post.PostAuthor + "---" + post.PrivacyMode);         
-            }      
+            }
+                            
+            // model.postsList = posts; 
+            // model.currentSessionUser = currentSessionUser;
+            // return View(model);        
             NotificationListDAO nld = new NotificationListDAO ();
-            model.countNoti = nld.getAllNoti(HttpContext.Session.GetString ("username")).Where(p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
-            posts = tempPosts.ToList();
-            model.postsList = posts.Reverse();
+            model.countNoti = nld.getAllNoti (HttpContext.Session.GetString ("username")).Where (p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
+            posts = tempPosts.ToList ();
+            model.postsList = posts.Reverse ();
             model.currentSessionUser = currentSessionUser;
-            return View(model);
+            return View (model);
         }
 
         public IActionResult DeletePost(int? postId){

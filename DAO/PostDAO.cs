@@ -89,7 +89,7 @@ namespace WetCat.DAO
 
         public IEnumerable<Post> GetAllPostsByDeleteStatus(IEnumerable<Post> posts) {
             try {
-                posts = posts.Where(x => x.IsDeleted == 0 || x.IsDeleted == null);
+                posts = posts.Where(x => x.IsDeleted != 1);
             } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
