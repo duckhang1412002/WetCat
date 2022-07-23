@@ -36,6 +36,7 @@
 					<span class="status f-online"></span>
 					<div class="user-setting">						
 						<a href="Wall/@Model.currentSessionUser.Username/edit" title=""><i class="ti-pencil-alt"></i>edit profile</a>
+						<a asp-action="Logout" asp-controller="Home" title=""><i class="ti-power-off"></i>log out</a>
 					</div>
 				</div>
 			</div>
@@ -93,7 +94,7 @@
 											<div class="currentUserSession flex-container w-100">
 												<img src="~/@Model.currentSessionUser.AvatarSrc" alt="avt"
 													class="img-avt">
-												<span id="currentUserSession-username"><ins><a href="..."
+												<span id="currentUserSession-username"><ins><a href="Wall/@Model.currentSessionUser.Username/timeline"
 															title="">@Model.currentSessionUser.Nickname</a></ins></span>
 												<span class="dropdown show" id="post-privacy">
 													<button class="dropdown-toggle btn" href="#" role="button"
@@ -159,7 +160,7 @@
 														@if (Model.currentSessionUser.Username == item.PostAuthor)
 														{
 															<div class="col-9 friend-name">
-																<ins class="row"><a href="..."
+																<ins class="row"><a href="Wall/@item.PostAuthor/timeline"
 																title="">@item.PostAuthorNavigation.Nickname</a></ins>
 																<span class="row">@item.PostTime</span>
 															</div>
@@ -180,7 +181,7 @@
 														else
 														{
 															<div class="col-10 friend-name">
-																<ins class="row"><a href="time-line.html"
+																<ins class="row"><a href="Wall/@item.PostAuthor/timeline"
 																title="">@item.PostAuthorNavigation.Nickname</a></ins>
 																<span class="row">@item.PostTime</span>
 															</div>
@@ -198,13 +199,12 @@
 																	<span class="comment" data-toggle="tooltip"
 																	title="Comments">
 																		<i class="fa fa-comments-o"></i>
-																		<ins>52</ins>
 																	</span>
 																	</a>
 																</li>
-																<li>
+																<li style="position: relative;">
 																	
-																	<a id="react" class="icon-hover post-footer">
+																	<a id="react" class="icon-hover post-footer @item.PostId">
 																	<div class="box-list-icons">
 																		<div class="like-icon">
 																			<label>Like</label>
@@ -240,59 +240,7 @@
 																	</script>
 																</a>
 																	
-																</li>
-																<li class="social-media">
-																	<div class="menu">
-																		<div class="btn trigger"><i
-																			class="fa fa-share-alt"></i></div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i class="fa fa-html5"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-facebook"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-google-plus"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-twitter"></i></a></div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i class="fa fa-css3"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-instagram"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-dribbble"></i></a>
-																			</div>
-																		</div>
-																		<div class="rotater">
-																			<div class="btn btn-icon"><a href="#"
-																				title=""><i
-																					class="fa fa-pinterest"></i></a>
-																			</div>
-																		</div>
-
-																	</div>
-																</li>
+																</li>													
 															</ul>
 														</div>
 														<div class="description">
@@ -324,19 +272,6 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	$("#showtable").on("click","#react",function () {
-		var id = $(this).closest("ul").attr('id');
-		alert(id);
-	$.ajax({
-		url: "@Url.Action("GetReactStatus", "React")",
-		data: { id: id },
-		success: function (jsReturnArgs) {
-			$("#react").html(jsReturnArgs);
-		}
-	});
-	});
-</script>
 </body>
 
 </html>

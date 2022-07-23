@@ -22,16 +22,18 @@ namespace WetCat.DAO
         }
 
         public void newNoti(string target, string causer, string type, int? cmtid, int? postid){
-            using var _db = new WetCat_DBContext();
-            NotificationList noti = new NotificationList();
-            noti.Target = target;
-            noti.Causer = causer;
-            noti.NotificationType = type;
-            noti.PostId = postid;
-            noti.CommentId = cmtid;
-            noti.NotifyTime = DateTime.Now;
-            _db.NotificationLists.Add(noti);
-            _db.SaveChanges();
+             if(target != causer){
+                using var _db = new WetCat_DBContext();
+                NotificationList noti = new NotificationList();
+                noti.Target = target;
+                noti.Causer = causer;
+                noti.NotificationType = type;
+                noti.PostId = postid;
+                noti.CommentId = cmtid;
+                noti.NotifyTime = DateTime.Now;
+                _db.NotificationLists.Add(noti);
+                _db.SaveChanges();
+            }   
         }
 
         public List<NotificationList> getAllNoti(string usn){

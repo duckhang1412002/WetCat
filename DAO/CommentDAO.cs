@@ -60,7 +60,7 @@ namespace WetCat.DAO
                 _db.Comments.Add(comment);
                 _db.SaveChanges();
             } catch (Exception ex) {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
         }
 

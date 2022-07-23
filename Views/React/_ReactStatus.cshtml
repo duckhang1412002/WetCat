@@ -1,20 +1,20 @@
 @model ReactList
 
     @if(Model.ReactType == ""){
-    <div class="ti-heart"></div>        
+    <div class="ti-heart" style="position:absolute"></div>        
     } else{
         if(Model.ReactType == "angry"){
-            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="angry-icon"></div>
+            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="angry-icon1"></div>
         } else if (Model.ReactType == "like"){
-            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="like-icon"></div>
+            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="like-icon1"></div>
         } else if (Model.ReactType == "love"){
-            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="love-icon">
+            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="love-icon1">
         </div>
         } else if (Model.ReactType == "sad"){
-            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="sad-icon">
+            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="sad-icon1">
         </div>
         } else if (Model.ReactType == "smiling"){
-            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="smiling-icon">
+            <div style="background-size: 25px 25px; width: 25px; height:28px;" id="btn-react-click" class="smiling-icon1">
         </div>
         }
     }           
@@ -39,7 +39,7 @@
     $("#@Model.PostId").on("click","#btn-react-click2",function () {
 		var id = $(this).closest("ul").attr('id');
         var type = $(this).attr('class');
-		alert(type);
+		//alert(type);
 	$.ajax({
 		url: "@Url.Action("SetReact", "React")",
 		data: {
@@ -47,14 +47,21 @@
             type: type,
          },
 		success: function (jsReturnArgs) {
-			$(document).find("#@Model.PostId").find("#react").html(jsReturnArgs);
+			$(document).find("#@Model.PostId").find(".@Model.PostId").html(jsReturnArgs);
 		}
 	});
+    $.ajax({
+        url: "@Url.Action("GetReactStatus", "React")",
+        data: { id: id },
+        success: function (jsReturnArgs) {
+            $(document).find("#@Model.PostId").find(".@Model.PostId").html(jsReturnArgs);
+        }
+    });
 	});
      $("#@Model.PostId").on("click","#btn-react-click",function () {
 		var id = $(this).closest("ul").attr('id');
         var type = "delete"
-		alert(type);
+		//alert(type);
 	$.ajax({
 		url: "@Url.Action("SetReact", "React")",
 		data: {
@@ -62,8 +69,15 @@
             type: type,
          },
 		success: function (jsReturnArgs) {
-			$(document).find("#@Model.PostId").find("#react").html(jsReturnArgs);
+			$(document).find("#@Model.PostId").find(".@Model.PostId").html(jsReturnArgs);
 		}
 	});
+    $.ajax({
+        url: "@Url.Action("GetReactStatus", "React")",
+        data: { id: id },
+        success: function (jsReturnArgs) {
+            $(document).find("#@Model.PostId").find(".@Model.PostId").html(jsReturnArgs);
+        }
+    });
 	});
 </script>

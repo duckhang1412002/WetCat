@@ -99,15 +99,19 @@ namespace WetCat.Controllers
             if (what == "") what = "timeline";
             dynamic model = new ExpandoObject();
             User user = userDAO.GetUserByUsername(usn);
+            User currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+            ViewBag.AvatarSrc = currentSessionUser.AvatarSrc;
+            ViewBag.Username = currentSessionUser.Username;
             return View("/Views/Home/_Wall.cshtml", user);
         }
 
         public IActionResult Timeline(string id){
             System.Console.WriteLine("timeline " + id);
             PostDAO postDAO = new PostDAO();
-            List<Post> list = postDAO.GetPostByUsername(id);
+            IEnumerable<Post> list = postDAO.GetPostByUsername(id);
+            IEnumerable<Post> posts = postDAO.GetAllPostsByDeleteStatus(list);
             dynamic model = new ExpandoObject();
-            model.postsList = list.Reverse<Post>().ToList();
+            model.postsList = posts.ToList().OrderByDescending(p => p.PostId);;
             model.currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
             return View("/Views/Home/Timeline.cshtml", model);
         }
