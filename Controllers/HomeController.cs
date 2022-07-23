@@ -113,14 +113,48 @@ namespace WetCat.Controllers
             if (HttpContext.Session.GetString ("username") == null) {
                 return RedirectToAction ("Index", "Home");
             }
+            User currentSessionUser = userDAO.GetUserByUsername (HttpContext.Session.GetString ("username"));
+
             System.Console.WriteLine("timeline " + id);
             PostDAO postDAO = new PostDAO();
-            IEnumerable<Post> list = postDAO.GetPostByUsername(id);
-            IEnumerable<Post> posts = postDAO.GetAllPostsByDeleteStatus(list);
-            IEnumerable<Post> publicPost = postDAO.GetAllPostsByPrivacy (id, posts);
-        
+            IEnumerable<Post> tempPosts = null;
+
+            IEnumerable<Follow> followings = followDAO.GetFollowings (currentSessionUser.Username);
+            IEnumerable<Friend> friends = friendDAO.GetFriendList (currentSessionUser.Username);
+            friends = friendDAO.SwapColumnFriend (currentSessionUser.Username, friends);
+            IEnumerable<Post> posts = postDAO.GetAllPosts ().ToList ();
+            IEnumerable<Post> posts_admin;
+            IEnumerable<Post> posts_privacy;
+            IEnumerable<Post> posts_following;
+            IEnumerable<Post> posts_friend;
+
+            posts = postDAO.GetAllPostsByDeleteStatus (posts);
+            posts_admin = postDAO.GetAllAdminPosts (posts);
+            tempPosts = posts_admin;
+            if (posts_admin != null) {
+                tempPosts = tempPosts.Union (posts_admin.ToHashSet ());
+            }
+
+            posts_privacy = postDAO.GetAllPostsByPrivacy (currentSessionUser.Username, posts);
+            if (posts_privacy != null) {
+                tempPosts = tempPosts.Union (posts_privacy.ToHashSet ());
+            }
+
+            foreach (Follow following in followings) {
+                posts_following = postDAO.GetAllPostsByFollowings (currentSessionUser.Username, posts, following);
+                if (posts_following != null)
+                    tempPosts = tempPosts.Union (posts_following.ToHashSet ());
+            }
+
+            foreach (Friend friend in friends) {
+                posts_friend = postDAO.GetAllPostsByFriends (currentSessionUser.Username, posts, friend);
+                if (posts_friend != null) {
+                    tempPosts = tempPosts.Union (posts_friend.ToHashSet ());
+                }
+            }
             dynamic model = new ExpandoObject();
-            model.postsList = publicPost.ToList().OrderByDescending(p => p.PostId);;
+            posts = tempPosts.ToList().FindAll(p => p.PostAuthor == id);
+            model.postsList = posts;
             model.currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
             return View("/Views/Home/Timeline.cshtml", model);
         }

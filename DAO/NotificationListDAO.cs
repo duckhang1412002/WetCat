@@ -24,7 +24,7 @@ namespace WetCat.DAO
         public void newNoti(string target, string causer, string type, int? cmtid, int? postid){
             System.Console.WriteLine("Causer " + causer + "tag" + target);
             if(target != causer){
-                if(isAlreadyHaveReactNoti(causer, postid.Value) && type == "react"){
+                if(postid != null && isAlreadyHaveReactNoti(causer, postid.Value) && type == "react"){
                     deleteNoti(causer, postid.Value);
                 }
                 using var _db = new WetCat_DBContext();
@@ -53,6 +53,16 @@ namespace WetCat.DAO
             }
             return notlst;
         }
+
+        public void CheckAllNoti(string usn){
+            using var _db = new WetCat_DBContext();
+            List<NotificationList> notlst = _db.NotificationLists.Where(n => n.Target == usn).ToList();
+            foreach(NotificationList n in notlst){
+                n.IsDeleted = 1;
+                _db.NotificationLists.Update(n);
+                _db.SaveChanges();
+            }
+        }
         public bool isAlreadyHaveReactNoti(string usn, int postId){
             using var _db = new WetCat_DBContext();
             NotificationList notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId).FirstOrDefault();
@@ -62,10 +72,12 @@ namespace WetCat.DAO
         }
         public void deleteNoti(string usn, int postId){
             using var _db = new WetCat_DBContext();
-            NotificationList notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId && n.NotificationType == "react").FirstOrDefault();
+            List<NotificationList> notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId && n.NotificationType == "react").ToList();
             if(notlst != null){
-                _db.NotificationLists.Remove(notlst);
-                _db.SaveChanges();
+                foreach(NotificationList n in notlst){
+                    _db.NotificationLists.Remove(n);
+                    _db.SaveChanges();
+                }
             }
         }
     }

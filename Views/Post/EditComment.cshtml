@@ -121,7 +121,7 @@
 														else
 														{
 															<div class="col-10 friend-name">
-																<ins class="row"><a href="/Wall/@Model.PostAuthor/timeline"
+																<ins class="row"><a href="/Wall/@Model.post.PostAuthor/timeline"
 																title="">@Model.post.PostAuthorNavigation.Nickname</a></ins>
 																<span class="row">@Model.post.PostTime</span>
 															</div>
@@ -203,7 +203,7 @@
 																</div>
 																<div class="we-comment">
 																	<div class="coment-head">
-																		<h5><a href="time-line.html" title="">@comment.CommentAuthorNavigation.Nickname</a></h5>
+																		<h5><a href="/Wall/@comment.CommentAuthorNavigation.Username/timeline" title="">@comment.CommentAuthorNavigation.Nickname</a></h5>
 																		<span>@comment.CommentTime</span>
 																		<a class="we-reply" href="javascript:void(0)" title="Reply" onclick="showReplyInput('reply-@comment.CommentId')">
 																			<i class="fa fa-reply"></i>
@@ -269,7 +269,7 @@
                                                                                 </div>
                                                                                 <div class="we-comment">
                                                                                     <div class="coment-head">
-                                                                                        <h5><a href="time-line.html" title="">@reply.CommentAuthorNavigation.Nickname</a></h5>
+                                                                                        <h5><a href="/Wall/@reply.CommentAuthorNavigation/timeline" title="">@reply.CommentAuthorNavigation.Nickname</a></h5>
                                                                                         <span>@reply.CommentTime</span>
                                                                                         <a class="we-reply" href="#" title="Reply"><i
                                                                                                 class="fa fa-reply"></i></a>

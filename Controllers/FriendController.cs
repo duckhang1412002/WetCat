@@ -44,11 +44,16 @@ namespace WetCat.Controllers {
         }
 
         public IActionResult AddFriend (string usn) {
-            if (HttpContext.Session.GetString ("username") == null) {
+            try {
+                if (HttpContext.Session.GetString ("username") == null) {
                 return RedirectToAction ("Index", "Home");
             }
-            friendDAO.AddFriend (HttpContext.Session.GetString("username"), usn);
-            NotificationListController.sendNoti("request", null, null, HttpContext.Session.GetString("username"),usn);
+                friendDAO.AddFriend (HttpContext.Session.GetString("username"), usn);
+                NotificationListController.sendNoti("request", null, null, HttpContext.Session.GetString("username"),usn);
+            } catch (Exception e) {
+                System.Console.WriteLine(e.InnerException.Message);
+            }
+            
             return Redirect ("/Wall/" + usn + "/timeline");
         }
         public IActionResult AcceptAtWall(string usn) {
