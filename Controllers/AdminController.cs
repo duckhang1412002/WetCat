@@ -28,6 +28,10 @@ namespace WetCat.Controllers
         }
 
         public ActionResult Delete(int postid){
+            if (HttpContext.Session.GetString("username") != "admin") {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index", "Home");
+            } 
             if (postid == 0){
                 return NotFound();
             }
@@ -40,6 +44,10 @@ namespace WetCat.Controllers
         
         [HttpPost]
         public ActionResult Delete1(int postid){
+            if (HttpContext.Session.GetString("username") != "admin") {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index", "Home");
+            } 
             try {
                 PostDAO.EditPost1(PostDAO.FindPost(postid)); 
                 return RedirectToAction(nameof(Index));
@@ -51,6 +59,10 @@ namespace WetCat.Controllers
         }
 
         public ActionResult ShowPost(int postid){
+            if (HttpContext.Session.GetString("username") != "admin") {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index", "Home");
+            } 
             if (postid.Equals("")){
                 return NotFound();
             }
@@ -63,6 +75,10 @@ namespace WetCat.Controllers
 
         [HttpPost]
         public ActionResult ShowPost(Post post){
+            if (HttpContext.Session.GetString("username") != "admin") {
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index", "Home");
+            } 
             try {
                 PostDAO.GetPosts();
                 return RedirectToAction(nameof(Index));
