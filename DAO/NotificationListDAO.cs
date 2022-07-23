@@ -22,7 +22,11 @@ namespace WetCat.DAO
         }
 
         public void newNoti(string target, string causer, string type, int? cmtid, int? postid){
-             if(target != causer){
+            System.Console.WriteLine("Causer " + causer + "tag" + target);
+            if(target != causer){
+                if(isAlreadyHaveReactNoti(causer, postid.Value) && type == "react"){
+                    deleteNoti(causer, postid.Value);
+                }
                 using var _db = new WetCat_DBContext();
                 NotificationList noti = new NotificationList();
                 noti.Target = target;
@@ -31,6 +35,7 @@ namespace WetCat.DAO
                 noti.PostId = postid;
                 noti.CommentId = cmtid;
                 noti.NotifyTime = DateTime.Now;
+                System.Console.WriteLine(" ADĐ " + target + causer);
                 _db.NotificationLists.Add(noti);
                 _db.SaveChanges();
             }   
@@ -47,6 +52,21 @@ namespace WetCat.DAO
                 n.NotificationTypeNavigation = nD.GetNoti(n.NotificationType);
             }
             return notlst;
+        }
+        public bool isAlreadyHaveReactNoti(string usn, int postId){
+            using var _db = new WetCat_DBContext();
+            NotificationList notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId).FirstOrDefault();
+            if (notlst == null){
+                return false;
+            } else return true;
+        }
+        public void deleteNoti(string usn, int postId){
+            using var _db = new WetCat_DBContext();
+            NotificationList notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId && n.NotificationType == "react").FirstOrDefault();
+            if(notlst != null){
+                _db.NotificationLists.Remove(notlst);
+                _db.SaveChanges();
+            }
         }
     }
 }
