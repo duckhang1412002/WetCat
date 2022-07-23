@@ -18,9 +18,7 @@
     <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
 </head>
 <body>
-
-	
-			<div class="topbar stick">
+	<div class="topbar stick">
 			<div class="logo">
 				<a title="" href="#"><img class="" id="web_logo" src="images/profiles/admin/logo.jpg" alt=""></a>
 			</div>
@@ -41,7 +39,7 @@
 					</div>
 				</div>
 			</div>
-		</div><!-- topbar -->
+	</div><!-- topbar -->
 	
 		
 	<section>
@@ -61,11 +59,11 @@
 												</li>
 												<li>
 													<i class="ti-files"></i>
-													<a href="Wall/@Model.currentSessionUser.Username/timeline">My pages</a>
+													<a href="/Wall/@Model.currentSessionUser.Username/timeline">My pages</a>
 												</li>
 												<li>
 													<i class="ti-user"></i>
-													<a href="Wall/@Model.currentSessionUser.Username/friends">friends</a>
+													<a href="/Wall/@Model.currentSessionUser.Username/friends">friends</a>
 												</li>
 												<li>
 													<i class="ti-bell"></i><span id="notiCnt" style="color: red;">@Model.countNoti</span>
@@ -135,35 +133,54 @@
 															<img src="~/@Model.post.PostImgSrc" class="img img-fluid" alt="image">
 														}
 														<div class="we-video-info">
-															<ul>
-																<li>
-																	<span class="views" data-toggle="tooltip" title="views">
-																		<i class="fa fa-eye"></i>
-																		<ins>1.2k</ins>
-																	</span>
-																</li>
+															<ul id="@Model.post.PostId">
 																<li>
 																	<a asp-action="ViewComment" asp-controller="Post" asp-route-postId="@Model.post.PostId">
 																	<span class="comment" data-toggle="tooltip"
 																	title="Comments">
 																		<i class="fa fa-comments-o"></i>
-																		<ins>52</ins>
 																	</span>
 																	</a>
 																</li>
-																<li>
-																	<span class="like" data-toggle="tooltip" title="like">
-																		<i class="ti-heart"></i>
-																		<ins>2.2k</ins>
-																	</span>
-																</li>
-																<li>
-																	<span class="dislike" data-toggle="tooltip"
-																	title="dislike">
-																		<i class="ti-heart-broken"></i>
-																		<ins>200</ins>
-																	</span>
-																</li>	
+																<li style="position: relative;">
+																	
+																	<a id="react" class="icon-hover post-footer @Model.post.PostId">
+																	<div class="box-list-icons">
+																		<div class="like-icon">
+																			<label>Like</label>
+																		</div>
+																		<div class="love-icon">
+																			<label>Love</label>
+																		</div>
+																		<div class="smiling-icon">
+																			<label>Haha</label>
+																		</div>
+																		<div class="sad-icon">
+																			<label>Sad</label>
+																		</div>
+																		<div class="angry-icon">
+																			<label>Angry</label>
+																		</div>
+																	</div>
+																	<script>
+																		
+																		$(document).ready(function() {
+																			$.each($("#@Model.post.PostId"), function(){
+																				var id = $(this).closest("ul").attr('id');
+																				$.ajax({
+																					url: "@Url.Action("GetReactStatus", "React")",
+																					data: { id: id },
+																					async: false,
+																					success: function (jsReturnArgs) {
+																						$(document).find("#@Model.post.PostId").find("#react").html(jsReturnArgs);
+																					}
+																				});
+																			})
+																		});
+																	</script>
+																</a>
+																	
+																</li>													
 															</ul>
 														</div>
 														<div class="description">
@@ -196,7 +213,7 @@
 																				<a class="dropdown-toggle" href="#" role="button"
 																					id="dropdownMenuLink" data-toggle="dropdown"
 																					aria-haspopup="true" aria-expanded="false"></a>
-																																						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 																					<a class="dropdown-item" asp-action="EditComment"
 																						asp-controller="Post"
 																						asp-route-commentId="@comment.CommentId">Edit</a>
