@@ -10150,7 +10150,7 @@ figure{
     text-align: center;
     border-top-right-radius: 35px;
 }
-
+/* reaction list */
 .hobbyBox{
     width: 100%;
     display: inline-block;
@@ -10160,6 +10160,18 @@ figure{
     margin: auto;
 }
 
+.post {
+    background-color: #ffffff;
+    margin: 30px auto 0px auto;
+    width: 600px;
+}
+.post-footer{
+    padding: 10px;
+    margin: 5rem auto;
+}
+.post-footer{
+    border-top: 1px solid #ddd;
+}
 .icon-hover{
     font-weight: bold;
     color: #999;
@@ -10274,14 +10286,40 @@ figure{
 .box-list-icons [class*="icon"]:hover {
     transform: scale(1.2);
 }
-.post {
-    background-color: #ffffff;
-    margin: 30px auto 0px auto;
-    width: 600px;
-}
-.post-footer{
-    margin: 1rem auto;
-}
-.post-footer{
-    border-top: 1px solid #ddd;
-}
+.like-icon1{
+    background-image: url('https://i.ibb.co/pPnWVmy/cat.png');
+    background-size: 38px 38px;
+    background-repeat: no-repeat ;
+    position: absolute;
+   }
+   .love-icon1{
+    background-image: url('https://i.ibb.co/9vZLsBT/Love-cat.png');
+    background-repeat: no-repeat;
+    background-size: 38px 38px;
+    background-repeat: no-repeat ;
+    position: absolute;
+    }
+   .smiling-icon1{
+    background-image: url('https://i.ibb.co/xjs2zbF/Happy-cat.png');
+    background-size: 38px 38px;
+    background-repeat: no-repeat ;
+    position: absolute;
+   }
+   .wow-icon1{
+    background-image: url('https://i.ibb.co/dKL6X57/Wow-cat.png');
+    background-size: 54px 54px;
+    background-repeat: no-repeat ;
+    position: absolute;
+   }
+   .sad-icon1{
+    background-image: url('https://i.ibb.co/tL2HNgY/Sad-cat.png');
+    background-size: 38px 38px;
+    background-repeat: no-repeat ;
+    position: absolute;
+   }
+   .angry-icon1{
+    background-image: url('https://i.ibb.co/w47Wgz5/Mad-cat.png');
+    background-size: 38px 38px;
+    background-repeat: no-repeat ;
+    position: absolute;
+   }

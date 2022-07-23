@@ -21,6 +21,7 @@ namespace WetCat.Controllers {
         FollowDAO FollowDAO = new FollowDAO ();
         CommentDAO CommentDAO = new CommentDAO ();
         FriendDAO FriendDAO = new FriendDAO ();
+        NotificationListDAO nld = new NotificationListDAO ();
         public PostController () { }
 
         public IActionResult Index () {
@@ -66,26 +67,20 @@ namespace WetCat.Controllers {
                     tempPosts = tempPosts.Union (posts_friend.ToHashSet ());
                 }
             }
-
             posts = tempPosts.ToList().OrderByDescending(p => p.PostId);
             
             System.Console.WriteLine("----------Result Posts-----------");
             foreach(Post post in tempPosts){
                 System.Console.WriteLine("Post: " + post.PostId + "---" + post.PostAuthor + "---" + post.PrivacyMode);         
-            }
-                            
-            // model.postsList = posts; 
-            // model.currentSessionUser = currentSessionUser;
-            // return View(model);        
-            NotificationListDAO nld = new NotificationListDAO ();
+            }             
             model.countNoti = nld.getAllNoti (HttpContext.Session.GetString ("username")).Where (p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
-            posts = tempPosts.ToList ();
-            model.postsList = posts.Reverse ();
+            model.postsList = posts;
             model.currentSessionUser = currentSessionUser;
             return View (model);
         }
 
         public IActionResult DeletePost(int? postId){
+            
             System.Console.WriteLine(postId);
             Post post = PostDAO.FindPost(postId.Value);
             //System.Console.WriteLine("OK");
@@ -149,16 +144,13 @@ namespace WetCat.Controllers {
             if (postId == null) {
                 return NotFound ();
             }
-
-            //System.Console.WriteLine("Post: " + postId);
-            //System.Console.WriteLine("Current session: " + HttpContext.Session.GetString("username"));
-
             Post post = PostDAO.GetPost (postId.Value);
             User currentSessionUser = UserDAO.GetUserByUsername (HttpContext.Session.GetString ("username"));
-
+            
+            
             if (post.IsDeleted == 1) return NotFound();
             dynamic model = new ExpandoObject ();
-
+            model.countNoti = nld.getAllNoti (HttpContext.Session.GetString ("username")).Where (p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
             model.post = post;
             model.currentSessionUser = currentSessionUser;
             return View (model);
@@ -199,6 +191,9 @@ namespace WetCat.Controllers {
 
         [HttpGet("/Post/ViewComment/{postId}")]
         public IActionResult ViewComment(int? postId){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if(postId == null){
                 return NotFound();
             }
@@ -211,19 +206,27 @@ namespace WetCat.Controllers {
             model.post = post;
             model.currentSessionUser = currentSessionUser;
             model.CommentList = cmtList;
+            model.countNoti = nld.getAllNoti (HttpContext.Session.GetString ("username")).Where (p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
             return View (model);
         }
 
         [HttpPost]
-        public IActionResult AddComment(int? postID, int? parentID, string content)
+        public IActionResult AddComment(int postID, int parentID, string content)
         {
-            if (postID == null || content == null) return NotFound();
             Comment comment = new Comment();
             comment.CommentAuthor = HttpContext.Session.GetString("username");
             comment.CommentTime = DateTime.Now;
-            comment.PostId = postID.Value;
+            comment.PostId = postID;
             comment.CommentContent = content;
             comment.ParentId = parentID;
+            if(parentID == 0){
+                comment.ParentId = null;
+                PostDAO pD = new PostDAO();
+                NotificationListController.sendNoti("comment",postID,null,comment.CommentAuthor, pD.GetPost(postID).PostAuthor);
+            } else{
+                CommentDAO cD = new CommentDAO();
+                NotificationListController.sendNoti("reply",postID,parentID,comment.CommentAuthor, cD.GetCommentByCommentID(parentID).CommentAuthor);
+            }
             CommentDAO.AddNewComment(comment);
             return RedirectToAction("ViewComment", new {postId = postID});
         }
@@ -242,6 +245,7 @@ namespace WetCat.Controllers {
             model.post = post;
             model.currentSessionUser = currentSessionUser;
             model.CommentList = cmtList;
+            model.countNoti = nld.getAllNoti (HttpContext.Session.GetString ("username")).Where (p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
             ViewBag.CommentID = commentId.Value;
             return View(model);
         }
@@ -249,6 +253,9 @@ namespace WetCat.Controllers {
         [HttpPost]
         public IActionResult EditComment(int? commentID, string content)
         {
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if (commentID == null || content == null) return NotFound();
             Comment comment = CommentDAO.GetCommentByCommentID(commentID.Value);
             comment.CommentAuthor = HttpContext.Session.GetString("username");

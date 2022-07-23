@@ -22,16 +22,23 @@ namespace WetCat.DAO
         }
 
         public void newNoti(string target, string causer, string type, int? cmtid, int? postid){
-            using var _db = new WetCat_DBContext();
-            NotificationList noti = new NotificationList();
-            noti.Target = target;
-            noti.Causer = causer;
-            noti.NotificationType = type;
-            noti.PostId = postid;
-            noti.CommentId = cmtid;
-            noti.NotifyTime = DateTime.Now;
-            _db.NotificationLists.Add(noti);
-            _db.SaveChanges();
+            System.Console.WriteLine("Causer " + causer + "tag" + target);
+            if(target != causer){
+                if(postid != null && isAlreadyHaveReactNoti(causer, postid.Value) && type == "react"){
+                    deleteNoti(causer, postid.Value);
+                }
+                using var _db = new WetCat_DBContext();
+                NotificationList noti = new NotificationList();
+                noti.Target = target;
+                noti.Causer = causer;
+                noti.NotificationType = type;
+                noti.PostId = postid;
+                noti.CommentId = cmtid;
+                noti.NotifyTime = DateTime.Now;
+                System.Console.WriteLine(" ADĐ " + target + causer);
+                _db.NotificationLists.Add(noti);
+                _db.SaveChanges();
+            }   
         }
 
         public List<NotificationList> getAllNoti(string usn){
@@ -45,6 +52,33 @@ namespace WetCat.DAO
                 n.NotificationTypeNavigation = nD.GetNoti(n.NotificationType);
             }
             return notlst;
+        }
+
+        public void CheckAllNoti(string usn){
+            using var _db = new WetCat_DBContext();
+            List<NotificationList> notlst = _db.NotificationLists.Where(n => n.Target == usn).ToList();
+            foreach(NotificationList n in notlst){
+                n.IsDeleted = 1;
+                _db.NotificationLists.Update(n);
+                _db.SaveChanges();
+            }
+        }
+        public bool isAlreadyHaveReactNoti(string usn, int postId){
+            using var _db = new WetCat_DBContext();
+            NotificationList notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId).FirstOrDefault();
+            if (notlst == null){
+                return false;
+            } else return true;
+        }
+        public void deleteNoti(string usn, int postId){
+            using var _db = new WetCat_DBContext();
+            List<NotificationList> notlst = _db.NotificationLists.Where(n => n.Causer == usn && n.PostId == postId && n.NotificationType == "react").ToList();
+            if(notlst != null){
+                foreach(NotificationList n in notlst){
+                    _db.NotificationLists.Remove(n);
+                    _db.SaveChanges();
+                }
+            }
         }
     }
 }

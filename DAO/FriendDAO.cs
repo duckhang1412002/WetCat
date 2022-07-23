@@ -107,10 +107,10 @@ namespace WetCat.DAO
                     context.Update(_friend);
                     context.SaveChanges();
                 } else {
-                    throw new Exception("The friend is already exist!");
+                    System.Console.WriteLine("The friend is already exist!");
                 }
             } catch (Exception ex) {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException.Message);
             }
         }
 

@@ -42,71 +42,55 @@
 					<img src="~/@item.PostImgSrc" class="img img-fluid" alt="image">
 				}
 				<div class="we-video-info">
-					<ul>
-						<li>
-							<span class="views" data-toggle="tooltip" title="views">
-								<i class="fa fa-eye"></i>
-								<ins>1.2k</ins>
-							</span>
-						</li>
-						<li>
-							<a asp-action="ViewComment" asp-controller="Post" asp-route-postId="@item.PostId">
-								<span class="comment" data-toggle="tooltip" title="Comments">
-									<i class="fa fa-comments-o"></i>
-									<ins>52</ins>
-								</span>
-							</a>
-						</li>
-						<li>
-							<span class="like" data-toggle="tooltip" title="like">
-								<i class="ti-heart"></i>
-								<ins>2.2k</ins>
-							</span>
-						</li>
-						<li>
-							<span class="dislike" data-toggle="tooltip" title="dislike">
-								<i class="ti-heart-broken"></i>
-								<ins>200</ins>
-							</span>
-						</li>
-						<li class="social-media">
-							<div class="menu">
-								<div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a>
-									</div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a>
-									</div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a>
-									</div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a>
-									</div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-instagram"></i></a>
-									</div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-dribbble"></i></a>
-									</div>
-								</div>
-								<div class="rotater">
-									<div class="btn btn-icon"><a href="#" title=""><i class="fa fa-pinterest"></i></a>
-									</div>
-								</div>
-
-							</div>
-						</li>
-					</ul>
+					<ul id="@item.PostId">
+																<li>
+																	<a asp-action="ViewComment" asp-controller="Post" asp-route-postId="@item.PostId">
+																	<span class="comment" data-toggle="tooltip"
+																	title="Comments">
+																		<i class="fa fa-comments-o"></i>																	</span>
+																	</a>
+																</li>
+																<li style="position: relative;">
+																	
+																	<a id="react" class="icon-hover post-footer @item.PostId">
+																	<div class="box-list-icons">
+																		<div class="like-icon">
+																			<label>Like</label>
+																		</div>
+																		<div class="love-icon">
+																			<label>Love</label>
+																		</div>
+																		<div class="smiling-icon">
+																			<label>Haha</label>
+																		</div>
+																		<div class="sad-icon">
+																			<label>Sad</label>
+																		</div>
+																		<div class="angry-icon">
+																			<label>Angry</label>
+																		</div>
+																	</div>
+																	<script>
+																		
+																		$(document).ready(function() {
+																			$.each($("#@item.PostId"), function(){
+																				var id = $(this).closest("ul").attr('id');
+																				$.ajax({
+																					url: "@Url.Action("GetReactStatus", "React")",
+																					data: { id: id },
+																					async: false,
+																					success: function (jsReturnArgs) {
+																						$(document).find("#@item.PostId").find("#react").html(jsReturnArgs);
+																					}
+																				});
+																			})
+																		});
+																	</script>
+																</a>
+																	
+																</li>
+																
+															</ul>
 				</div>
 				<div class="description">
 					<p>

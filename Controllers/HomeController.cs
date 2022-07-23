@@ -88,6 +88,7 @@ namespace WetCat.Controllers
                 return RedirectToAction("Index", "Home", user);
             }
             user.Gender = (Gender == "Male") ? 1 : 0;
+            user.AvatarSrc = "images/user.jpg";
             userDAO.RegisterUser(user);
             System.Console.WriteLine("Login successfully");
             return RedirectToAction("Index", "Home");
@@ -95,19 +96,65 @@ namespace WetCat.Controllers
 
         [HttpGet("/Wall/{usn}/{what}")]
         public IActionResult Wall(string usn, string what){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             System.Console.WriteLine("Xin chao? " + usn);
-            if (what == "") what = "timeline";
+            //if (what == "") what = "timeline";
             dynamic model = new ExpandoObject();
             User user = userDAO.GetUserByUsername(usn);
+            User currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
+            ViewBag.AvatarSrc = currentSessionUser.AvatarSrc;
+            ViewBag.Username = currentSessionUser.Username;
             return View("/Views/Home/_Wall.cshtml", user);
         }
 
         public IActionResult Timeline(string id){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
+            User currentSessionUser = userDAO.GetUserByUsername (HttpContext.Session.GetString ("username"));
+
             System.Console.WriteLine("timeline " + id);
             PostDAO postDAO = new PostDAO();
-            List<Post> list = postDAO.GetPostByUsername(id);
+            IEnumerable<Post> tempPosts = null;
+
+            IEnumerable<Follow> followings = followDAO.GetFollowings (currentSessionUser.Username);
+            IEnumerable<Friend> friends = friendDAO.GetFriendList (currentSessionUser.Username);
+            friends = friendDAO.SwapColumnFriend (currentSessionUser.Username, friends);
+            IEnumerable<Post> posts = postDAO.GetAllPosts ().ToList ();
+            IEnumerable<Post> posts_admin;
+            IEnumerable<Post> posts_privacy;
+            IEnumerable<Post> posts_following;
+            IEnumerable<Post> posts_friend;
+
+            posts = postDAO.GetAllPostsByDeleteStatus (posts);
+            posts_admin = postDAO.GetAllAdminPosts (posts);
+            tempPosts = posts_admin;
+            if (posts_admin != null) {
+                tempPosts = tempPosts.Union (posts_admin.ToHashSet ());
+            }
+
+            posts_privacy = postDAO.GetAllPostsByPrivacy (currentSessionUser.Username, posts);
+            if (posts_privacy != null) {
+                tempPosts = tempPosts.Union (posts_privacy.ToHashSet ());
+            }
+
+            foreach (Follow following in followings) {
+                posts_following = postDAO.GetAllPostsByFollowings (currentSessionUser.Username, posts, following);
+                if (posts_following != null)
+                    tempPosts = tempPosts.Union (posts_following.ToHashSet ());
+            }
+
+            foreach (Friend friend in friends) {
+                posts_friend = postDAO.GetAllPostsByFriends (currentSessionUser.Username, posts, friend);
+                if (posts_friend != null) {
+                    tempPosts = tempPosts.Union (posts_friend.ToHashSet ());
+                }
+            }
             dynamic model = new ExpandoObject();
-            model.postsList = list.Reverse<Post>().ToList();
+            posts = tempPosts.ToList().FindAll(p => p.PostAuthor == id);
+            model.postsList = posts;
             model.currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
             return View("/Views/Home/Timeline.cshtml", model);
         }
@@ -119,6 +166,9 @@ namespace WetCat.Controllers
 
         [HttpPost]
         public IActionResult Search(string data){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if (data == "") return View(data);
             
             data = data.ToLower();

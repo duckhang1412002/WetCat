@@ -22,18 +22,23 @@ namespace WetCat.DAO
         }
 
         public void ReactPost(int postId, string reacter, string type){
-            using var _db = new WetCat_DBContext();
-            ReactList rct = _db.ReactLists.Where(r => r.PostId == postId && r.Username == reacter).FirstOrDefault();
-            if(rct != null){
-                _db.ReactLists.Remove(rct);
+            try {
+                using var _db = new WetCat_DBContext();
+                ReactList rct = _db.ReactLists.Where(r => r.PostId == postId && r.Username == reacter).FirstOrDefault();
+                if(rct != null){
+                    _db.ReactLists.Remove(rct);
+                    _db.SaveChanges();
+                }
+                rct = new ReactList();
+                rct.ReactType = type;
+                rct.PostId = postId;
+                rct.Username = reacter;
+                _db.ReactLists.Add(rct);
                 _db.SaveChanges();
-            } else 
-            rct = new ReactList();
-            rct.ReactType = type;
-            rct.PostId = postId;
-            rct.Username = reacter;
-            _db.ReactLists.Add(rct);
-            _db.SaveChanges();
+            } catch (Exception e) {
+                System.Console.WriteLine(e.InnerException.Message);
+            }
+            
         }
 
         public List<ReactList> GetReactList(int postId){

@@ -18,6 +18,9 @@ namespace WetCat.Controllers
         public HobbyListController(){}
 
         public IActionResult HobbyList(string id){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             HobbyDAO hobbyDAO = new HobbyDAO();
             List<HobbyList> hobbyLists = new List<HobbyList>();
             List<Hobby> hobbies = new List<Hobby>();
@@ -44,6 +47,9 @@ namespace WetCat.Controllers
         }
         [HttpPost]
         public IActionResult AddHobby(string hb){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             System.Console.WriteLine("HObby " + Convert.ToInt32(hb));
             hobbyListDAO.AddHobby(HttpContext.Session.GetString("username"), Convert.ToInt32(hb));
             return Redirect("/Wall/" + HttpContext.Session.GetString("username") + "/hobby");
