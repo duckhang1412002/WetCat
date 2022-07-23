@@ -18,9 +18,13 @@ namespace WetCat.Controllers
         static UserDAO userDAO = new UserDAO();
         public NotificationListController(){}
         public static void sendNoti(string type, int? postid, int? cmtid, string causer, string target){
+            
             notificationListDAO.newNoti(target, causer, type, cmtid, postid);
         }
         public IActionResult NotificationList(){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             List<NotificationList> notiList = notificationListDAO.getAllNoti(HttpContext.Session.GetString("username")).Reverse<NotificationList>().ToList();
             dynamic model = new ExpandoObject();
             model.currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
@@ -28,6 +32,9 @@ namespace WetCat.Controllers
             return View("NotificationList", model);
         }
         public IActionResult NotiCount(){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             int count = notificationListDAO.getAllNoti(HttpContext.Session.GetString("username")).Where(p => p.NotifyTime.AddHours(1) > DateTime.Now).Count();
             return PartialView("/Views/NotificationList/_NotiCount.cshtml", count);
         }

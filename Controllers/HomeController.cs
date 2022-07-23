@@ -95,6 +95,9 @@ namespace WetCat.Controllers
 
         [HttpGet("/Wall/{usn}/{what}")]
         public IActionResult Wall(string usn, string what){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             System.Console.WriteLine("Xin chao? " + usn);
             if (what == "") what = "timeline";
             dynamic model = new ExpandoObject();
@@ -106,6 +109,9 @@ namespace WetCat.Controllers
         }
 
         public IActionResult Timeline(string id){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             System.Console.WriteLine("timeline " + id);
             PostDAO postDAO = new PostDAO();
             IEnumerable<Post> list = postDAO.GetPostByUsername(id);
@@ -123,6 +129,9 @@ namespace WetCat.Controllers
 
         [HttpPost]
         public IActionResult Search(string data){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if (data == "") return View(data);
             
             data = data.ToLower();

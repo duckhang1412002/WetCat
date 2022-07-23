@@ -81,6 +81,7 @@ namespace WetCat.Controllers {
         }
 
         public IActionResult DeletePost(int? postId){
+            
             System.Console.WriteLine(postId);
             Post post = PostDAO.FindPost(postId.Value);
             //System.Console.WriteLine("OK");
@@ -191,6 +192,9 @@ namespace WetCat.Controllers {
 
         [HttpGet("/Post/ViewComment/{postId}")]
         public IActionResult ViewComment(int? postId){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if(postId == null){
                 return NotFound();
             }
@@ -250,6 +254,9 @@ namespace WetCat.Controllers {
         [HttpPost]
         public IActionResult EditComment(int? commentID, string content)
         {
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if (commentID == null || content == null) return NotFound();
             Comment comment = CommentDAO.GetCommentByCommentID(commentID.Value);
             comment.CommentAuthor = HttpContext.Session.GetString("username");

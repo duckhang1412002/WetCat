@@ -18,6 +18,9 @@ namespace WetCat.Controllers
         public ReactController(){}
         
         public IActionResult GetReactStatus(string id){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             ReactList rl = reactDAO.GetReactStatus(Convert.ToInt32(id), HttpContext.Session.GetString("username"));
             if(rl == null){
                 rl = new ReactList();
@@ -29,6 +32,9 @@ namespace WetCat.Controllers
         }
 
         public IActionResult SetReact(string id, string type){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
              if (type == "delete"){
                 reactDAO.Unreact(Convert.ToInt32(id), HttpContext.Session.GetString("username"));
             } else{
