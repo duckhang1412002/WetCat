@@ -19,7 +19,8 @@ namespace WetCat.Controllers
         public AdminController(){}
 
         public IActionResult Index(){
-            if (HttpContext.Session.GetString("username") == null) {
+            if (HttpContext.Session.GetString("username") != "admin") {
+                HttpContext.Session.Clear();
                 return RedirectToAction("Index", "Home");
             }  
             var postLists = PostDAO.GetAllPosts().ToList();
@@ -36,23 +37,7 @@ namespace WetCat.Controllers
             }
             return View(post);
         }
-
-        /*
-        [HttpPost]
-        public ActionResult Delete(Post post){
-            try {
-                using var _db = new WetCat_DBContext();
-                _db.Posts.Remove(post);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex){
-                ViewBag.Message = ex.Message;
-            }
-            return RedirectToAction("Delete");
-        }
-        */
-
+        
         [HttpPost]
         public ActionResult Delete1(int postid){
             try {

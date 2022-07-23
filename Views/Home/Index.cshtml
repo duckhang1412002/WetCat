@@ -123,8 +123,8 @@
 			var lblConfPass = document.getElementById("error-confirm-pass");
 			if (lblUserExisted.innerText != "" || lblConfPass.innerText != "") document.getElementById("register-btn").click();
 		}
-		
-		birthday.max = new Date().toLocaleDateString('en-ca')
+		birthday.max.min = "1900-01-01";
+		birthday.max = new Date().toLocaleDateString('en-ca');
 	</script>
 	<script src="~/js/main.min.js"></script>
 	<script src="~/js/script.js"></script>

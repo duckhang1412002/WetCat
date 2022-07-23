@@ -44,8 +44,9 @@
 				<div class="user-img">
 					<img src="~/@ViewBag.AvatarSrc" style="max-width: 50px">
 					<span class="status f-online"></span>
-					<div class="user-setting">						
-						<a href="Wall/@ViewBag.Username/edit" title=""><i class="ti-pencil-alt"></i>edit profile</a>
+					<div class="user-setting">		
+						<a href="/Wall/@ViewBag.Username/edit" title=""><i class="ti-pencil-alt"></i>edit profile</a>
+						<a asp-action="Logout" asp-controller="Home" title=""><i class="ti-power-off"></i>log out</a>			
 					</div>
 				</div>
 			</div>
@@ -179,11 +180,11 @@
 												</li>
 												<li>
 													<i class="ti-files"></i>
-													<a href="timeline">My pages</a>
+													<a href="/Wall/@ViewBag.Username/timeline">My pages</a>
 												</li>
 												<li>
 													<i class="ti-user"></i>
-													<a href="friends">friends</a>
+													<a href="/Wall/@ViewBag.Username/friends">friends</a>
 												</li>
 												<li>
 													<i class="ti-power-off"></i>

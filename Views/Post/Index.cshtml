@@ -1,5 +1,6 @@
 @model dynamic
 @using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
 	ViewData["Title"] = "Homepage";
@@ -35,7 +36,7 @@
 					<img src="~/@Model.currentSessionUser.AvatarSrc" style="max-width: 50px">
 					<span class="status f-online"></span>
 					<div class="user-setting">						
-						<a href="Wall/@Model.currentSessionUser.Username/edit" title=""><i class="ti-pencil-alt"></i>edit profile</a>
+						<a href="/Wall/@Model.currentSessionUser.Username/edit" title=""><i class="ti-pencil-alt"></i>edit profile</a>
 						<a asp-action="Logout" asp-controller="Home" title=""><i class="ti-power-off"></i>log out</a>
 					</div>
 				</div>
@@ -160,7 +161,7 @@
 														@if (Model.currentSessionUser.Username == item.PostAuthor)
 														{
 															<div class="col-9 friend-name">
-																<ins class="row"><a href="Wall/@item.PostAuthor/timeline"
+																<ins class="row"><a href="/Wall/@item.PostAuthor/timeline"
 																title="">@item.PostAuthorNavigation.Nickname</a></ins>
 																<span class="row">@item.PostTime</span>
 															</div>
@@ -181,7 +182,7 @@
 														else
 														{
 															<div class="col-10 friend-name">
-																<ins class="row"><a href="Wall/@item.PostAuthor/timeline"
+																<ins class="row"><a href="/Wall/@item.PostAuthor/timeline"
 																title="">@item.PostAuthorNavigation.Nickname</a></ins>
 																<span class="row">@item.PostTime</span>
 															</div>

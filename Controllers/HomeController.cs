@@ -88,6 +88,7 @@ namespace WetCat.Controllers
                 return RedirectToAction("Index", "Home", user);
             }
             user.Gender = (Gender == "Male") ? 1 : 0;
+            user.AvatarSrc = "images/user.jpg";
             userDAO.RegisterUser(user);
             System.Console.WriteLine("Login successfully");
             return RedirectToAction("Index", "Home");
@@ -95,8 +96,11 @@ namespace WetCat.Controllers
 
         [HttpGet("/Wall/{usn}/{what}")]
         public IActionResult Wall(string usn, string what){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             System.Console.WriteLine("Xin chao? " + usn);
-            if (what == "") what = "timeline";
+            //if (what == "") what = "timeline";
             dynamic model = new ExpandoObject();
             User user = userDAO.GetUserByUsername(usn);
             User currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
@@ -106,12 +110,17 @@ namespace WetCat.Controllers
         }
 
         public IActionResult Timeline(string id){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             System.Console.WriteLine("timeline " + id);
             PostDAO postDAO = new PostDAO();
             IEnumerable<Post> list = postDAO.GetPostByUsername(id);
             IEnumerable<Post> posts = postDAO.GetAllPostsByDeleteStatus(list);
+            IEnumerable<Post> publicPost = postDAO.GetAllPostsByPrivacy (id, posts);
+        
             dynamic model = new ExpandoObject();
-            model.postsList = posts.ToList().OrderByDescending(p => p.PostId);;
+            model.postsList = publicPost.ToList().OrderByDescending(p => p.PostId);;
             model.currentSessionUser = userDAO.GetUserByUsername(HttpContext.Session.GetString("username"));
             return View("/Views/Home/Timeline.cshtml", model);
         }
@@ -123,6 +132,9 @@ namespace WetCat.Controllers
 
         [HttpPost]
         public IActionResult Search(string data){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if (data == "") return View(data);
             
             data = data.ToLower();

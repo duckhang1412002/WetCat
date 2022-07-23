@@ -74,13 +74,13 @@ namespace WetCat.Controllers {
                 System.Console.WriteLine("Post: " + post.PostId + "---" + post.PostAuthor + "---" + post.PrivacyMode);         
             }             
             model.countNoti = nld.getAllNoti (HttpContext.Session.GetString ("username")).Where (p => p.NotifyTime.AddHours (1) > DateTime.Now).Count ();
-            posts = tempPosts.ToList ();
-            model.postsList = posts.Reverse ();
+            model.postsList = posts;
             model.currentSessionUser = currentSessionUser;
             return View (model);
         }
 
         public IActionResult DeletePost(int? postId){
+            
             System.Console.WriteLine(postId);
             Post post = PostDAO.FindPost(postId.Value);
             //System.Console.WriteLine("OK");
@@ -191,6 +191,9 @@ namespace WetCat.Controllers {
 
         [HttpGet("/Post/ViewComment/{postId}")]
         public IActionResult ViewComment(int? postId){
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if(postId == null){
                 return NotFound();
             }
@@ -250,6 +253,9 @@ namespace WetCat.Controllers {
         [HttpPost]
         public IActionResult EditComment(int? commentID, string content)
         {
+            if (HttpContext.Session.GetString ("username") == null) {
+                return RedirectToAction ("Index", "Home");
+            }
             if (commentID == null || content == null) return NotFound();
             Comment comment = CommentDAO.GetCommentByCommentID(commentID.Value);
             comment.CommentAuthor = HttpContext.Session.GetString("username");

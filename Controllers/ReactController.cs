@@ -19,7 +19,7 @@ namespace WetCat.Controllers
         
         public IActionResult GetReactStatus(string id){
             ReactList rl = reactDAO.GetReactStatus(Convert.ToInt32(id), HttpContext.Session.GetString("username"));
-            if(rl == null){
+            if(rl == null){ 
                 rl = new ReactList();
                 rl.PostId = Convert.ToInt32(id);
                 rl.ReactType = "";
@@ -29,17 +29,16 @@ namespace WetCat.Controllers
         }
 
         public IActionResult SetReact(string id, string type){
-             if (type == "delete"){
+            if (type == "delete"){
                 reactDAO.Unreact(Convert.ToInt32(id), HttpContext.Session.GetString("username"));
-            } else{
+            } else {
                 type = type.Substring(0, type.Length - "-icon".Length);
                 System.Console.WriteLine("SET " + id + type);
                 reactDAO.ReactPost(Convert.ToInt32(id), HttpContext.Session.GetString("username"), type);
                 PostDAO pD = new PostDAO();
-                NotificationListController.sendNoti("react", Convert.ToInt32(id), null, HttpContext.Session.GetString("username"), pD.FindPost(Convert.ToInt32(id)).PostAuthor);
+                NotificationListController.sendNoti("react", Convert.ToInt32(id), null, HttpContext.Session.GetString("username"), pD.GetPost(Convert.ToInt32(id)).PostAuthor);
             }
                 return GetReactStatus(id);
-            
         }
     }
 }
